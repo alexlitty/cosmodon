@@ -18,7 +18,7 @@ context::~context()
 }
 
 // Create socket on this context.
-socket* context::create_socket(int type)
+socket* context::create(int type)
 {
     return new socket(m_zmq_context, type);
 }

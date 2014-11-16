@@ -16,7 +16,7 @@ namespace cosmodon
     {
     protected:
         // Network context.
-        network::context *m_network_context;
+        network::context *m_net;
 
         // Irrlicht variables.
         irr::IrrlichtDevice *m_irrlicht;

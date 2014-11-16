@@ -38,7 +38,7 @@ namespace cosmodon
              *
              * Throws a fatal exception is socket could not be created.
              */
-            socket* create_socket(int type);
+            socket* create(int type);
         };
     }
 }

@@ -6,7 +6,7 @@ using namespace cosmodon;
 engine::engine(layer::base *root)
 {
     m_irrlicht = nullptr;
-    m_network_context = new network::context;
+    m_net = new network::context;
     set_layer(root);
 }
 
@@ -32,7 +32,7 @@ engine::engine(bool graphics, layer::base *root)
     m_irrlicht->getLogger()->setLogLevel(irr::ELL_ERROR);
 
     // Set layer and network context.
-    m_network_context = new network::context;
+    m_net = new network::context;
     set_layer(root);
 }
 
@@ -67,7 +67,7 @@ settings engine::get_settings()
 {
     settings ret;
     ret.irrlicht = m_irrlicht;
-    ret.network_context = m_network_context;
+    ret.network_context = m_net;
     return ret;
 }
 
