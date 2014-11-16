@@ -1,5 +1,7 @@
 #include <network_socket.hpp>
 
+#include <iostream>
+
 using namespace cosmodon;
 using namespace cosmodon::network;
 
@@ -48,7 +50,34 @@ void socket::bind(const char *endpoint)
 // Send a message over this socket.
 bool socket::send(network::message *msg)
 {
-    return false;
+    const void *data = 0;
+    size_t length = 0;
+    int flags = 0;
+
+    // Check for empty message.
+    if (msg == nullptr || !msg->more()) {
+        return false;
+    }
+
+    // Send message part-by-part.
+    while (msg->more()) {
+        debug("msg", "getting next part...");
+        msg->get_next_part(data, length);
+        debug("msg", "got next part!");
+        if (msg->more()) {
+            flags = ZMQ_SNDMORE;
+        } else {
+            flags = 0;
+        }
+
+        // Send part, check for failure.
+        debug("msg", "preparing to send:");
+        if (zmq_send(m_socket, data, length, flags) == -1) {
+            return false;
+        }
+        debug("msg", "sent!");
+    }
+    return true;
 }
 
 // Receive a message over this socket.

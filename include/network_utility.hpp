@@ -10,10 +10,10 @@ namespace cosmodon
     namespace network
     {
         // Ports.
-        namespace port
+        namespace PORT
         {
-            extern const char* internal;
-            extern const char* external;
+            extern const char* INTERNAL;
+            extern const char* EXTERNAL;
         }
 
         // Returns a well-formed TCP endpoint address.

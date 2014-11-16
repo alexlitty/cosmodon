@@ -27,7 +27,7 @@ void message::reset()
 }
 
 // Add a frame.
-void message::add_frame(frame::base* new_frame)
+void message::add(frame::base* new_frame)
 {
     m_frames.push_back(new_frame);
 }

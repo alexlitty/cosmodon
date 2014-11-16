@@ -32,5 +32,5 @@ void layer::base::set_settings(settings s)
     }
 
     // Network context.
-    m_network_context = s.network_context;
+    m_net = s.network_context;
 }

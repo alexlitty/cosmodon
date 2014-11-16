@@ -56,7 +56,7 @@ namespace cosmodon
              *
              * This message assumes responsibility of freeing the given pointer.
              */
-            void add_frame(frame::base *new_frame);
+            void add(frame::base *new_frame);
 
             /**
              * Check whether there are more parts to input or output.

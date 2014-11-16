@@ -30,7 +30,7 @@ bool frame::base::more()
 }
 
 // Provides next available part.
-void frame::base::get_next_part(const void *data, size_t length)
+void frame::base::get_next_part(const void *data, size_t &length)
 {
     if (!more()) {
         reset();
@@ -48,7 +48,7 @@ bool frame::base::set_next_part(const void *data, size_t length)
 }
 
 // Retrieves the header part of this frame.
-void frame::base::get_header_part(const void *data, size_t length)
+void frame::base::get_header_part(const void *data, size_t &length)
 {
     data = &m_format;
     length = sizeof m_format;
@@ -60,11 +60,11 @@ void frame::base::get_header_part(const void *data, size_t length)
 frame::ack::ack(bool request_return)
   : base(FORMAT::ACK, 1), m_request_return(request_return)
 {
-    
+
 }
 
 // Provide a part.
-void frame::ack::get_part(unsigned char index, const void *data, size_t length)
+void frame::ack::get_part(unsigned char index, const void *data, size_t &length)
 {
     data = &m_request_return;
     length = sizeof m_request_return;

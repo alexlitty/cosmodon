@@ -3,8 +3,8 @@
 using namespace cosmodon;
 
 // Variety of ports.
-const char* network::port::internal = "6700";
-const char* network::port::external = "6708";
+const char* network::PORT::INTERNAL = "6700";
+const char* network::PORT::EXTERNAL = "6708";
 
 // Easy endpoint formatting function.
 const char* network::endpoint(const char* address, const char* port, const char* method)

@@ -26,7 +26,7 @@ namespace cosmodon
             irr::scene::ISceneNode *m_scene_root;
 
             // Reference to this application's network context.
-            void *m_network_context;
+            network::context *m_net;
 
             // Children layers.
             std::vector<base*> m_children;
