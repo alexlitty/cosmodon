@@ -14,11 +14,15 @@ system::system(irr::IrrlichtDevice* irrlicht, layer::base* layer_root)
 
     // Prepare irrlicht.
     m_irrlicht = irrlicht;
-    m_driver = irrlicht->getVideoDriver();
-    m_scene_manager = irrlicht->getSceneManager();
+    if (irrlicht != nullptr) {
+        m_driver = irrlicht->getVideoDriver();
+        m_scene_manager = irrlicht->getSceneManager();
+    }
+
+    // Prepare root layer.
     m_layer_root = layer_root;
 
-    // Disable output.
+    // Disable irrlicht output.
     irrlicht->getLogger()->setLogLevel(irr::ELL_ERROR);
 }
 

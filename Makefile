@@ -35,7 +35,7 @@ CC = $(CC_$(GOAL))
 
 INCFLAGS=$(foreach TMP,$(INCPATHS),-I$(TMP))
 LIBFLAGS=$(foreach TMP,$(LIBPATHS),-L$(TMP))
-BINARY_PREFIX=libCosmodon
+BINARY_PREFIX=libcosmodon
 BINARY=$(BINARY_PREFIX)_$(GOAL)
 
 # Initial Target
@@ -44,7 +44,7 @@ $(GOAL): $(SOURCE_FILES) $(BINARY)
 # Link into a library
 $(BINARY_PREFIX)_linux64: $(OBJECTS)
 	@echo "$(BG_WHITE)$(FG_GREEN) Creating $@.a $(COLOR_RESET)"
-	ar crf $@.a $(OBJECT_FILES)
+	ar crf lib/linux64/$(BINARY_PREFIX).a $(OBJECT_FILES)
 #$(CC) $(OBJECT_FILES) $(LIBFLAGS) $(LDFLAGS) -o $(BINPATH)$@
 	@echo ""
 
