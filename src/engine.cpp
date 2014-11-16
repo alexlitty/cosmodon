@@ -1,16 +1,16 @@
-#include <system.hpp>
+#include <engine.hpp>
 
 using namespace cosmodon;
 
-// System constructor.
-system::system(layer::base *root)
+// Engine constructor.
+engine::engine(layer::base *root)
 {
     m_irrlicht = nullptr;
     m_network_context = network::initialize();
     set_layer(root);
 }
 
-system::system(bool graphics, layer::base *root)
+engine::engine(bool graphics, layer::base *root)
 {
     // Initialize irrlicht.
     m_irrlicht = irr::createDevice(
@@ -37,14 +37,14 @@ system::system(bool graphics, layer::base *root)
 }
 
 // System destructor.
-system::~system()
+engine::~engine()
 {
     delete m_irrlicht;
     delete m_layer;
 }
 
 // Pass execution to system.
-void system::execute()
+void engine::execute()
 {
     while (m_layer != nullptr) {
         if (!m_layer->tick()) {
@@ -63,7 +63,7 @@ void system::execute()
 }
 
 // Generate and return system settings.
-settings system::get_settings()
+settings engine::get_settings()
 {
     settings ret;
     ret.irrlicht = m_irrlicht;
@@ -72,7 +72,7 @@ settings system::get_settings()
 }
 
 // Set the layer root, returning the old root.
-layer::base *system::set_layer(layer::base *root)
+layer::base* engine::set_layer(layer::base *root)
 {
     layer::base *old_layer = m_layer;
     m_layer = root;

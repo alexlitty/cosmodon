@@ -1,5 +1,5 @@
-#ifndef COSMODON_SYSTEM
-#define COSMODON_SYSTEM
+#ifndef COSMODON_ENGINE
+#define COSMODON_ENGINE
 
 #include "irrlicht/irrlicht.h"
 #include "zmq/zmq.h"
@@ -11,10 +11,8 @@ namespace cosmodon
 {
     /**
      * The Central Operation Class of Cosmodon Applications.
-     *
-     * May throw cosmo::exception classes.
      */
-    class system
+    class engine
     {
     protected:
         // 0MQ Context.
@@ -32,17 +30,17 @@ namespace cosmodon
         /**
          * Constructor which does not initialize irrlicht.
          */
-        system(layer::base *layer_root = nullptr);
+        engine(layer::base *layer_root = nullptr);
 
         /**
          * Constructor which initializes irrlicht.
          */
-        system(bool graphics, layer::base *layer_root = nullptr);
+        engine(bool graphics, layer::base *layer_root = nullptr);
 
         /**
          * Destructor.
          */
-        ~system();
+        ~engine();
 
         /**
          * Pass execution to the system. Program will not leave this function until end.
@@ -56,7 +54,9 @@ namespace cosmodon
          */
         settings get_settings();
 
-        // Sets the root layer, returning the old root.
+        /**
+         * Sets the root layer, returning the old root.
+         */
         layer::base *set_layer(layer::base *root);
     };
 }
