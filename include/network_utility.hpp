@@ -16,11 +16,6 @@ namespace cosmodon
             extern const char* external;
         }
 
-        /**
-         * Initializes a network context.
-         */
-        void *initialize();
-
         // Returns a well-formed TCP endpoint address.
         const char* endpoint(const char* address, const char* port, const char* method = "tcp");
 

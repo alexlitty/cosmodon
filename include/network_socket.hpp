@@ -40,7 +40,7 @@ namespace cosmodon
             /**
              * Constructor.
              */
-            socket(void *socket, int type);
+            socket(void *context, int type);
 
             /**
              * Destructor.

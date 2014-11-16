@@ -15,8 +15,8 @@ namespace cosmodon
     class engine
     {
     protected:
-        // 0MQ Context.
-        void *m_network_context;
+        // Network context.
+        network::context *m_network_context;
 
         // Irrlicht variables.
         irr::IrrlichtDevice *m_irrlicht;
