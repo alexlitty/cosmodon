@@ -2,7 +2,8 @@
 #define COSMODON_NETWORK_UTILITY
 
 #include <string>
-#include <zmq/zmq.h>
+#include "zmq/zmq.h"
+#include "exception.hpp"
 
 namespace cosmodon
 {
@@ -14,6 +15,11 @@ namespace cosmodon
             extern const char* internal;
             extern const char* external;
         }
+
+        /**
+         * Initializes a network context.
+         */
+        void *initialize();
 
         // Returns a well-formed TCP endpoint address.
         const char* endpoint(const char* address, const char* port, const char* method = "tcp");

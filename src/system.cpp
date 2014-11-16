@@ -3,26 +3,37 @@
 using namespace cosmodon;
 
 // System constructor.
-system::system(irr::IrrlichtDevice* irrlicht, layer::base* root)
+system::system(layer::base *root)
 {
-    // Prepare 0MQ.
-    m_network_context = zmq_ctx_new();
-    if (m_network_context == nullptr) {
-        throw exception::fatal(network::error());
-    }
-
-    // Prepare irrlicht.
-    m_irrlicht = irrlicht;
-    if (irrlicht != nullptr) {
-        m_driver = irrlicht->getVideoDriver();
-        m_scene_manager = irrlicht->getSceneManager();
-    }
-
-    // Prepare root layer.
+    m_irrlicht = nullptr;
+    m_network_context = network::initialize();
     set_layer(root);
+}
+
+system::system(bool graphics, layer::base *root)
+{
+    // Initialize irrlicht.
+    m_irrlicht = irr::createDevice(
+        graphics ? irr::video::EDT_SOFTWARE : irr::video::EDT_NULL,
+        irr::core::dimension2d<irr::u32>(640, 480),
+        16, false, false, false, nullptr
+    );
+
+    // Check irrlicht.
+    if (!m_irrlicht) {
+        throw exception::fatal("Failed to Initialize Irrlicht");
+    }
+
+    // Prepare irrlicht variables.
+    m_driver = m_irrlicht->getVideoDriver();
+    m_scene_manager = m_irrlicht->getSceneManager();
 
     // Disable irrlicht output.
-    irrlicht->getLogger()->setLogLevel(irr::ELL_ERROR);
+    m_irrlicht->getLogger()->setLogLevel(irr::ELL_ERROR);
+
+    // Set layer and network context.
+    m_network_context = network::initialize();
+    set_layer(root);
 }
 
 // System destructor.

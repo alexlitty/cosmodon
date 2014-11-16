@@ -6,6 +6,16 @@ using namespace cosmodon;
 const char* network::port::internal = "6700";
 const char* network::port::external = "6708";
 
+// Initializes a network context.
+void *initialize()
+{
+    void *temp = zmq_ctx_new();
+    if (temp == nullptr) {
+        throw exception::fatal(network::error());
+    }
+    return temp;
+}
+
 // Easy endpoint formatting function.
 const char* network::endpoint(const char* address, const char* port, const char* method)
 {

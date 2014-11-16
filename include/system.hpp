@@ -29,13 +29,24 @@ namespace cosmodon
         layer::base *m_layer;
 
     public:
-        // Constructor.
-        system(irr::IrrlichtDevice *irrlicht = nullptr, layer::base *layer_root = nullptr);
+        /**
+         * Constructor which does not initialize irrlicht.
+         */
+        system(layer::base *layer_root = nullptr);
 
-        // Destructor.
+        /**
+         * Constructor which initializes irrlicht.
+         */
+        system(bool graphics, layer::base *layer_root = nullptr);
+
+        /**
+         * Destructor.
+         */
         ~system();
 
-        // Pass execution to the system. Program will not leave this function until end.
+        /**
+         * Pass execution to the system. Program will not leave this function until end.
+         */
         void execute();
 
         /**
