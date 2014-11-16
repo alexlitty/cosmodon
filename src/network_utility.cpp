@@ -7,7 +7,7 @@ const char* network::port::internal = "6700";
 const char* network::port::external = "6708";
 
 // Initializes a network context.
-void *initialize()
+void* network::initialize()
 {
     void *temp = zmq_ctx_new();
     if (temp == nullptr) {
