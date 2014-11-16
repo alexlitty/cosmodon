@@ -3,14 +3,34 @@
 using namespace cosmodon;
 
 // Layer constructor.
-layer::base::base(irr::video::IVideoDriver *driver, irr::scene::ISceneManager *scene_manager, void *context)
-  : m_driver(driver), m_scene_manager(scene_manager), m_context(context)
+layer::base::base(settings s)
 {
-    m_scene_root = scene_manager->getRootSceneNode();
+    set_settings(s);
 }
 
-// Set network context.
-void layer::base::set_context(void *context)
+// Layer destructor.
+layer::base::~base()
 {
-    m_context = context;
+    for (unsigned int i = 0; i < m_children.size(); i++) {
+        delete m_children[i];
+    }
+}
+
+// Set layer settings.
+void layer::base::set_settings(settings s)
+{
+    // Irrlicht.
+    m_irrlicht = s.irrlicht;
+    if (m_irrlicht != nullptr) {
+        m_driver = s.irrlicht->getVideoDriver();
+        m_scene_manager = s.irrlicht->getSceneManager();
+        m_scene_root = m_scene_manager->getRootSceneNode();
+    } else {
+        m_driver = nullptr;
+        m_scene_manager = nullptr;
+        m_scene_root = nullptr;
+    }
+
+    // Network context.
+    m_network_context = s.network_context;
 }
