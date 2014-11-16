@@ -16,10 +16,22 @@ namespace cosmodon
             extern const char* EXTERNAL;
         }
 
-        // Returns a well-formed TCP endpoint address.
+        /**
+         * Function used by 0MQ to free memory.
+         *
+         * Particularly used when handling 0MQ messages. These messages assume ownership of
+         * provided memory, and require a callback function to be freed.
+         */
+        void zfree(void *data, void *hint);
+
+        /**
+         * Returns a well-formed TCP endpoint address.
+         */
         const char* endpoint(const char* address, const char* port, const char* method = "tcp");
 
-        // Returns the current ZMQ error as a string.
+        /**
+         * Returns the current 0MQ error as a string.
+         */
         const char* error();
     }
 }

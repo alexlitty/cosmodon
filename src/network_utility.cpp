@@ -6,6 +6,12 @@ using namespace cosmodon;
 const char* network::PORT::INTERNAL = "6700";
 const char* network::PORT::EXTERNAL = "6708";
 
+// Function used by 0MQ to free message memory.
+void network::zfree(void *data, void *hint)
+{
+    free(data);
+}
+
 // Easy endpoint formatting function.
 const char* network::endpoint(const char* address, const char* port, const char* method)
 {

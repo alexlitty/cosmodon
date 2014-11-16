@@ -73,7 +73,7 @@ bool socket::send(network::message *msg)
         // Move data into 0MQ message.
         data = malloc(length);
         memcpy(data, temp_data, length);
-        if (zmq_msg_init_data(&zm, data, length, nullptr, nullptr) == -1) {
+        if (zmq_msg_init_data(&zm, data, length, zfree, nullptr) == -1) {
             throw exception::fatal(network::error());
         }
 

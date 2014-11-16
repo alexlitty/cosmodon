@@ -36,7 +36,6 @@ void frame::base::get_next_part(const void *&data, size_t &length)
     if (!more()) {
         reset();
     }
-    debug(static_cast<unsigned int>(m_current));
     get_part(m_current++, data, length);
 }
 
