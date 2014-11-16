@@ -43,7 +43,7 @@ namespace cosmodon
                  *
                  * The given index will always be within valid range.
                  */
-                virtual void get_part(unsigned char index, const void *data, size_t &length) = 0;
+                virtual void get_part(unsigned char index, const void *&data, size_t &length) = 0;
 
                 /**
                  * Sets a part by its index value, via arguments.
@@ -76,7 +76,7 @@ namespace cosmodon
                 /**
                  * Provides the next available part.
                  */
-                void get_next_part(const void *data, size_t &length);
+                void get_next_part(const void *&data, size_t &length);
 
                 /**
                  * Sets the next available part.
@@ -88,7 +88,7 @@ namespace cosmodon
                 /**
                  * Retrieves the frame part of this header.
                  */
-                void get_header_part(const void *data, size_t &length);
+                void get_header_part(const void *&data, size_t &length);
             };
 
             /**
@@ -105,7 +105,7 @@ namespace cosmodon
                 /**
                  * Get part by index.
                  */
-                void get_part(unsigned char index, const void *data, size_t &length);
+                void get_part(unsigned char index, const void *&data, size_t &length);
 
                 /**
                  * Set part by index.

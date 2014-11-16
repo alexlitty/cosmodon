@@ -19,5 +19,5 @@ const char* network::endpoint(const char* address, const char* port, const char*
 // Returns current ZMQ error as string.
 const char* network::error()
 {
-    return zmq_strerror(zmq_errno());
+    return (std::string("zmq error: ") + std::string(zmq_strerror(zmq_errno()))).c_str();
 }

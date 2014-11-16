@@ -1,4 +1,5 @@
 #include <network_message.hpp>
+#include <debug.hpp>
 
 using namespace cosmodon::network;
 
@@ -39,7 +40,7 @@ bool message::more()
 }
 
 // Retrieve the next frame. @@@ Not the best implementation.
-void message::get_next_part(const void *data, size_t length)
+void message::get_next_part(const void *&data, size_t &length)
 {
     // Prevent out-of-range errors by looping around.
     if (!more()) {

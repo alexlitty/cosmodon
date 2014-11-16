@@ -66,7 +66,7 @@ namespace cosmodon
             /**
              * Retrieve the next frame.
              */
-            void get_next_part(const void *data, size_t length);
+            void get_next_part(const void *&data, size_t &length);
         };
     }
 }

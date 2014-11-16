@@ -1,6 +1,7 @@
 #ifndef COSMODON_NETWORK_SOCKET
 #define COSMODON_NETWORK_SOCKET
 
+#include <cstring>
 #include "debug.hpp"
 #include "exception.hpp"
 #include "network_utility.hpp"
