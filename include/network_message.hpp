@@ -47,6 +47,11 @@ namespace cosmodon
             ~message();
 
             /**
+             * Clears this message of all frames.
+             */
+            void clear();
+
+            /**
              * Reset internal frame counter.
              */
             void reset();
@@ -62,6 +67,11 @@ namespace cosmodon
              * Check whether there are more parts to input or output.
              */
             bool more();
+
+            /**
+             * Check whether this message is empty.
+             */
+            bool empty();
 
             /**
              * Retrieve the next frame.

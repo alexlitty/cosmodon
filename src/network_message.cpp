@@ -12,9 +12,17 @@ message::message() : m_frame_header(false), m_current_frame(0)
 // Message destructor.
 message::~message()
 {
+    clear();
+}
+
+// Clears message.
+void message::clear()
+{
     for (unsigned char i = 0; i < m_frames.size(); i++) {
         delete m_frames[i];
     }
+    m_frames.clear();
+    reset();
 }
 
 // Reset internal frame counter.
@@ -37,6 +45,12 @@ void message::add(frame::base* new_frame)
 bool message::more()
 {
     return (m_current_frame < m_frames.size());
+}
+
+// Check whether this message is empty.
+bool message::empty()
+{
+    return (m_frames.size() == 0);
 }
 
 // Retrieve the next frame. @@@ Not the best implementation.

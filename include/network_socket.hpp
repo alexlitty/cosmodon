@@ -22,6 +22,13 @@ namespace cosmodon
             // Socket this class wraps.
             void *m_socket;
 
+            /**
+             * Retrieve 0MQ socket option.
+             *
+             * Wrap nicer functions around this this function.
+             */
+            void get_opt(int option, int &value);
+
         public:
             /**
              * Type of 0MQ socket.
@@ -60,13 +67,24 @@ namespace cosmodon
 
             /**
              * Send a message over this socket.
+             *
+             * @@@ Make parameter const
              */
             bool send(network::message* msg);
 
             /**
              * Receive a message over this socket.
+             *
+             * Given parameter will be deleted.
              */
-            bool receive(network::message* msg);
+            bool receive(network::message &msg);
+
+            /**
+             * Check if more message parts are available to be received.
+             *
+             * True if so. False otherwise.
+             */
+            bool more_incoming();
 
             /**
              * Set outgoing high water mark.
