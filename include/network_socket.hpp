@@ -93,6 +93,13 @@ namespace cosmodon
             bool receive(network::message &msg);
 
             /**
+             * Calculates total bytes transfered.
+             *
+             * Returns total bits transfered instead, if parameter is false.
+             */
+            std::string transferred(bool bytes = true);
+
+            /**
              * Calculate bitrate since last call, or construction of socket.
              *
              * Returns a nicely formatted string, converted to appropriate SI units.

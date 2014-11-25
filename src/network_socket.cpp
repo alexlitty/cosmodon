@@ -18,6 +18,7 @@ socket::socket(void *context, int type)
 
     // Start bit count and bitrate calculations.
     m_bits = 0;
+    m_bits_total = 0;
     m_timer = time(nullptr);
 }
 
@@ -210,6 +211,12 @@ void socket::tally(unsigned int bits)
     m_bits += bits;
 }
 
+// Return total bits transferred.
+std::string socket::transferred(bool bytes)
+{
+    return network::bits_readable(m_bits_total, bytes);
+}
+
 // Return recent bitrate. @@@ Could be better than seconds.
 std::string socket::rate()
 {
@@ -225,7 +232,7 @@ std::string socket::rate()
     // Reset timer and recent bit counter.
     m_timer = time(nullptr);
     m_bits = 0;
-    return bitrate;
+    return bitrate + "ps";
 }
 
 // Retrieves a socket option.
