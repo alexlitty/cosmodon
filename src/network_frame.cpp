@@ -1,5 +1,6 @@
 #include <network_frame.hpp>
 #include <debug.hpp>
+#include <cstring>
 
 using namespace cosmodon::network;
 
@@ -7,7 +8,7 @@ using namespace cosmodon::network;
  * Base Frame.
  */
 frame::base::base(frame::FORMAT format, unsigned char parts)
-  : m_current(0), m_format(format), m_parts(parts)
+  : m_current(0), m_format(format), m_parts(parts), m_size(0)
 {
 
 }
@@ -22,6 +23,12 @@ frame::base::~base()
 void frame::base::reset()
 {
     m_current = 0;
+}
+
+// Retrieve size of frame in bits.
+unsigned int frame::base::size()
+{
+    return m_size;
 }
 
 // Check if more parts are available for output or input.
@@ -61,7 +68,7 @@ void frame::base::get_header_part(const void *&data, size_t &length)
 frame::ack::ack(bool request_return)
   : base(FORMAT::ACK, 1), m_request_return(request_return)
 {
-
+    m_size = 1;
 }
 
 // Provide a part.
@@ -92,4 +99,41 @@ void frame::ack::set_request_return(bool request_return)
 bool frame::ack::get_request_return()
 {
     return m_request_return;
+}
+
+/**
+ * Data Frame.
+ */
+frame::data::data(const void *x, size_t length)
+{
+    if (x == nullptr || length <= 0) {
+        m_x = nullptr;
+        m_length = 0;
+    } else {
+        set(x, length);
+    }
+
+    m_size = length * 8;
+}
+
+// Get part.
+void frame::data::get_part(unsigned char index, const void *&x, size_t &length)
+{
+    x = m_x;
+    length = m_length;
+}
+
+// Set part.
+bool frame::data::set_part(unsigned char index, const void *x, size_t length)
+{
+    set(x, length);
+    return true;
+}
+
+// Set data on this frame.
+void frame::data::set(const void *x, size_t length)
+{
+    m_x = malloc(length);
+    memcpy(m_x, x, length);
+    m_length = length;
 }

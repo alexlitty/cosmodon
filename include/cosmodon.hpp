@@ -1,6 +1,8 @@
 #ifndef COSMODON
 #define COSMODON
 
+#include "utility.hpp"
+
 #include "component.hpp"
 #include "debug.hpp"
 #include "event.hpp"

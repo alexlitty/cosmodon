@@ -33,6 +33,13 @@ namespace cosmodon
          * Returns the current 0MQ error as a string.
          */
         const char* error();
+
+        /**
+         * Converts bits into a more appropriate statistic.
+         *
+         * If bytes is true, returns statistic in bytes instead of bits.
+         */
+        std::string bits_readable(unsigned int count, bool bytes = false);
     }
 }
 

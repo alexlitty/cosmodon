@@ -17,7 +17,8 @@ namespace cosmodon
             enum class FORMAT : char
             {
                 INVALID,
-                ACK
+                ACK,
+                DATA,
             };
 
             /**
@@ -37,6 +38,9 @@ namespace cosmodon
 
                 // Count of parts that compose this frame.
                 unsigned char m_parts;
+
+                // Ideal size of this frame, in bits.
+                unsigned int m_size;
 
                 /**
                  * Provides a part by its index value, via arguments.
@@ -67,6 +71,11 @@ namespace cosmodon
                  * Resets the internal counter.
                  */
                 void reset();
+
+                /**
+                 * Returns the complete size of this frame, in bits.
+                 */
+                unsigned int size();
 
                 /**
                  * Checks if more parts are available to output or input.
@@ -127,6 +136,33 @@ namespace cosmodon
                  * Get request return.
                  */
                 bool get_request_return();
+            };
+
+            /**
+             * Data Frame.
+             *
+             * Used to transfer larger amounts of unspecified bits.
+             *
+             * @@@ This really should not be used.
+             */
+            class data : public base
+            {
+            protected:
+                void *m_x;
+                size_t m_length;
+                void get_part(unsigned char index, const void *&x, size_t &length);
+                bool set_part(unsigned char index, const void *dx, size_t length);
+
+            public:
+                /**
+                 * Constructor.
+                 */
+                data(const void *x, size_t length);
+
+                /**
+                 * Set data and data length.
+                 */
+                void set(const void *x, size_t length);
             };
         }
     }
