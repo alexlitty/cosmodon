@@ -15,6 +15,10 @@ socket::socket(void *context, int type)
     if (m_socket == nullptr) {
         throw exception::fatal(network::error());
     }
+
+    // Start bit count and bitrate calculations.
+    m_bits = 0;
+    m_timer = time(nullptr);
 }
 
 // Destructor. @@@ What do?
@@ -27,7 +31,7 @@ socket::~socket()
 void socket::connect(const char *endpoint)
 {
     debug("network", "Connecting to: ", false);
-    debug("network", endpoint);
+    debug(std::string(endpoint));
     if (zmq_connect(m_socket, endpoint) != 0) {
         throw exception::fatal(network::error());
     }
@@ -38,7 +42,7 @@ void socket::connect(const char *endpoint)
 void socket::bind(const char *endpoint)
 {
     debug("network", "Binding to: ", false);
-    debug("network", endpoint);
+    debug(std::string(endpoint));
     if (zmq_bind(m_socket, endpoint) != 0) {
         throw exception::fatal(network::error());
     }
@@ -85,6 +89,9 @@ bool socket::send(network::message *msg)
         // Delete 0MQ message.
         zmq_msg_close(&zm);
     }
+
+    // Count bits sent, clean up.
+    tally(msg->size());
     return true;
 }
 
@@ -185,12 +192,40 @@ bool socket::receive(network::message &msg)
     // Delete 0MQ message.
     zmq_msg_close(&part);
 
-    // Return success or failure.
+    // Notify failure.
     if (garbage || expecting || msg.empty()) {
         msg.clear();
         return false;
     }
+
+    // Count bits received, notify success.
+    tally(msg.size());
     return true;
+}
+
+// Tally bits.
+void socket::tally(unsigned int bits)
+{
+    m_bits_total += bits;
+    m_bits += bits;
+}
+
+// Return recent bitrate. @@@ Could be better than seconds.
+std::string socket::rate()
+{
+    // Calculate time passed.
+    time_t passed = time(nullptr) - m_timer;
+    if (passed == 0) {
+        return "0 bps";
+    }
+
+    // Calculate bitrate.
+    std::string bitrate = network::bits_readable((int) m_bits / passed);
+
+    // Reset timer and recent bit counter.
+    m_timer = time(nullptr);
+    m_bits = 0;
+    return bitrate;
 }
 
 // Retrieves a socket option.

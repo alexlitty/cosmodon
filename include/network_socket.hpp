@@ -2,6 +2,7 @@
 #define COSMODON_NETWORK_SOCKET
 
 #include <cstring>
+#include <ctime>
 #include "debug.hpp"
 #include "exception.hpp"
 #include "network_utility.hpp"
@@ -21,6 +22,18 @@ namespace cosmodon
         protected:
             // Socket this class wraps.
             void *m_socket;
+
+            // Bits sent or received by this socket.
+            unsigned long int m_bits;
+            unsigned long int m_bits_total;
+
+            // Timer, primarily used to calculate bitrate.
+            time_t m_timer;
+
+            /**
+             * Tally bits sent or received by this socket.
+             */
+            void tally(unsigned int bits);
 
             /**
              * Retrieve 0MQ socket option.
@@ -78,6 +91,15 @@ namespace cosmodon
              * Given parameter will be deleted.
              */
             bool receive(network::message &msg);
+
+            /**
+             * Calculate bitrate since last call, or construction of socket.
+             *
+             * Returns a nicely formatted string, converted to appropriate SI units.
+             *
+             * @@@ Accurate when called on clean second intervals.
+             */
+            std::string rate();
 
             /**
              * Check if more message parts are available to be received.

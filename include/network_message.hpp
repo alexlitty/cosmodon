@@ -57,6 +57,11 @@ namespace cosmodon
             void reset();
 
             /**
+             * Determines size of this message in bits.
+             */
+            unsigned int size();
+
+            /**
              * Add a frame.
              *
              * This message assumes responsibility of freeing the given pointer.

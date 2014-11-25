@@ -35,6 +35,16 @@ void message::reset()
     m_frame_header = false;
 }
 
+// Retrieves message size in bits.
+unsigned int message::size()
+{
+    unsigned int total = 0;
+    for (unsigned char i = 0; i < m_frames.size(); i++) {
+        total += m_frames[i]->size();
+    }
+    return total;
+}
+
 // Add a frame.
 void message::add(frame::base* new_frame)
 {
