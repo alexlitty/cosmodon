@@ -5,8 +5,8 @@
 #include <ctime>
 #include "debug.hpp"
 #include "exception.hpp"
+#include "network_buffer.hpp"
 #include "network_utility.hpp"
-#include "network_message.hpp"
 
 namespace cosmodon
 {
@@ -79,18 +79,14 @@ namespace cosmodon
             void bind(const char *endpoint);
 
             /**
-             * Send a message over this socket.
-             *
-             * @@@ Make parameter const
+             * Send a buffer to the network.
              */
-            bool send(network::message* msg);
+            void send(network::buffer &x);
 
             /**
-             * Receive a message over this socket.
-             *
-             * Given parameter will be deleted.
+             * Receive data from the network into a buffer.
              */
-            bool receive(network::message &msg);
+            bool receive(network::buffer &x);
 
             /**
              * Calculates total bytes transfered.

@@ -50,157 +50,56 @@ void socket::bind(const char *endpoint)
     debug("network", "Binded and Listening.");
 }
 
-// Send a message over this socket.
-bool socket::send(network::message *msg)
+// Send data to the network using a buffer.
+void socket::send(network::buffer &x)
 {
-    void *data = 0;
-    const void *temp_data = 0;
-    size_t length = 0;
-    int flags = 0;
-    zmq_msg_t zm;
+    size_t length = x.size();
+    void *data = nullptr;
 
     // Check for empty message.
-    if (msg == nullptr || !msg->more()) {
-        return false;
+    if (x.size() == 0) {
+        return;
     }
 
-    // Send message part-by-part.
-    while (msg->more()) {
-        msg->get_next_part(temp_data, length);
-        if (msg->more()) {
-            flags = ZMQ_SNDMORE;
-        } else {
-            flags = 0;
-        }
+    // Retrieve entire raw buffer.
+    x.read(data, length);
+    if (zmq_send(m_socket, data, length, 0) == -1) {
+        throw exception::fatal(network::error());
+    }
 
-        // Extract data from Cosmodon message.
-        data = malloc(length);
-        memcpy(data, temp_data, length);
+    // Count bits up, clean up.
+    tally(length);
+    return;
+}
 
-        // Move data into 0MQ message.
-        if (zmq_msg_init_data(&zm, data, length, zfree, nullptr) == -1) {
+// Receive data from the network into a buffer.
+bool socket::receive(network::buffer &x)
+{
+    size_t length = 0;
+    void *data = nullptr;
+    int result;
+    x.clear();
+
+    // Attempt to receive data.
+    result = zmq_recv(m_socket, data, length, ZMQ_NOBLOCK);
+
+    // Check receive status.
+    if (result == -1) {
+        if (zmq_errno() != EAGAIN) {
             throw exception::fatal(network::error());
         }
 
-        // Send part, check for failure.
-        if (zmq_msg_send(&zm, m_socket, flags) == -1) {
-            return false;
-        }
-
-        // Delete 0MQ message.
-        zmq_msg_close(&zm);
-    }
-
-    // Count bits sent, clean up.
-    tally(msg->size());
-    return true;
-}
-
-// Receive a message over this socket.
-bool socket::receive(network::message &msg)
-{
-    zmq_msg_t part;
-    void *data;
-    size_t length;
-    int result;
-
-    frame::FORMAT header_type;
-    bool header = true, expecting = true;
-    network::frame::base *temp_frame;
-
-    bool garbage = false;
-
-    // Prepare Cosmodon message.
-    msg.clear();
-
-    // Initialize 0MQ message.
-    if (zmq_msg_init(&part) == -1) {
-        throw exception::fatal(network::error());
-    }
-    
-    // Receive any messages part-by-part.
-    do {
-        // Skip garbage message. @@@ Better method?
-        if (garbage) {
-            zmq_msg_recv(&part, m_socket, ZMQ_NOBLOCK);
-        }
-
-        // Check for data, and move data into 0MQ message.
-        result = zmq_msg_recv(&part, m_socket, ZMQ_NOBLOCK);
-        if (result == -1) {
-            if (zmq_errno() != EAGAIN) {
-                throw exception::fatal(network::error());
-            }
-
-            // No data available.
-            return false;
-        }
-        
-        // Check for empty message.
-        else if (result == 0) {
-            continue;
-        }
-
-        // Extract data from 0MQ message.
-        data = zmq_msg_data(&part);
-        length = zmq_msg_size(&part);
-
-        // Check if data is available to process.
-        if (length <= 0) {
-            garbage = true;
-            continue;
-        }
-
-        // Start new Cosmodon frame.
-        if (header) {
-            // Broken sequence.
-            if (length != 1) {
-                garbage = true;
-                continue;
-            }
-
-            // Identify frame type.
-            header_type = *reinterpret_cast<frame::FORMAT*>(data);
-            if (header_type == frame::FORMAT::ACK) {
-                temp_frame = new frame::ack; 
-            }
-
-            // Broken frame, perhaps broken sequence.
-            else {
-                garbage = true;
-                continue;
-            }
-
-            // Add frame.
-            msg.add(temp_frame);
-        }
-
-        // Move data into Cosmodon frame.
-        else {
-            temp_frame->set_next_part(data, length);
-        }
-
-        // Check if new frame should begin.
-        if (temp_frame->more()) {
-            header = false;
-            expecting = true;
-        } else {
-            header = true;
-            expecting = false;
-        }
-    } while (more_incoming());
-
-    // Delete 0MQ message.
-    zmq_msg_close(&part);
-
-    // Notify failure.
-    if (garbage || expecting || msg.empty()) {
-        msg.clear();
+        // No data available.
         return false;
     }
 
-    // Count bits received, notify success.
-    tally(msg.size());
+    // Check for empty message.
+    if (result == 0) {
+        return false;
+    }
+
+    // Load data into buffer.
+    x.write(data, length);
     return true;
 }
 
