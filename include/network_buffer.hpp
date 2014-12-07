@@ -2,6 +2,7 @@
 #define COSMODON_NETWORK_BUFFER
 
 #include "exception.hpp"
+#include "debug.hpp"
 
 namespace cosmodon
 {
@@ -82,11 +83,11 @@ namespace cosmodon
             void resize(size_t new_length);
 
             /**
-             * Retrieves arbitrary data of given length.
+             * Retrieves a copy of raw data of given length.
              *
              * If unable to do so, throws a Cosmodon warning.
              */
-            void read(void *data, size_t length);
+            void* read(size_t length);
 
             /**
              * Retrieves the next byte as an integer.
@@ -112,16 +113,16 @@ namespace cosmodon
              * See other method candidate.
              */
             template <typename T>
-            void write(T *data);
+            void write(T &data);
         };
     }
 }
 
 // Write data to the buffer.
 template <typename T>
-void cosmodon::network::buffer::write(T *data)
+void cosmodon::network::buffer::write(T &data)
 {
-    write(data, sizeof(T));
+    write(&data, sizeof(T));
 }
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef COSMODON_EVENT
 #define COSMODON_EVENT
 
-#include <irrlicht/irrlicht.h>
+#include "irrlicht/irrlicht.h"
 
 namespace cosmodon
 {

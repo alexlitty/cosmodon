@@ -54,15 +54,15 @@ void socket::bind(const char *endpoint)
 void socket::send(network::buffer &x)
 {
     size_t length = x.size();
-    void *data = nullptr;
+    void *data;
 
     // Check for empty message.
-    if (x.size() == 0) {
+    if (length == 0) {
         return;
     }
 
     // Retrieve entire raw buffer.
-    x.read(data, length);
+    data = x.read(length);
     if (zmq_send(m_socket, data, length, 0) == -1) {
         throw exception::fatal(network::error());
     }

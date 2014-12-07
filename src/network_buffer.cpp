@@ -82,41 +82,41 @@ void buffer::resize(size_t new_length)
         // Update cursor position.
         if (m_cursor_pos > new_length) {
             m_cursor_pos = new_length;
-            cursor_update();
         }
+        cursor_update();
     }
 }
 
 // Retrieves data of given length.
-void buffer::read(void *data, size_t length)
+void* buffer::read(size_t length)
 {
+    void *data;
+
     // Check for overflow.
     if ((m_length - m_cursor_pos) < length) {
-        throw cosmodon::exception::error("Prevented Network Buffer Overflow");
+        throw cosmodon::exception::error("Network Buffer Overflow");
     }
 
     // Copy data.
+    data = malloc(length);
     memcpy(data, m_cursor_data, length);
 
-    // Update cursor.
+    // Update cursor, clean up.
     m_cursor_pos += length;
     cursor_update();
+    return data;
 }
 
 // Retrieve 1-byte signed integer.
 int8_t buffer::read_int8()
 {
-    int8_t data;
-    read(&data, 1);
-    return data;
+    return *static_cast<int8_t*>(read(1));
 }
 
 // Retrieve 1-byte unsigned integer.
 uint8_t buffer::read_uint8()
 {
-    uint8_t data;
-    read(&data, 1);
-    return data;
+    return *static_cast<uint8_t*>(read(1));
 }
 
 // Write raw data to buffer.

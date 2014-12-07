@@ -1,7 +1,7 @@
 #ifndef COSMODON_COMPONENT
 #define COSMODON_COMPONENT
 
-#include <irrlicht/irrlicht.h>
+#include "irrlicht/irrlicht.h"
 
 namespace cosmodon
 {
