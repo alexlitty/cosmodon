@@ -88,7 +88,7 @@ void buffer::resize(size_t new_length)
 }
 
 // Retrieves data of given length.
-void* buffer::read(size_t length)
+void* buffer::read_raw(size_t length)
 {
     void *data;
 
@@ -105,18 +105,6 @@ void* buffer::read(size_t length)
     m_cursor_pos += length;
     cursor_update();
     return data;
-}
-
-// Retrieve 1-byte signed integer.
-int8_t buffer::read_int8()
-{
-    return *static_cast<int8_t*>(read(1));
-}
-
-// Retrieve 1-byte unsigned integer.
-uint8_t buffer::read_uint8()
-{
-    return *static_cast<uint8_t*>(read(1));
 }
 
 // Write raw data to buffer.

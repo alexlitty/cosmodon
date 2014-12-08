@@ -62,7 +62,7 @@ bool socket::send(network::buffer &x)
     }
 
     // Retrieve entire raw buffer.
-    data = x.read(length);
+    data = x.read_raw(length);
     if (zmq_send(m_socket, data, length, 0) == -1) {
         throw exception::fatal(network::error());
     }

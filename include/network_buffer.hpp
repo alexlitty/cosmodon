@@ -83,21 +83,20 @@ namespace cosmodon
             void resize(size_t new_length);
 
             /**
-             * Retrieves a copy of raw data of given length.
+             * Retrieves a copy of raw data with given length, starting at the cursor.
              *
              * If unable to do so, throws a Cosmodon warning.
              */
-            void* read(size_t length);
+            void* read_raw(size_t length);
 
             /**
-             * Retrieves the next byte as an integer.
+             * Retrieves a copy of data with variable length, starting at the cursor.
+             *
+             * If unable to do so, throws a Cosmodon warning. Do not use this function for
+             * complicated object types -- only types easily reproduced with binary.
              */
-            int8_t read_int8();
-
-            /**
-             * Retrieves the next byte as an unsigned integer.
-             */
-            uint8_t read_uint8();
+            template <typename T>
+            void read(T &x);
 
             /**
              * Writes raw data to the buffer.
@@ -116,6 +115,13 @@ namespace cosmodon
             void write(const T &data);
         };
     }
+}
+
+// Read data from the buffer.
+template <typename T>
+void cosmodon::network::buffer::read(T &x)
+{
+    memcpy(&x, static_cast<T*>(read_raw(sizeof(T))), sizeof(T));
 }
 
 // Write data to the buffer.
