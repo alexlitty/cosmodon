@@ -75,13 +75,12 @@ bool socket::send(network::buffer &x)
 // Receive data from the network into a buffer.
 bool socket::receive(network::buffer &x)
 {
-    size_t length = 0;
-    void *data = nullptr;
+    static void *data = malloc(256);
     int result;
     x.clear();
 
     // Attempt to receive data.
-    result = zmq_recv(m_socket, data, length, ZMQ_NOBLOCK);
+    result = zmq_recv(m_socket, data, 256, ZMQ_NOBLOCK);
 
     // Check receive status.
     if (result == -1) {
@@ -99,7 +98,8 @@ bool socket::receive(network::buffer &x)
     }
 
     // Load data into buffer.
-    x.write(data, length);
+    //x.write(data, result);
+    tally(result);
     return true;
 }
 

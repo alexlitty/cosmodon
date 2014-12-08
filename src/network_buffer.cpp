@@ -120,7 +120,7 @@ uint8_t buffer::read_uint8()
 }
 
 // Write raw data to buffer.
-void buffer::write(void *data, size_t length)
+void buffer::write(const void *data, size_t length)
 {
     if ((m_length - m_cursor_pos) < length) {
         resize(m_cursor_pos + length);

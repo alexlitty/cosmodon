@@ -105,7 +105,7 @@ namespace cosmodon
              * If buffer is not large enough to store new data, it is resized to the required
              * length.
              */
-            void write(void *data, size_t length);
+            void write(const void *data, size_t length);
 
             /**
              * Writes object data to the buffer.
@@ -113,14 +113,14 @@ namespace cosmodon
              * See other method candidate.
              */
             template <typename T>
-            void write(T &data);
+            void write(const T &data);
         };
     }
 }
 
 // Write data to the buffer.
 template <typename T>
-void cosmodon::network::buffer::write(T &data)
+void cosmodon::network::buffer::write(const T &data)
 {
     write(&data, sizeof(T));
 }
