@@ -31,23 +31,17 @@ socket::~socket()
 // Establish a socket connection.
 void socket::connect(const char *endpoint)
 {
-    debug("network", "Connecting to: ", false);
-    debug(std::string(endpoint));
     if (zmq_connect(m_socket, endpoint) != 0) {
         throw exception::fatal(network::error());
     }
-    debug("network", "Connection Established.");
 }
 
 // Establish a socket binding.
 void socket::bind(const char *endpoint)
 {
-    debug("network", "Binding to: ", false);
-    debug(std::string(endpoint));
     if (zmq_bind(m_socket, endpoint) != 0) {
         throw exception::fatal(network::error());
     }
-    debug("network", "Binded and Listening.");
 }
 
 // Send data to the network using a buffer.
