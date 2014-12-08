@@ -10,7 +10,9 @@
 namespace cosmodon
 {
     /**
-     * The Central Operation Class of Cosmodon Applications.
+     * The Central Class of Cosmodon Applications.
+     *
+     * 
      */
     class engine
     {
@@ -18,7 +20,7 @@ namespace cosmodon
         // Network context.
         network::context *m_net;
 
-        // Irrlicht variables.
+        // Irrlicht variables, for easy programming reference.
         irr::IrrlichtDevice *m_irrlicht;
         irr::video::IVideoDriver *m_driver;
         irr::scene::ISceneManager *m_scene_manager;
@@ -43,7 +45,9 @@ namespace cosmodon
         ~engine();
 
         /**
-         * Pass execution to the system. Program will not leave this function until end.
+         * Pass execution to the engine.
+         *
+         * Finishes when a tick on the root layer returns false.
          */
         void execute();
 

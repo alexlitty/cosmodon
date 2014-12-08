@@ -51,14 +51,14 @@ void socket::bind(const char *endpoint)
 }
 
 // Send data to the network using a buffer.
-void socket::send(network::buffer &x)
+bool socket::send(network::buffer &x)
 {
     size_t length = x.size();
     void *data;
 
     // Check for empty message.
     if (length == 0) {
-        return;
+        return true;
     }
 
     // Retrieve entire raw buffer.
@@ -69,7 +69,7 @@ void socket::send(network::buffer &x)
 
     // Count bits up, clean up.
     tally(length);
-    return;
+    return true;
 }
 
 // Receive data from the network into a buffer.

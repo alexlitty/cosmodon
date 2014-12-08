@@ -80,11 +80,15 @@ namespace cosmodon
 
             /**
              * Send a buffer to the network.
+             *
+             * Returns true if buffer successfully sent, false otherwise.
              */
-            void send(network::buffer &x);
+            bool send(network::buffer &x);
 
             /**
              * Receive data from the network into a buffer.
+             *
+             * Returns true if a buffer is made available, false otherwise.
              */
             bool receive(network::buffer &x);
 
