@@ -23,6 +23,9 @@ namespace cosmodon
             // Byte length of buffer.
             size_t m_length;
 
+            // Mode of operation the buffer was previously used. True for writing, false for reading.
+            bool m_writing;
+
             // Data corresponding to cursor position.
             void *m_cursor_data;
 

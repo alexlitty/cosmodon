@@ -13,6 +13,8 @@ buffer::buffer(size_t new_length)
         m_data = malloc(new_length);
     }
     reset();
+
+    m_writing = true;
 }
 
 // Buffer destructor.
@@ -92,6 +94,12 @@ void* buffer::read_raw(size_t length)
 {
     void *data;
 
+    // Enforce read-mode.
+    if (m_writing) {
+        reset();
+        m_writing = false;
+    }
+
     // Check for overflow.
     if ((m_length - m_cursor_pos) < length) {
         throw cosmodon::exception::error("Network Buffer Overflow");
@@ -110,10 +118,21 @@ void* buffer::read_raw(size_t length)
 // Write raw data to buffer.
 void buffer::write(const void *data, size_t length)
 {
+    // Enforce write-mode.
+    if (!m_writing) {
+        reset();
+        m_writing = true;
+    }
+
+    // Resize buffer to accommodate new data.
     if ((m_length - m_cursor_pos) < length) {
         resize(m_cursor_pos + length);
     }
+
+    // Copy data into buffer.
     memcpy(m_cursor_data, data, length);
+
+    // Update cursor.
     m_cursor_pos += length;
     cursor_update();
 }
