@@ -67,7 +67,7 @@ namespace cosmodon
             /**
              * Retrieves size of this buffer in bytes.
              */
-            uint32_t size();
+            uint32_t size() const;
 
             /**
              * Resizes the buffer to the provided length. Internally, the current buffer is moved
@@ -113,6 +113,20 @@ namespace cosmodon
              */
             template <typename T>
             void write(const T &data);
+
+            /**
+             * Equivalent Operator.
+             *
+             * Returns true if both buffers have equal length and equivalent bytes, false otherwise.
+             */
+            bool operator==(const buffer &other);
+
+            /**
+             * Inequivalent Operator.
+             *
+             * See operator==().
+             */
+            bool operator!=(const buffer &other);
         };
     }
 }

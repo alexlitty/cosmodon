@@ -49,7 +49,7 @@ void buffer::reset()
 }
 
 // Returns size of this buffer in bytes.
-uint32_t buffer::size()
+uint32_t buffer::size() const
 {
     return m_length;
 }
@@ -116,4 +116,22 @@ void buffer::write(const void *data, size_t length)
     memcpy(m_cursor_data, data, length);
     m_cursor_pos += length;
     cursor_update();
+}
+
+// Equivalent Operator.
+bool buffer::operator==(const buffer &other)
+{
+    // Check size.
+    if (size() != other.size()) {
+        return false;
+    }
+
+    // Compare bytes.
+    return (memcmp(m_data, other.m_data, size()) == 0);
+}
+
+// Inequivalent Operator.
+bool buffer::operator!=(const buffer &other)
+{
+    return !(*this == other);
 }
