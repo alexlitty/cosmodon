@@ -62,6 +62,7 @@ bool socket::send(network::buffer &x)
     }
 
     // Count bits up, clean up.
+    x.reset();
     tally(length);
     return true;
 }
@@ -92,7 +93,8 @@ bool socket::receive(network::buffer &x)
     }
 
     // Load data into buffer.
-    //x.write(data, result);
+    x.write(data, result);
+    x.reset();
     tally(result);
     return true;
 }
