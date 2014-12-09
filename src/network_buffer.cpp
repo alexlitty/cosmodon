@@ -14,7 +14,17 @@ buffer::buffer(size_t new_length)
     }
     reset();
 
+    // Set default write-mode.
     m_writing = true;
+}
+
+// Buffer copy constructor.
+buffer::buffer(const buffer &other)
+{
+    m_writing = true;
+
+    // Perform copy.
+    write(other.m_data, other.m_length);
 }
 
 // Buffer destructor.

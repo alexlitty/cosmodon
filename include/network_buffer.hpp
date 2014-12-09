@@ -49,6 +49,13 @@ namespace cosmodon
             buffer(size_t new_length = 0);
 
             /**
+             * Copy Constructor.
+             *
+             * Copies the given buffer into current buffer.
+             */
+            buffer(const buffer &other);
+
+            /**
              * Deconstructor.
              *
              * Clears the buffer, which frees the internal buffer.
