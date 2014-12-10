@@ -3,18 +3,59 @@
 using namespace cosmodon;
 using namespace cosmodon::network;
 
-// Constructor.
-socket::socket(void *context, int type)
+// Base socket constructor.
+socket::base::base()
 {
-    if (context == nullptr) {
-        throw exception::fatal("Initialized Network Socket on Empty Context");
+    m_bytes_out = 0;
+    m_bytes_out_total = 0;
+
+    m_bytes_in = 0;
+    m_bytes_in_total = 0;
+}
+
+// Return bytes sent.
+socket::base::bytes_out()
+{
+    return 0;
+}
+
+// Return bytes received.
+socket::base::bytes_in()
+{
+    return 0;
+}
+
+// Return outgoing throughput.
+socket::base::rate_out()
+{
+    return 0;
+}
+
+// Return incoming throughput.
+socket::base::rate_in()
+{
+    return 0;
+}
+
+// UDP Constructor.
+socket::udp::udp(uint16_t port) : socket::base()
+{
+    m_port = port;
+    sockaddr_in address;
+    
+    // Initialize internal socket.
+    m_socket = ::socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
+    if (m_socket == -1) {
+        throw exception::fatal("Socket Initialization Failed");
     }
 
-    // Initialize socket.
-    m_socket = zmq_socket(context, type);
-    if (m_socket == nullptr) {
-        throw exception::fatal(network::error());
-    }
+    // Prepare binding address.
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = m_port;
+
+    // Bind socket.
+    ::bind(m_socket, static_cast<sockaddr*>(&address), sizeof(address));
 
     // Start bit count and bitrate calculations.
     m_bits = 0;
@@ -22,69 +63,59 @@ socket::socket(void *context, int type)
     m_timer = time(nullptr);
 }
 
-// Destructor. @@@ What do?
-socket::~socket()
+// UDP Destructor.
+socket::udp::~udp()
 {
-
+    ::close(m_socket);
 }
 
-// Establish a socket connection.
-void socket::connect(const char *endpoint)
+// Send over UDP socket.
+bool socket::udp::send(network::buffer &x, std::string destination)
 {
-    if (zmq_connect(m_socket, endpoint) != 0) {
-        throw exception::fatal(network::error());
-    }
-}
-
-// Establish a socket binding.
-void socket::bind(const char *endpoint)
-{
-    if (zmq_bind(m_socket, endpoint) != 0) {
-        throw exception::fatal(network::error());
-    }
-}
-
-// Send data to the network using a buffer.
-bool socket::send(network::buffer &x)
-{
+    sockaddr_in address;
     size_t length = x.size();
-    void *data;
 
     // Check for empty message.
     if (length == 0) {
         return true;
     }
 
-    // Retrieve entire raw buffer.
-    data = x.read_raw(length);
-    if (zmq_send(m_socket, data, length, 0) == -1) {
-        throw exception::fatal(network::error());
+    // Prepare destination address.
+    address.sin_family = AF_INET;
+    inet_pton(AF_INET, destination, &(address.sin_addr));
+    address.sin_port = m_port;
+
+    // Send data from buffer.
+    m_buffer = x.read_raw(length);
+    if (::sendto(m_socket, m_buffer, length, 0, address, sizeof(address)) == -1) {
+        // @@@
+        throw exception::error("Could not send data.");
     }
 
     // Count bits up, clean up.
     x.reset();
-    tally(length);
+    m_bytes_out += length;
+    m_bytes_out_total += length;
     return true;
 }
 
-// Receive data from the network into a buffer.
-bool socket::receive(network::buffer &x)
+// Receive using UDP socket.
+bool socket::udp::receive(network::buffer &x, std::string &source)
 {
-    static void *data = malloc(256);
+    sockaddr_storage address;
+    socklen_t address_size = sizeof(address);
     int result;
     x.clear();
 
+    // Prepare to receive source address.
+    address.sin_family = AF_INET;
+    address
+
     // Attempt to receive data.
-    result = zmq_recv(m_socket, data, 256, ZMQ_NOBLOCK);
-
-    // Check receive status.
+    result = ::recvfrom(m_socket, m_buffer, m_buffer_length, 0, &address, &address_size);
     if (result == -1) {
-        if (zmq_errno() != EAGAIN) {
-            throw exception::fatal(network::error());
-        }
-
-        // No data available.
-        return false;
+        // @@@
+        throw exception::error("Could not receive data.");
     }
 
     // Check for empty message.
@@ -95,96 +126,7 @@ bool socket::receive(network::buffer &x)
     // Load data into buffer.
     x.write(data, result);
     x.reset();
-    tally(result);
+    m_bytes_in += length;
+    m_bytes_in_total += length;
     return true;
-}
-
-// Tally bits.
-void socket::tally(unsigned int bits)
-{
-    m_bits_total += bits;
-    m_bits += bits;
-}
-
-// Return total bits transferred.
-std::string socket::transferred(bool bytes)
-{
-    return network::bits_readable(m_bits_total, bytes);
-}
-
-// Return recent bitrate. @@@ Could be better than seconds.
-std::string socket::rate()
-{
-    // Calculate time passed.
-    time_t passed = time(nullptr) - m_timer;
-    if (passed == 0) {
-        return "0 bps";
-    }
-
-    // Calculate bitrate.
-    std::string bitrate = network::bits_readable((int) m_bits / passed);
-
-    // Reset timer and recent bit counter.
-    m_timer = time(nullptr);
-    m_bits = 0;
-    return bitrate + "ps";
-}
-
-// Retrieves a socket option.
-void socket::get_opt(int option, int &value)
-{
-    static size_t length = sizeof(int);
-    if (zmq_getsockopt(m_socket, option, &value, &length) == -1) {
-        throw exception::fatal("Cannot retrieve socket option");
-    }
-}
-
-// Check if more parts are available for receiving.
-bool socket::more_incoming()
-{
-    int more;
-    get_opt(ZMQ_RCVMORE, more);
-    return (more == 1);
-}
-
-// Set outgoing high water mark.
-void socket::set_send_hwm(unsigned int value)
-{
-    zmq_setsockopt(m_socket, ZMQ_SNDHWM, &value, sizeof value);
-}
-
-// Set incoming high water mark.
-void socket::set_receive_hwm(unsigned int value)
-{
-    zmq_setsockopt(m_socket, ZMQ_RCVHWM, &value, sizeof value);
-}
-
-// Set subscription filter.
-void socket::set_filter(const void *value)
-{
-    zmq_setsockopt(m_socket, ZMQ_SUBSCRIBE, value, sizeof value);
-}
-
-// Unset subscription filter.
-void socket::unset_filter(const void *value)
-{
-    zmq_setsockopt(m_socket, ZMQ_UNSUBSCRIBE, value, sizeof value);
-}
-
-// Set identity.
-void socket::set_identity(const void *value)
-{
-    zmq_setsockopt(m_socket, ZMQ_IDENTITY, value, sizeof value);
-}
-
-// Get identity.
-void socket::get_identity(const void *value)
-{
-    zmq_setsockopt(m_socket, ZMQ_IDENTITY, value, sizeof value);
-}
-
-// Set lingering period.
-void socket::set_linger(unsigned int value)
-{
-    zmq_setsockopt(m_socket, ZMQ_LINGER, &value, sizeof value);
 }

@@ -3,7 +3,8 @@
 
 #include <cstring>
 #include <ctime>
-#include "debug.hpp"
+#include <sys/socket.h>
+#include <arpa/inet.h>
 #include "exception.hpp"
 #include "network_buffer.hpp"
 #include "network_utility.hpp"
@@ -12,144 +13,102 @@ namespace cosmodon
 {
     namespace network
     {
-        /**
-         * Generic Socket.
-         *
-         * Heavily wrapped around 0MQ.
-         */
-        class socket
+        namespace socket
         {
-        protected:
-            // Socket this class wraps.
-            void *m_socket;
-
-            // Bits sent or received by this socket.
-            unsigned long int m_bits;
-            unsigned long int m_bits_total;
-
-            // Timer, primarily used to calculate bitrate.
-            time_t m_timer;
-
             /**
-             * Tally bits sent or received by this socket.
-             */
-            void tally(unsigned int bits);
-
-            /**
-             * Retrieve 0MQ socket option.
+             * Prototype socket.
              *
-             * Wrap nicer functions around this this function.
+             * Sending and receiving data is implemented by children.
              */
-            void get_opt(int option, int &value);
-
-        public:
-            /**
-             * Type of 0MQ socket.
-             */
-            enum type
+            class base
             {
-                REQUEST = ZMQ_REQ,
-                REPLY = ZMQ_REP,
-                PUBLISH = ZMQ_PUB,
-                SUBSCRIBE = ZMQ_SUB,
-                PULL = ZMQ_PULL,
-                PUSH = ZMQ_PUSH,
-                PAIR = ZMQ_PAIR,
-                STREAM = ZMQ_STREAM,
+            protected:
+                // Bytes sent by this socket.
+                uint32_t m_bytes_out;
+                uint32_t m_bytes_out_total;
+
+                // Bytes received by this socket.
+                uint32_t m_bytes_in;
+                uint32_t m_bytes_in_total;
+
+                // Timer used to calculate bitrate.
+                time_t m_bytes_timer;
+
+            public:
+                /**
+                 * Constructor.
+                 *
+                 * Initializes bitrate and transfer calculations.
+                 */
+                base();
+
+                /**
+                 * Returns the amount of bytes sent by this socket.
+                 */
+                uint32_t bytes_out();
+
+                /**
+                 * Returns the amount of bytes received by this socket.
+                 */
+                uint32_t bytes_in();
+
+                /**
+                 * Returns outgoing throughput, in bytes per second.
+                 */
+                uint32_t rate_out();
+
+                /**
+                 * Returns incoming throughput, in bytes per second.
+                 */
+                uint32_t rate_in();
             };
 
             /**
-             * Constructor.
-             */
-            socket(void *context, int type);
-
-            /**
-             * Destructor.
-             */
-            ~socket();
-
-            /**
-             * Establish a connection over this socket.
-             */
-            void connect(const char *endpoint);
-
-            /**
-             * Bind this socket to an endpoint.
-             */
-            void bind(const char *endpoint);
-
-            /**
-             * Send a buffer to the network.
+             * A barebones UDP socket. This implementation is connectionless.
              *
-             * Returns true if buffer successfully sent, false otherwise.
+             * Sending and receiving is not blocked.
              */
-            bool send(network::buffer &x);
+            class udp : public base
+            {
+            protected:
+                // Internal socket.
+                int m_socket;
 
-            /**
-             * Receive data from the network into a buffer.
-             *
-             * Returns true if a buffer is made available, false otherwise.
-             */
-            bool receive(network::buffer &x);
+                // Port this socket is associated with.
+                uint32_t m_port;
 
-            /**
-             * Calculates total bytes transfered.
-             *
-             * Returns total bits transfered instead, if parameter is false.
-             */
-            std::string transferred(bool bytes = true);
+                // Temporary buffer to handle data.
+                void *m_buffer;
 
-            /**
-             * Calculate bitrate since last call, or construction of socket.
-             *
-             * Returns a nicely formatted string, converted to appropriate SI units.
-             *
-             * @@@ Accurate when called on clean second intervals.
-             */
-            std::string rate();
+                // Temporary buffer length.
+                size_t m_buffer_length;
 
-            /**
-             * Check if more message parts are available to be received.
-             *
-             * True if so. False otherwise.
-             */
-            bool more_incoming();
+            public:
+                /**
+                 * Constructor.
+                 */
+                udp(uint32_t port);
 
-            /**
-             * Set outgoing high water mark.
-             */
-            void set_send_hwm(unsigned int value);
+                /**
+                 * Destructor.
+                 */
+                ~udp();
 
-            /**
-             * Set incoming high water mark.
-             */
-            void set_receive_hwm(unsigned int value);
+                /**
+                 * Send a buffer to the network.
+                 *
+                 * Returns true if buffer successfully sent, false otherwise.
+                 */
+                bool send(network::buffer &x, std::string destination);
 
-            /**
-             * Set subscription filter.
-             */
-            void set_filter(const void *value);
-
-            /**
-             * Unset subscription filter.
-             */
-            void unset_filter(const void *value);
-
-            /**
-             * Set identity.
-             */
-            void set_identity(const void *value);
-
-            /**
-             * Get identity.
-             */
-            void get_identity(const void *value);
-
-            /**
-             * Set lingering period.
-             */
-            void set_linger(unsigned int value);
-        };
+                /**
+                 * Receive data from the network into a buffer.
+                 *
+                 * Returns true if a buffer is made available, false otherwise.
+                 */
+                bool receive(network::buffer &x, std::string &source);
+            };
+        }
     }
 }
 
