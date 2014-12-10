@@ -14,25 +14,25 @@ socket::base::base()
 }
 
 // Return bytes sent.
-socket::base::bytes_out()
+uint32_t socket::base::bytes_out()
 {
     return 0;
 }
 
 // Return bytes received.
-socket::base::bytes_in()
+uint32_t socket::base::bytes_in()
 {
     return 0;
 }
 
 // Return outgoing throughput.
-socket::base::rate_out()
+uint32_t socket::base::rate_out()
 {
     return 0;
 }
 
 // Return incoming throughput.
-socket::base::rate_in()
+uint32_t socket::base::rate_in()
 {
     return 0;
 }
@@ -55,12 +55,7 @@ socket::udp::udp(uint16_t port) : socket::base()
     address.sin_port = m_port;
 
     // Bind socket.
-    ::bind(m_socket, static_cast<sockaddr*>(&address), sizeof(address));
-
-    // Start bit count and bitrate calculations.
-    m_bits = 0;
-    m_bits_total = 0;
-    m_timer = time(nullptr);
+    ::bind(m_socket, reinterpret_cast<sockaddr*>(&address), sizeof(address));
 }
 
 // UDP Destructor.
@@ -82,12 +77,12 @@ bool socket::udp::send(network::buffer &x, std::string destination)
 
     // Prepare destination address.
     address.sin_family = AF_INET;
-    inet_pton(AF_INET, destination, &(address.sin_addr));
+    inet_pton(AF_INET, destination.c_str(), &(address.sin_addr));
     address.sin_port = m_port;
 
     // Send data from buffer.
     m_buffer = x.read_raw(length);
-    if (::sendto(m_socket, m_buffer, length, 0, address, sizeof(address)) == -1) {
+    if (::sendto(m_socket, m_buffer, length, 0, reinterpret_cast<sockaddr*>(&address), sizeof(address)) == -1) {
         // @@@
         throw exception::error("Could not send data.");
     }
@@ -108,11 +103,11 @@ bool socket::udp::receive(network::buffer &x, std::string &source)
     x.clear();
 
     // Prepare to receive source address.
-    address.sin_family = AF_INET;
-    address
+    address.ss_family = AF_INET;
 
     // Attempt to receive data.
-    result = ::recvfrom(m_socket, m_buffer, m_buffer_length, 0, &address, &address_size);
+    result = ::recvfrom(m_socket, m_buffer, m_buffer_length, 0,
+      reinterpret_cast<sockaddr*>(&address), &address_size);
     if (result == -1) {
         // @@@
         throw exception::error("Could not receive data.");
@@ -124,9 +119,9 @@ bool socket::udp::receive(network::buffer &x, std::string &source)
     }
 
     // Load data into buffer.
-    x.write(data, result);
+    x.write(m_buffer, result);
     x.reset();
-    m_bytes_in += length;
-    m_bytes_in_total += length;
+    m_bytes_in += result;
+    m_bytes_in_total += result;
     return true;
 }

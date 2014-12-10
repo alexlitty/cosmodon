@@ -1,10 +1,12 @@
 #ifndef COSMODON_NETWORK_SOCKET
 #define COSMODON_NETWORK_SOCKET
 
+#include <arpa/inet.h>
 #include <cstring>
 #include <ctime>
 #include <sys/socket.h>
-#include <arpa/inet.h>
+#include <unistd.h>
+
 #include "exception.hpp"
 #include "network_buffer.hpp"
 #include "network_utility.hpp"
@@ -75,7 +77,7 @@ namespace cosmodon
                 int m_socket;
 
                 // Port this socket is associated with.
-                uint32_t m_port;
+                uint16_t m_port;
 
                 // Temporary buffer to handle data.
                 void *m_buffer;
@@ -87,7 +89,7 @@ namespace cosmodon
                 /**
                  * Constructor.
                  */
-                udp(uint32_t port);
+                udp(uint16_t port);
 
                 /**
                  * Destructor.

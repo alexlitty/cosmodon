@@ -30,7 +30,4 @@ void layer::base::set_settings(settings s)
         m_scene_manager = nullptr;
         m_scene_root = nullptr;
     }
-
-    // Network context.
-    m_net = s.network_context;
 }

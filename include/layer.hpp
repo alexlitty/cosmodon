@@ -25,9 +25,6 @@ namespace cosmodon
             irr::scene::ISceneManager *m_scene_manager;
             irr::scene::ISceneNode *m_scene_root;
 
-            // Reference to this application's network context.
-            network::context *m_net;
-
             // Children layers.
             std::vector<base*> m_children;
 
@@ -35,7 +32,7 @@ namespace cosmodon
             /**
              * Constructor.
              */
-            base(settings s = settings(nullptr, nullptr));
+            base(settings s = settings(nullptr));
 
             /**
              * Destructor.

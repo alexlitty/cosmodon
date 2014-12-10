@@ -2,7 +2,6 @@
 #define COSMODON_ENGINE
 
 #include "irrlicht/irrlicht.h"
-#include "zmq/zmq.h"
 #include "layer.hpp"
 #include "exception.hpp"
 #include "network_utility.hpp"
@@ -17,9 +16,6 @@ namespace cosmodon
     class engine
     {
     protected:
-        // Network context.
-        network::context *m_net;
-
         // Irrlicht variables, for easy programming reference.
         irr::IrrlichtDevice *m_irrlicht;
         irr::video::IVideoDriver *m_driver;
