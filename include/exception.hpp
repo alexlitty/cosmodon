@@ -26,12 +26,12 @@ namespace cosmodon
             /**
              * Destructor.
              */
-            ~base() throw();
+            ~base() noexcept(true);
 
             /**
              * Retrieve stored message.
              */
-            std::string what();
+            virtual const char* what() const noexcept(true);
         };
 
         /**
@@ -56,6 +56,11 @@ namespace cosmodon
             error(std::string message);
         };
     }
+
+    /**
+     * Type definition for Cosmodon exception.
+     */
+    typedef exception::base exception_t;
 }
 
 #endif

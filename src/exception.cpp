@@ -9,15 +9,15 @@ exception::base::base(std::string message)
 }
 
 // Base exception deconstructor.
-exception::base::~base() throw()
+exception::base::~base() noexcept(true)
 {
 
 }
 
 // Base exception message retriever.
-std::string exception::base::what()
+const char* exception::base::what() const noexcept(true)
 {
-    return m_message;
+    return m_message.c_str();
 }
 
 // Fatal exception constructor.
