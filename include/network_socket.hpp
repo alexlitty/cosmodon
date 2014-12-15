@@ -89,7 +89,7 @@ namespace cosmodon
                 /**
                  * Constructor.
                  */
-                udp(uint16_t port);
+                udp(uint16_t port, size_t buffer_length = 1024);
 
                 /**
                  * Destructor.
@@ -101,14 +101,14 @@ namespace cosmodon
                  *
                  * Returns true if buffer successfully sent, false otherwise.
                  */
-                bool send(network::buffer &x, std::string destination);
+                bool send(std::string destination, network::buffer &buff);
 
                 /**
                  * Receive data from the network into a buffer.
                  *
                  * Returns true if a buffer is made available, false otherwise.
                  */
-                bool receive(network::buffer &x, std::string &source);
+                bool receive(std::string &source, network::buffer &buff);
             };
         }
     }

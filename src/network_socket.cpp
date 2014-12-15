@@ -38,7 +38,7 @@ uint32_t socket::base::rate_in()
 }
 
 // UDP Constructor.
-socket::udp::udp(uint16_t port) : socket::base()
+socket::udp::udp(uint16_t port, size_t buffer_length) : socket::base()
 {
     m_port = port;
     sockaddr_in address;
@@ -55,20 +55,28 @@ socket::udp::udp(uint16_t port) : socket::base()
     address.sin_port = m_port;
 
     // Bind socket.
-    ::bind(m_socket, reinterpret_cast<sockaddr*>(&address), sizeof(address));
+    if (::bind(m_socket, reinterpret_cast<sockaddr*>(&address), sizeof(address)) == -1) {
+        throw exception::fatal("Socket Binding Failed");
+    }
+
+    // Allocate a buffer to transfer data.
+    m_buffer_length = buffer_length;
+    m_buffer = malloc(buffer_length);
 }
 
 // UDP Destructor.
 socket::udp::~udp()
 {
     ::close(m_socket);
+    free(m_buffer);
 }
 
 // Send over UDP socket.
-bool socket::udp::send(network::buffer &x, std::string destination)
+bool socket::udp::send(std::string destination, network::buffer &x)
 {
     sockaddr_in address;
     size_t length = x.size();
+    int result;
 
     // Check for empty message.
     if (length == 0) {
@@ -82,20 +90,21 @@ bool socket::udp::send(network::buffer &x, std::string destination)
 
     // Send data from buffer.
     m_buffer = x.read_raw(length);
-    if (::sendto(m_socket, m_buffer, length, 0, reinterpret_cast<sockaddr*>(&address), sizeof(address)) == -1) {
+    result = ::sendto(m_socket, m_buffer, length, 0, reinterpret_cast<sockaddr*>(&address), sizeof(address));
+    if (result == -1) {
         // @@@
         throw exception::error("Could not send data.");
     }
 
     // Count bits up, clean up.
     x.reset();
-    m_bytes_out += length;
-    m_bytes_out_total += length;
+    m_bytes_out += result;
+    m_bytes_out_total += result;
     return true;
 }
 
 // Receive using UDP socket.
-bool socket::udp::receive(network::buffer &x, std::string &source)
+bool socket::udp::receive(std::string &source, network::buffer &x)
 {
     sockaddr_storage address;
     socklen_t address_size = sizeof(address);
@@ -108,14 +117,16 @@ bool socket::udp::receive(network::buffer &x, std::string &source)
     // Attempt to receive data.
     result = ::recvfrom(m_socket, m_buffer, m_buffer_length, 0,
       reinterpret_cast<sockaddr*>(&address), &address_size);
+    
+    // Check for error.
     if (result == -1) {
+        // No data available.
+        if (errno == EAGAIN) {
+            return false;
+        }
+
         // @@@
         throw exception::error("Could not receive data.");
-    }
-
-    // Check for empty message.
-    if (result == 0) {
-        return false;
     }
 
     // Load data into buffer.
