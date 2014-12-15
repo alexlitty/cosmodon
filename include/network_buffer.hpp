@@ -129,14 +129,30 @@ namespace cosmodon
              *
              * Returns true if both buffers have equal length and equivalent bytes, false otherwise.
              */
-            bool operator==(const buffer &other);
+            bool operator ==(const buffer &other);
 
             /**
              * Inequivalent Operator.
              *
              * See operator==().
              */
-            bool operator!=(const buffer &other);
+            bool operator !=(const buffer &other);
+
+            /**
+             * Input Stream Operator.
+             *
+             * Writes object data to the buffer.
+             */
+            template <typename T>
+            buffer& operator >>(const T &data);
+
+            /**
+             * Output Stream Operator.
+             *
+             * Reads object data from the buffer.
+             */
+            template <typename T>
+            buffer& operator <<(T &data);
         };
     }
 }
@@ -153,6 +169,22 @@ template <typename T>
 void cosmodon::network::buffer::write(const T &data)
 {
     write(&data, sizeof(T));
+}
+
+// Input stream operator. Writes data to buffer.
+template <typename T>
+cosmodon::network::buffer& cosmodon::network::buffer::operator>>(const T &data)
+{
+    write(data);
+    return *this;
+}
+
+// Output stream operator. Reads data from buffer.
+template <typename T>
+cosmodon::network::buffer& cosmodon::network::buffer::operator<<(T &data)
+{
+    read(data);
+    return *this;
 }
 
 #endif
