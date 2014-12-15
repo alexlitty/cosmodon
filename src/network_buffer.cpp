@@ -66,6 +66,12 @@ uint32_t buffer::size() const
     return m_length;
 }
 
+// Returns bytes remaining to be read or written.
+uint32_t buffer::remaining() const
+{
+    return m_length - m_cursor_pos;
+}
+
 // Resize buffer.
 void buffer::resize(size_t new_length)
 {

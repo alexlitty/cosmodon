@@ -80,6 +80,12 @@ namespace cosmodon
             uint32_t size() const;
 
             /**
+             * Retrieves the amount of bytes remaining to be read or written, relative to the
+             * cursor position.
+             */
+            uint32_t remaining() const;
+
+            /**
              * Resizes the buffer to the provided length. Internally, the current buffer is moved
              * to a new buffer of given length.
              *

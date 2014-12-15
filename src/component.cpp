@@ -16,7 +16,7 @@ const irr::core::aabbox3d<irr::f32>& component::model::getBoundingBox() const
 }
 
 // Network deserializing operator.
-cosmodon::component::network::operator cosmodon::network::buffer()
+cosmodon::component::network_t::operator cosmodon::network::buffer()
 {
     cosmodon::network::buffer buffer;
     network_deserialize(buffer);

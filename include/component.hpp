@@ -73,7 +73,7 @@ namespace cosmodon
          *
          * Derived classes intend to send or receive network data.
          */
-        class network
+        class network_t
         {
         public:
             /**
