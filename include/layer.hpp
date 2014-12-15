@@ -52,6 +52,11 @@ namespace cosmodon
             void set_settings(settings s);
         };
     }
+
+    /**
+     * Type definition for an execution layer.
+     */
+    typedef layer::base layer_t;
 }
 
 #endif
