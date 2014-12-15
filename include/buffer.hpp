@@ -118,13 +118,20 @@ namespace cosmodon
         void read(void *&data, size_t length);
 
         /**
-         * Retrieves a copy of data with variable length, starting at the cursor.
+         * Retrieves a copy of data with length of the provided type, starting at the cursor.
          *
          * If unable to do so, throws a Cosmodon warning. Do not use this function for
-         * complicated object types -- only types easily reproduced with binary.
+         * complicated object types -- only types which are easily reproduced by binary.
          */
         template <typename T>
         void read(T &x);
+
+        /**
+         * Retrieves a copy of data as a string, starting at the cursor.
+         *
+         * @@@ See write(std::string).
+         */
+        void read(std::string &data);
 
         /**
          * Writes raw data to the buffer.
@@ -141,6 +148,16 @@ namespace cosmodon
          */
         template <typename T>
         void write(const T &data);
+
+        /**
+         * Writes a string to the buffer.
+         *
+         * Writes the size of the string, then each character as a byte. The string is not null
+         * terminated.
+         *
+         * @@@ Must be less than 256 characters. No multi-byte characters.
+         */
+        void write(const std::string &data);
 
         /**
          * Equivalent Operator.

@@ -147,6 +147,16 @@ void cosmodon::buffer::read(void *&data, size_t length)
     cursor_update();
 }
 
+// Retrieve data as a string.
+void cosmodon::buffer::read(std::string &data)
+{
+    uint8_t size;
+
+    read(size);
+    data.clear();
+    data.assign(reinterpret_cast<const char*>(get_data(size)), static_cast<size_t>(size));
+}
+
 // Write raw data to buffer.
 void cosmodon::buffer::write(const void *data, size_t length)
 {
@@ -167,6 +177,15 @@ void cosmodon::buffer::write(const void *data, size_t length)
     // Update cursor.
     m_cursor_pos += length;
     cursor_update();
+}
+
+// Write a string to the buffer, up to 256 characters.
+void cosmodon::buffer::write(const std::string &data)
+{
+    uint8_t size = data.size();
+
+    write(size);
+    write(data.c_str(), size);
 }
 
 // Equivalent Operator.
