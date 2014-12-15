@@ -89,6 +89,11 @@ namespace cosmodon
              * Returns true if successful, false otherwise.
              */
             virtual bool network_deserialize(cosmodon::network::buffer &buffer) = 0;
+
+            /**
+             * Convert this object into a network buffer by deserializing it.
+             */
+            operator cosmodon::network::buffer();
         };
     }
 }
