@@ -2,7 +2,7 @@
 #define COSMODON_COMPONENT
 
 #include "irrlicht/irrlicht.h"
-#include "network_buffer.hpp"
+#include "buffer.hpp"
 
 namespace cosmodon
 {
@@ -81,19 +81,14 @@ namespace cosmodon
              *
              * Returns true if successful, false otherwise.
              */
-            virtual bool network_serialize(cosmodon::network::buffer &buffer) = 0;
+            virtual bool network_serialize(cosmodon::buffer &buffer) = 0;
 
             /**
              * Deserialize a network buffer to reproduce this object.
              *
              * Returns true if successful, false otherwise.
              */
-            virtual bool network_deserialize(cosmodon::network::buffer &buffer) = 0;
-
-            /**
-             * Convert this object into a network buffer by deserializing it.
-             */
-            operator cosmodon::network::buffer();
+            virtual bool network_deserialize(cosmodon::buffer &buffer) = 0;
         };
     }
 }

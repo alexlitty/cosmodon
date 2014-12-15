@@ -72,7 +72,7 @@ socket::udp::~udp()
 }
 
 // Send over UDP socket.
-bool socket::udp::send(std::string destination, network::buffer &x)
+bool socket::udp::send(std::string destination, cosmodon::buffer &x)
 {
     sockaddr_in address;
     size_t length = x.size();
@@ -89,8 +89,7 @@ bool socket::udp::send(std::string destination, network::buffer &x)
     address.sin_port = m_port;
 
     // Send data from buffer.
-    m_buffer = x.read_raw(length);
-    result = ::sendto(m_socket, m_buffer, length, 0, reinterpret_cast<sockaddr*>(&address), sizeof(address));
+    result = ::sendto(m_socket, x.get_data(), x.size(), 0, reinterpret_cast<sockaddr*>(&address), sizeof(address));
     if (result == -1) {
         // @@@
         throw exception::error("Could not send data.");
@@ -104,7 +103,7 @@ bool socket::udp::send(std::string destination, network::buffer &x)
 }
 
 // Receive using UDP socket.
-bool socket::udp::receive(std::string &source, network::buffer &x)
+bool socket::udp::receive(std::string &source, cosmodon::buffer &x)
 {
     sockaddr_storage address;
     socklen_t address_size = sizeof(address);

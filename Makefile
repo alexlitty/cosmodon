@@ -1,4 +1,4 @@
-SOURCES=component.cpp event.cpp exception.cpp layer.cpp network_socket.cpp network_buffer.cpp network_utility.cpp engine.cpp
+SOURCES=buffer.cpp component.cpp event.cpp exception.cpp layer.cpp network_socket.cpp network_utility.cpp engine.cpp
 SRCPATH=src/
 INCPATHS=include/
 LIBPATHS=lib/

@@ -1,10 +1,8 @@
 #include <cstring>
-#include <network_buffer.hpp>
-
-using namespace cosmodon::network;
+#include <buffer.hpp>
 
 // Buffer constructor.
-buffer::buffer(size_t new_length)
+cosmodon::buffer::buffer(size_t new_length)
 {
     if (new_length <= 0) {
         m_data = nullptr;
@@ -19,7 +17,7 @@ buffer::buffer(size_t new_length)
 }
 
 // Buffer copy constructor.
-buffer::buffer(const buffer &other)
+cosmodon::buffer::buffer(const buffer &other)
 {
     m_writing = true;
 
@@ -28,13 +26,13 @@ buffer::buffer(const buffer &other)
 }
 
 // Buffer destructor.
-buffer::~buffer()
+cosmodon::buffer::~buffer()
 {
     clear();
 }
 
 // Updates cursor.
-void buffer::cursor_update()
+void cosmodon::buffer::cursor_update()
 {
     if (m_data == nullptr) {
         m_cursor_pos = 0;
@@ -45,7 +43,7 @@ void buffer::cursor_update()
 }
 
 // Clear buffer.
-void buffer::clear()
+void cosmodon::buffer::clear()
 {
     free(m_data);
     m_data = nullptr;
@@ -54,26 +52,26 @@ void buffer::clear()
 }
 
 // Resets cursor position.
-void buffer::reset()
+void cosmodon::buffer::reset()
 {
     m_cursor_pos = 0;
     m_cursor_data = m_data;
 }
 
 // Returns size of this buffer in bytes.
-uint32_t buffer::size() const
+uint32_t cosmodon::buffer::size() const
 {
     return m_length;
 }
 
 // Returns bytes remaining to be read or written.
-uint32_t buffer::remaining() const
+uint32_t cosmodon::buffer::remaining() const
 {
     return m_length - m_cursor_pos;
 }
 
 // Resize buffer.
-void buffer::resize(size_t new_length)
+void cosmodon::buffer::resize(size_t new_length)
 {
     void *old_data;
     size_t old_length;
@@ -105,10 +103,29 @@ void buffer::resize(size_t new_length)
     }
 }
 
-// Retrieves data of given length.
-void* buffer::read_raw(size_t length)
+// Retrieve read-only pointer to data.
+const void* cosmodon::buffer::get_data(uint32_t amount)
 {
-    void *data;
+    // Return all data.
+    if (amount == 0) {
+        return m_data;
+    }
+
+    // Ensure enough data remains.
+    if (remaining() <= amount) {
+        throw cosmodon::exception::error("Buffer overflow");
+    }
+
+    // Update cursor, return requested data.
+    m_cursor_pos += amount;
+    cursor_update();
+    return m_cursor_data;
+}
+
+// Retrieves raw data of given length.
+void cosmodon::buffer::read(void *&data, size_t length)
+{
+    data = nullptr;
 
     // Enforce read-mode.
     if (m_writing) {
@@ -117,8 +134,8 @@ void* buffer::read_raw(size_t length)
     }
 
     // Check for overflow.
-    if ((m_length - m_cursor_pos) < length) {
-        throw cosmodon::exception::error("Network Buffer Overflow");
+    if (remaining() < length) {
+        throw cosmodon::exception::error("Buffer overflow");
     }
 
     // Copy data.
@@ -128,11 +145,10 @@ void* buffer::read_raw(size_t length)
     // Update cursor, clean up.
     m_cursor_pos += length;
     cursor_update();
-    return data;
 }
 
 // Write raw data to buffer.
-void buffer::write(const void *data, size_t length)
+void cosmodon::buffer::write(const void *data, size_t length)
 {
     // Enforce write-mode.
     if (!m_writing) {
@@ -154,7 +170,7 @@ void buffer::write(const void *data, size_t length)
 }
 
 // Equivalent Operator.
-bool buffer::operator==(const buffer &other)
+bool cosmodon::buffer::operator==(const buffer &other)
 {
     // Check size.
     if (size() != other.size()) {
@@ -166,7 +182,7 @@ bool buffer::operator==(const buffer &other)
 }
 
 // Inequivalent Operator.
-bool buffer::operator!=(const buffer &other)
+bool cosmodon::buffer::operator!=(const buffer &other)
 {
     return !(*this == other);
 }

@@ -7,8 +7,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include "buffer.hpp"
 #include "exception.hpp"
-#include "network_buffer.hpp"
 #include "network_utility.hpp"
 
 namespace cosmodon
@@ -101,14 +101,14 @@ namespace cosmodon
                  *
                  * Returns true if buffer successfully sent, false otherwise.
                  */
-                bool send(std::string destination, network::buffer &buff);
+                bool send(std::string destination, cosmodon::buffer &buff);
 
                 /**
                  * Receive data from the network into a buffer.
                  *
                  * Returns true if a buffer is made available, false otherwise.
                  */
-                bool receive(std::string &source, network::buffer &buff);
+                bool receive(std::string &source, cosmodon::buffer &buff);
             };
         }
     }
