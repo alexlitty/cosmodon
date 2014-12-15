@@ -2,6 +2,7 @@
 #define COSMODON_COMPONENT
 
 #include "irrlicht/irrlicht.h"
+#include "network_buffer.hpp"
 
 namespace cosmodon
 {
@@ -70,12 +71,24 @@ namespace cosmodon
         /**
          * Network component.
          *
-         * Used by the System to communicate between clients and servers. The System collects
-         * information gathered by this component, and pushes information into it.
+         * Derived classes intend to send or receive network data.
          */
         class network
         {
-                
+        public:
+            /**
+             * Serialize this object into a network buffer, to be reproduced elsewhere.
+             *
+             * Returns true if successful, false otherwise.
+             */
+            virtual bool network_serialize(cosmodon::network::buffer &buffer) = 0;
+
+            /**
+             * Deserialize a network buffer to reproduce this object.
+             *
+             * Returns true if successful, false otherwise.
+             */
+            virtual bool network_deserialize(cosmodon::network::buffer &buffer) = 0;
         };
     }
 }
