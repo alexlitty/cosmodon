@@ -124,7 +124,7 @@ const void* cosmodon::buffer::get_data(uint32_t amount)
     }
 
     // Ensure enough data remains.
-    if (remaining() <= amount) {
+    if (remaining() < amount) {
         throw cosmodon::exception::error("Buffer overflow");
     }
 
