@@ -12,6 +12,6 @@
 #include "event.hpp"
 #include "exception.hpp"
 #include "engine.hpp"
-#include "network_socket.hpp"
+#include "socket.hpp"
 
 #endif

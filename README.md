@@ -1,6 +1,6 @@
 The Astronomical Game Library
 =============================
-Cosmodon is an experimental C++ media library, hand-crafted for game development and flexibility.
+Cosmodon is an experimental C++ media library, hand-crafted for flexible game development.
 
 Features
 --------

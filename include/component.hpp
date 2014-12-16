@@ -98,9 +98,10 @@ namespace cosmodon
             /**
              * Serialize this object into a network buffer, to be reproduced elsewhere.
              *
-             * Returns true if successful, false otherwise.
+             * The philosophy of Cosmodon suggests this method never fails. An object which has an
+             * unserializable state should never be asked to serialize itself.
              */
-            virtual bool network_serialize(cosmodon::buffer &buffer) = 0;
+            virtual void network_serialize(cosmodon::buffer &buffer) = 0;
 
             /**
              * Deserialize a network buffer to reproduce this object.
