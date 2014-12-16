@@ -9,6 +9,25 @@ namespace cosmodon
     namespace component
     {
         /**
+         * Programmable component.
+         *
+         * Used to give an object executable purpose.
+         */
+        class code
+        {
+        public:
+            /**
+             * Execute this object's program.
+             *
+             * Implemented by derived class.
+             *
+             * Returns true if the program requires further execution, or false if the program
+             * is finished.
+             */
+            virtual bool execute() = 0;
+        };
+
+        /**
          * Three-Dimmensional Graphical or Physical component, closely integrated with the
          * Irrlicht Scene Environment.
          *
@@ -73,7 +92,7 @@ namespace cosmodon
          *
          * Derived classes intend to send or receive network data.
          */
-        class network_t
+        class network
         {
         public:
             /**

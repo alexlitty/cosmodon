@@ -1,9 +1,7 @@
 #include <event.hpp>
 
-using namespace cosmodon;
-
 // Constructor for event receiver.
-event::receiver::receiver()
+cosmodon::event::receiver::receiver()
 {
     for (irr::u32 i = 0; i < irr::KEY_KEY_CODES_COUNT; i++) {
         m_key_down[i] = false;
@@ -11,7 +9,7 @@ event::receiver::receiver()
 }
 
 // Interpretting an event.
-bool event::receiver::OnEvent(const irr::SEvent& current_event)
+bool cosmodon::event::receiver::OnEvent(const irr::SEvent& current_event)
 {
     // Remember key press
     //if (current_event.EventType == irr::EET_KEY_INPUT_EVENT) {
@@ -27,7 +25,7 @@ bool event::receiver::OnEvent(const irr::SEvent& current_event)
 }
 
 // Determine if key is pressed down.
-bool event::receiver::IsKeyDown(irr::EKEY_CODE key) const
+bool cosmodon::event::receiver::IsKeyDown(irr::EKEY_CODE key) const
 {
     return m_key_down[key];
 }

@@ -1,10 +1,7 @@
-#include <network_socket.hpp>
-
-using namespace cosmodon;
-using namespace cosmodon::network;
+#include <socket.hpp>
 
 // Base socket constructor.
-socket::base::base()
+cosmodon::socket::base::base()
 {
     m_bytes_out = 0;
     m_bytes_out_total = 0;
@@ -14,31 +11,31 @@ socket::base::base()
 }
 
 // Return bytes sent.
-uint32_t socket::base::bytes_out()
+uint32_t cosmodon::socket::base::bytes_out()
 {
     return 0;
 }
 
 // Return bytes received.
-uint32_t socket::base::bytes_in()
+uint32_t cosmodon::socket::base::bytes_in()
 {
     return 0;
 }
 
 // Return outgoing throughput.
-uint32_t socket::base::rate_out()
+uint32_t cosmodon::socket::base::rate_out()
 {
     return 0;
 }
 
 // Return incoming throughput.
-uint32_t socket::base::rate_in()
+uint32_t cosmodon::socket::base::rate_in()
 {
     return 0;
 }
 
 // UDP Constructor.
-socket::udp::udp(uint16_t port, size_t buffer_length) : socket::base()
+cosmodon::socket::udp::udp(uint16_t port, size_t buffer_length) : cosmodon::socket::base()
 {
     m_port = port;
     sockaddr_in address;
@@ -65,14 +62,14 @@ socket::udp::udp(uint16_t port, size_t buffer_length) : socket::base()
 }
 
 // UDP Destructor.
-socket::udp::~udp()
+cosmodon::socket::udp::~udp()
 {
     ::close(m_socket);
     free(m_buffer);
 }
 
 // Send over UDP socket.
-bool socket::udp::send(std::string destination, cosmodon::buffer &x)
+bool cosmodon::socket::udp::send(std::string destination, cosmodon::buffer &x)
 {
     sockaddr_in address;
     size_t length = x.size();
@@ -103,7 +100,7 @@ bool socket::udp::send(std::string destination, cosmodon::buffer &x)
 }
 
 // Receive using UDP socket.
-bool socket::udp::receive(std::string &source, cosmodon::buffer &x)
+bool cosmodon::socket::udp::receive(std::string &source, cosmodon::buffer &x)
 {
     sockaddr_storage address;
     socklen_t address_size = sizeof(address);

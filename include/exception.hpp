@@ -56,11 +56,6 @@ namespace cosmodon
             error(std::string message);
         };
     }
-
-    /**
-     * Type definition for Cosmodon exception.
-     */
-    typedef exception::base exception_t;
 }
 
 #endif
