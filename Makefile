@@ -4,7 +4,7 @@ INCPATHS=include/
 LIBPATHS=lib/
 OBJPATH=obj/
 BINPATH=bin/
-LDFLAGS=-lzmq -lIrrlicht -lGL -lGLU -lXext -lX11 -lXxf86vm
+LDFLAGS=
 CFLAGS=-Wall -std=c++11
 
 # Compilers
@@ -26,7 +26,6 @@ GOAL = $(MAKECMDGOALS)
 OBJECTS=$(SOURCES:%.cpp=%.o)
 SOURCE_FILES=$(SOURCES:%=$(SRCPATH)%)
 OBJECT_FILES=$(OBJECTS:%=$(OBJPATH)%)
-
 
 # Compilers
 CC_linux64=g++

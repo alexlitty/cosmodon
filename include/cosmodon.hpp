@@ -9,7 +9,6 @@
 #include "clock.hpp"
 #include "component.hpp"
 #include "debug.hpp"
-#include "event.hpp"
 #include "exception.hpp"
 #include "engine.hpp"
 #include "socket.hpp"
