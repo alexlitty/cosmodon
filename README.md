@@ -1,5 +1,20 @@
-The Physics-Heavy Game Engine
+The Astronomical Game Library
 =============================
-Cosmodon is a game engine with a physics emphasis.
+Cosmodon is an experimental C++ media library, hand-crafted for game development and flexibility.
 
-No person may reproduce or modify the contents of this repository without the written consent of Lanyard Textile or Alexander Litty. We intend to provide a more liberal license and full documentation upon the first public stable release.
+Features
+--------
+- Sockets (Unix)
+  - Use a common protocol, design your own
+  - Includes UDP
+
+- Network Serializing
+  - Quick and powerful serialization
+  - Easy serialization interface
+
+On the Whiteboard
+-----------------
+- Include Windows in the Socket API
+- Connection-Oriented Sockets
+- Start graphics
+- Start physics
