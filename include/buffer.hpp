@@ -72,6 +72,11 @@ namespace cosmodon
         void reset();
 
         /**
+         * An alias for reset().
+         */
+        void rewind();
+
+        /**
          * Retrieves size of this buffer in bytes.
          */
         uint32_t size() const;

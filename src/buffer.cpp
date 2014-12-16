@@ -58,6 +58,12 @@ void cosmodon::buffer::reset()
     m_cursor_data = m_data;
 }
 
+// Alias for reset.
+void cosmodon::buffer::rewind()
+{
+    reset();
+}
+
 // Returns size of this buffer in bytes.
 uint32_t cosmodon::buffer::size() const
 {
