@@ -4,9 +4,6 @@
 #include <cstring>
 #include "exception.hpp"
 
-// @@@
-#include <iostream>
-
 namespace cosmodon
 {
     /**
@@ -218,9 +215,7 @@ void cosmodon::buffer::read(T &x)
 template <typename T>
 void cosmodon::buffer::write(const T &data)
 {
-    std::cout << "Red" << std::endl;
     write(&data, sizeof(T));
-    std::cout << "Blue" << std::endl;
 }
 
 // Output stream operator. Reads data from buffer.

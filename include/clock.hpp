@@ -32,9 +32,9 @@ namespace cosmodon
         /**
          * Retrieve the elapsed seconds since the previous time.
          *
-         * Resets the clock unless argument is false.
+         * Resets the clock if argument is true.
          */
-        uint32_t elapsed_seconds(bool restart = true);
+        uint32_t elapsed_seconds(bool restart = false);
     };
 }
 
