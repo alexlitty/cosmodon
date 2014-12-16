@@ -4,6 +4,9 @@
 #include <cstring>
 #include "exception.hpp"
 
+// @@@
+#include <iostream>
+
 namespace cosmodon
 {
     /**
@@ -190,7 +193,7 @@ namespace cosmodon
          * Writes object data to the buffer.
          */
         template <typename T>
-        buffer& operator >>(const T &data);
+        buffer& operator <<(const T &data);
 
         /**
          * Output Stream Operator.
@@ -198,7 +201,7 @@ namespace cosmodon
          * Reads object data from the buffer.
          */
         template <typename T>
-        buffer& operator <<(T &data);
+        buffer& operator >>(T &data);
     };
 }
 
@@ -215,22 +218,24 @@ void cosmodon::buffer::read(T &x)
 template <typename T>
 void cosmodon::buffer::write(const T &data)
 {
+    std::cout << "Red" << std::endl;
     write(&data, sizeof(T));
-}
-
-// Input stream operator. Writes data to buffer.
-template <typename T>
-cosmodon::buffer& cosmodon::buffer::operator>>(const T &data)
-{
-    write(data);
-    return *this;
+    std::cout << "Blue" << std::endl;
 }
 
 // Output stream operator. Reads data from buffer.
 template <typename T>
-cosmodon::buffer& cosmodon::buffer::operator<<(T &data)
+cosmodon::buffer& cosmodon::buffer::operator>>(T &data)
 {
     read(data);
+    return *this;
+}
+
+// Input stream operator. Writes data to the buffer.
+template <typename T>
+cosmodon::buffer& cosmodon::buffer::operator<<(const T &data)
+{
+    write(data);
     return *this;
 }
 
