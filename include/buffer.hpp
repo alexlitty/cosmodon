@@ -1,6 +1,7 @@
 #ifndef COSMODON_BUFFER
 #define COSMODON_BUFFER
 
+#include <cstring>
 #include "exception.hpp"
 
 namespace cosmodon
@@ -149,7 +150,7 @@ namespace cosmodon
         /**
          * Writes object data to the buffer.
          *
-         * See other method candidate.
+         * See write(const void*, size_t).
          */
         template <typename T>
         void write(const T &data);

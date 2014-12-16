@@ -69,7 +69,7 @@ cosmodon::socket::udp::~udp()
 }
 
 // Send over UDP socket.
-bool cosmodon::socket::udp::send(std::string destination, cosmodon::buffer &x)
+bool cosmodon::socket::udp::send(cosmodon::buffer &x, std::string destination)
 {
     sockaddr_in address;
     size_t length = x.size();
@@ -100,7 +100,7 @@ bool cosmodon::socket::udp::send(std::string destination, cosmodon::buffer &x)
 }
 
 // Receive using UDP socket.
-bool cosmodon::socket::udp::receive(std::string &source, cosmodon::buffer &x)
+bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
 {
     sockaddr_storage address;
     socklen_t address_size = sizeof(address);

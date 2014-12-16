@@ -99,14 +99,14 @@ namespace cosmodon
              *
              * Returns true if buffer successfully sent, false otherwise.
              */
-            bool send(std::string destination, cosmodon::buffer &buff);
+            bool send(cosmodon::buffer &buff, std::string destination);
 
             /**
              * Receive data from the network into a buffer.
              *
              * Returns true if a buffer is made available, false otherwise.
              */
-            bool receive(std::string &source, cosmodon::buffer &buff);
+            bool receive(cosmodon::buffer &buff, std::string &source);
         };
     }
 }
