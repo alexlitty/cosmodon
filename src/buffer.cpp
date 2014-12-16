@@ -70,6 +70,12 @@ uint32_t cosmodon::buffer::size() const
     return m_length;
 }
 
+// Alias for size().
+uint32_t cosmodon::buffer::length() const
+{
+    return m_length;
+}
+
 // Returns bytes remaining to be read or written.
 uint32_t cosmodon::buffer::remaining() const
 {

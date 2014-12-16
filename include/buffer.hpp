@@ -83,6 +83,11 @@ namespace cosmodon
         uint32_t size() const;
 
         /**
+         * Alias for size().
+         */
+        uint32_t length() const;
+
+        /**
          * Retrieves the amount of bytes remaining to be read or written, relative to the
          * cursor position.
          */
