@@ -26,7 +26,7 @@ namespace cosmodon
             /**
              * Destructor.
              */
-            ~base() noexcept(true);
+            virtual ~base() noexcept(true);
 
             /**
              * Retrieve stored message.
@@ -46,7 +46,7 @@ namespace cosmodon
         };
 
         /**
-         * A recoverable, almost somewhat anticipated, error.
+         * A recoverable, sometimes anticipated, error.
          *
          * Use when the program is hindered, but the error is recoverable.
          */
@@ -54,6 +54,17 @@ namespace cosmodon
         {
         public:
             error(std::string message);
+        };
+
+        /**
+         * An overflow error.
+         *
+         * Useful for indicating an out-of-bounds or similar error.
+         */
+        class overflow : public error
+        {
+        public:
+            overflow(std::string message);
         };
     }
 }

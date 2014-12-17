@@ -1,4 +1,6 @@
 #include <cstring>
+#include <ios>
+#include <sstream>
 #include <buffer.hpp>
 
 // Buffer constructor.
@@ -198,6 +200,16 @@ void cosmodon::buffer::write(const std::string &data)
 
     write(size);
     write(data.c_str(), size);
+}
+
+// Dump buffer data.
+std::string cosmodon::buffer::dump() const
+{
+    std::stringstream ss;
+    for (uint32_t i = 0; i < length(); i++) {
+        ss << std::hex << static_cast<uint8_t*>(m_data)[i];
+    }
+    return ss.str();
 }
 
 // Equivalent Operator.

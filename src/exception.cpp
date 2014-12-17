@@ -31,3 +31,9 @@ exception::error::error(std::string message) : cosmodon::exception::base::base(m
 {
 
 }
+
+// Overflow exception constructor.
+exception::overflow::overflow(std::string message) : cosmodon::exception::error::error(message)
+{
+
+}

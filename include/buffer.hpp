@@ -171,6 +171,13 @@ namespace cosmodon
         void write(const std::string &data);
 
         /**
+         * Retrieves the buffer contents as hexadecimal.
+         *
+         * Useful for debugging.
+         */
+        std::string dump() const;
+
+        /**
          * Equivalent Operator.
          *
          * Returns true if both buffers have equal length and equivalent bytes, false otherwise.
