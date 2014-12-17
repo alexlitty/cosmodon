@@ -42,7 +42,7 @@ namespace cosmodon
         class fatal : public base
         {
         public:
-            fatal(std::string message);
+            fatal(std::string message = "");
         };
 
         /**
@@ -53,7 +53,7 @@ namespace cosmodon
         class error : public base
         {
         public:
-            error(std::string message);
+            error(std::string message = "");
         };
 
         /**
@@ -64,7 +64,7 @@ namespace cosmodon
         class overflow : public error
         {
         public:
-            overflow(std::string message);
+            overflow(std::string message = "");
         };
     }
 }

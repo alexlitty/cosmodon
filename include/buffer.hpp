@@ -124,41 +124,50 @@ namespace cosmodon
         /**
          * Retrieves a copy of raw data with given length, starting at the cursor.
          *
-         * If unable to do so, throws a Cosmodon error.
+         * Returns true upon success, or false if an overflow occured.
          */
-        void read(void *&data, size_t length);
+        bool read(void *&data, size_t length);
 
         /**
          * Retrieves a copy of data with length of the provided type, starting at the cursor.
          *
-         * If unable to do so, throws a Cosmodon warning. Do not use this function for
-         * complicated object types -- only types which are easily reproduced by binary.
+         * Performs a binary copy of given data. You probably do not want to pass complicated
+         * types, particularly those with pointers.
+         *
+         * Returns true upon success, or false if an overflow occurs.
          */
         template <typename T>
-        void read(T &x);
+        bool read(T &x);
 
         /**
          * Retrieves a copy of data as a string, starting at the cursor.
          *
-         * @@@ See write(std::string).
+         * See write(std::string).
+         *
+         * Returns true upon success, or false if an overflow occurs.
          */
-        void read(std::string &data);
+        bool read(std::string &data);
 
         /**
          * Writes raw data to the buffer.
          *
-         * If buffer is not large enough to store new data, it is resized to the required
+         * If buffer size is not large enough to store new data, it is resized to the required
          * length.
+         *
+         * Returns true upon success, or false if an overflow occurs.
          */
-        void write(const void *data, size_t length);
+        bool write(const void *data, size_t length);
 
         /**
          * Writes object data to the buffer.
          *
-         * See write(const void*, size_t).
+         * Performs a binary copy of given data. You probably do not want to pass complicated
+         * types, particularly those with pointers.
+         *
+         * Returns true upon success, or false upon exceeding the maximum size.
          */
         template <typename T>
-        void write(const T &data);
+        bool write(const T &data);
 
         /**
          * Writes a string to the buffer.
@@ -166,9 +175,11 @@ namespace cosmodon
          * Writes the size of the string, then each character as a byte. The string is not null
          * terminated.
          *
+         * Returns true upon success, or false upon exceeding the maximum size.
+         *
          * @@@ Must be less than 256 characters. No multi-byte characters.
          */
-        void write(const std::string &data);
+        bool write(const std::string &data);
 
         /**
          * Retrieves the buffer contents as hexadecimal.
@@ -195,6 +206,8 @@ namespace cosmodon
          * Input Stream Operator.
          *
          * Writes object data to the buffer.
+         *
+         * A Cosmodon overflow exception is thrown upon failure.
          */
         template <typename T>
         buffer& operator <<(const T &data);
@@ -203,6 +216,8 @@ namespace cosmodon
          * Output Stream Operator.
          *
          * Reads object data from the buffer.
+         *
+         * A Cosmodon overflow exception is thrown upon failure.
          */
         template <typename T>
         buffer& operator >>(T &data);
@@ -211,25 +226,30 @@ namespace cosmodon
 
 // Read data from the buffer. @@@ More memory-friendly way to do this
 template <typename T>
-void cosmodon::buffer::read(T &x)
+bool cosmodon::buffer::read(T &x)
 {
     void *data;
-    read(data, sizeof(T));
+    if (!read(data, sizeof(T))) {
+        return false;
+    }
     memcpy(&x, static_cast<T*>(data), sizeof(T));
+    return true;
 }
 
 // Write data to the buffer.
 template <typename T>
-void cosmodon::buffer::write(const T &data)
+bool cosmodon::buffer::write(const T &data)
 {
-    write(&data, sizeof(T));
+    return write(&data, sizeof(T));
 }
 
 // Output stream operator. Reads data from buffer.
 template <typename T>
 cosmodon::buffer& cosmodon::buffer::operator>>(T &data)
 {
-    read(data);
+    if (!read(data)) {
+        throw cosmodon::exception::overflow();
+    }
     return *this;
 }
 
@@ -237,7 +257,9 @@ cosmodon::buffer& cosmodon::buffer::operator>>(T &data)
 template <typename T>
 cosmodon::buffer& cosmodon::buffer::operator<<(const T &data)
 {
-    write(data);
+    if (!write(data)) {
+        throw cosmodon::exception::overflow();
+    }
     return *this;
 }
 
