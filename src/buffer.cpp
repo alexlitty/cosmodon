@@ -3,6 +3,9 @@
 #include <sstream>
 #include <buffer.hpp>
 
+// @@@
+#include <iostream>
+
 // Buffer constructor.
 cosmodon::buffer::buffer(size_t new_length)
 {
@@ -166,10 +169,21 @@ bool cosmodon::buffer::read(void *&data, size_t length)
 bool cosmodon::buffer::read(std::string &data)
 {
     uint8_t size;
+    char character;
 
-    read(size);
+    // Retrieve string size.
+    if (!read(size)) {
+        return false;
+    }
+
+    // Load string character-by-character.
     data.clear();
-    data.assign(reinterpret_cast<const char*>(get_data(size)), static_cast<size_t>(size));
+    for (uint8_t i = 0; i < size; i++) {
+        if (!read(character)) {
+            return false;
+        }
+        data.append(&character, 1);
+    }
     return true;
 }
 
@@ -200,10 +214,7 @@ bool cosmodon::buffer::write(const void *data, size_t length)
 bool cosmodon::buffer::write(const std::string &data)
 {
     uint8_t size = data.size();
-
-    write(size);
-    write(data.c_str(), size);
-    return true;
+    return (write(size) && write(data.c_str(), size));
 }
 
 // Dump buffer data.
