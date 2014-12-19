@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <ctime>
+#include <netdb.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -82,6 +83,19 @@ namespace cosmodon
 
             // Temporary buffer length.
             size_t m_buffer_length;
+
+            // Internal address info storage.
+            addrinfo m_address_info;
+
+            /**
+             * Retrieve address information.
+             *
+             * Used internally with Unix sockets.
+             *
+             * Address information is generated and stored inside the class before being returned.
+             * The information is freed upon class destruction.
+             */
+            const addrinfo get_address_info(std::string address);
 
         public:
             /**
