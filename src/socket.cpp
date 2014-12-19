@@ -151,8 +151,6 @@ bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
     // Attempt to receive data.
     result = ::recvfrom(m_socket, m_buffer, m_buffer_length - 1, 0,
       reinterpret_cast<sockaddr*>(&address), &address_size);
-    
-    std::cout << "((Receiving!))" << std::endl;
 
     // Check for error.
     if (result == -1) {
@@ -164,6 +162,8 @@ bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
         // @@@
         throw exception::error("Could not receive data.");
     }
+
+    std::cout << "((Receiving!))" << std::endl;
 
     // Interpret address information.
     source = inet_ntop(address.ss_family, &(reinterpret_cast<sockaddr_in*>(&address)->sin_addr), s, sizeof(s)); 
