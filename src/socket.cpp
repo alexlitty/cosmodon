@@ -1,5 +1,8 @@
 #include <socket.hpp>
 
+// @@@
+#include <iostream>
+
 // Base socket constructor.
 cosmodon::socket::base::base()
 {
@@ -109,6 +112,8 @@ bool cosmodon::socket::udp::send(cosmodon::buffer &x, std::string destination)
     size_t length = x.size();
     int result;
 
+    std::cout << "((Sending!))" << std::endl;
+
     // Check for empty message.
     if (length == 0) {
         return true;
@@ -147,6 +152,8 @@ bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
     result = ::recvfrom(m_socket, m_buffer, m_buffer_length - 1, 0,
       reinterpret_cast<sockaddr*>(&address), &address_size);
     
+    std::cout << "((Receiving!))" << std::endl;
+
     // Check for error.
     if (result == -1) {
         // No data available.
