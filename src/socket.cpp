@@ -41,6 +41,7 @@ uint32_t cosmodon::socket::base::rate_in()
 cosmodon::socket::udp::udp(uint16_t port, size_t buffer_length) : cosmodon::socket::base()
 {
     m_port = port;
+    m_address_info = nullptr;
     sockaddr_in address;
 
     // Clear address info.
@@ -70,49 +71,50 @@ cosmodon::socket::udp::udp(uint16_t port, size_t buffer_length) : cosmodon::sock
 // UDP Destructor.
 cosmodon::socket::udp::~udp()
 {
-    ::freeaddrinfo(&m_address_info);
+    ::freeaddrinfo(m_address_info);
     ::close(m_socket);
     free(m_buffer);
 }
 
 // Retrieve address information for an internal Unix socket. @@@ Multiple choices? Performance issues? Memory leak in address.
-const addrinfo cosmodon::socket::udp::get_address_info(std::string address)
+const addrinfo* cosmodon::socket::udp::get_address_info(std::string address)
 {
     addrinfo *addr, hints;
-    const char* address_formatted;
 
     // Free old address information.
-    //::freeaddrinfo(&m_address_info);
+    ::freeaddrinfo(m_address_info);
+    m_address_info = nullptr;
 
-    // Prepare hints about the address information.
-    ::memset(&hints, 0, sizeof(hints));
+    // Prepare address hints.
+    ::memset(&hints, 0, sizeof(addrinfo));
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_DGRAM;
 
-    // Properly format address.
-    if (address == "*") {
-        address_formatted = nullptr;
-        hints.ai_flags = AI_PASSIVE;
-    } else {
-        address_formatted = address.c_str();
-    }
-
     // Retrieve address information.
-    if (::getaddrinfo(address_formatted, std::to_string(m_port).c_str(), &hints, &addr) != 0) {
+    if (::getaddrinfo(address.c_str(), std::to_string(m_port).c_str(), &hints, &addr) != 0) {
         throw cosmodon::exception::fatal("Could not retrieve address information for UDP socket.");
     }
-    m_address_info = *addr;
+    m_address_info = addr;
+
+    // Sanity check.
+    char* dummy = static_cast<char*>(malloc(1024));
+    inet_ntop(AF_INET, &((reinterpret_cast<sockaddr_in*>(m_address_info->ai_addr))->sin_addr), dummy, 1024);
+    if (::strcmp(dummy, address.c_str()) != 0) {
+        throw cosmodon::exception::fatal(std::string("Socket inaccurately converted address to binary: ") + std::string(dummy) + std::string(" != ") + address);
+    }
+    free(dummy);
+
     return m_address_info;
 }
 
 // Send over UDP socket.
 bool cosmodon::socket::udp::send(cosmodon::buffer &x, std::string destination)
 {
-    addrinfo info;
+    const addrinfo* info;
     size_t length = x.size();
     int result;
 
-    std::cout << "((Sending!))" << std::endl;
+    //std::cout << "((Sending!))" << std::endl;
 
     // Check for empty message.
     if (length == 0) {
@@ -123,9 +125,8 @@ bool cosmodon::socket::udp::send(cosmodon::buffer &x, std::string destination)
     info = get_address_info(destination);
 
     // Send data from buffer.
-    result = ::sendto(m_socket, x.get_data(), x.size(), 0, info.ai_addr, info.ai_addrlen);
+    result = ::sendto(m_socket, x.get_data(), x.size(), 0, info->ai_addr, info->ai_addrlen);
     if (result == -1) {
-        // @@@
         throw exception::error("Could not send data.");
     }
 
@@ -149,8 +150,7 @@ bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
     address.ss_family = AF_INET;
 
     // Attempt to receive data.
-    result = ::recvfrom(m_socket, m_buffer, m_buffer_length - 1, 0,
-      reinterpret_cast<sockaddr*>(&address), &address_size);
+    result = ::recvfrom(m_socket, m_buffer, m_buffer_length - 1, 0, reinterpret_cast<sockaddr*>(&address), &address_size);
 
     // Check for error.
     if (result == -1) {
@@ -163,10 +163,8 @@ bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
         throw exception::error("Could not receive data.");
     }
 
-    std::cout << "((Receiving!))" << std::endl;
-
     // Interpret address information.
-    source = inet_ntop(address.ss_family, &(reinterpret_cast<sockaddr_in*>(&address)->sin_addr), s, sizeof(s)); 
+    source = inet_ntop(address.ss_family, &address, s, sizeof(s)); 
 
     // Load data into buffer.
     x.write(m_buffer, result);

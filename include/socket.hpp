@@ -85,7 +85,7 @@ namespace cosmodon
             size_t m_buffer_length;
 
             // Internal address info storage.
-            addrinfo m_address_info;
+            addrinfo *m_address_info;
 
             /**
              * Retrieve address information.
@@ -95,7 +95,7 @@ namespace cosmodon
              * Address information is generated and stored inside the class before being returned.
              * The information is freed upon class destruction.
              */
-            const addrinfo get_address_info(std::string address);
+            const addrinfo* get_address_info(std::string address);
 
         public:
             /**
