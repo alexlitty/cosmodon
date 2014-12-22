@@ -2,6 +2,7 @@
 #define COSMODON_CLOCK
 
 #include <chrono>
+#include "unit.hpp"
 
 namespace cosmodon
 {
@@ -33,8 +34,10 @@ namespace cosmodon
          * Retrieve the elapsed seconds since the previous time.
          *
          * Resets the clock if argument is true.
+         *
+         * If an invalid unit is given, returns 0.
          */
-        uint32_t elapsed_seconds(bool restart = false);
+        uint32_t elapsed(cosmodon::unit unit = cosmodon::unit::second, bool restart = false);
     };
 }
 

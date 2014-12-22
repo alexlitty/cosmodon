@@ -33,7 +33,7 @@ uint32_t cosmodon::socket::base::rate_out()
     m_bytes_out = 0;
 
     // Return performance.
-    return m_bytes_out_total / m_bytes_out_timer.elapsed_seconds(true);
+    return (m_bytes_out_total / m_bytes_out_timer.elapsed(cosmodon::unit::second, true));
 }
 
 // Return incoming performance.
@@ -44,7 +44,7 @@ uint32_t cosmodon::socket::base::rate_in()
     m_bytes_in = 0;
 
     // Return performance.
-    return (m_bytes_in_total / m_bytes_in_timer.elapsed_seconds(true));
+    return (m_bytes_in_total / m_bytes_in_timer.elapsed(cosmodon::unit::second, true));
 }
 
 // UDP Constructor.
