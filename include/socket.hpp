@@ -65,7 +65,7 @@ namespace cosmodon
         };
 
         /**
-         * A barebones UDP socket. This implementation is connectionless.
+         * A barebones UDP socket.
          *
          * Sending and receiving is not blocked.
          */

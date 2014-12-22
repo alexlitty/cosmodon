@@ -80,6 +80,7 @@ cosmodon::socket::udp::~udp()
 const addrinfo* cosmodon::socket::udp::get_address_info(std::string address)
 {
     addrinfo *addr, hints;
+    int result;
 
     // Free old address information.
     ::freeaddrinfo(m_address_info);
@@ -91,8 +92,9 @@ const addrinfo* cosmodon::socket::udp::get_address_info(std::string address)
     hints.ai_socktype = SOCK_DGRAM;
 
     // Retrieve address information.
-    if (::getaddrinfo(address.c_str(), std::to_string(m_port).c_str(), &hints, &addr) != 0) {
-        throw cosmodon::exception::fatal("Could not retrieve address information for UDP socket.");
+    result = ::getaddrinfo(address.c_str(), std::to_string(m_port).c_str(), &hints, &addr);
+    if (result != 0) {
+        throw cosmodon::exception::fatal(std::string("UDP socket failed to retrieve address information: ") + std::string(::gai_strerror(result)));
     }
     m_address_info = addr;
 
@@ -113,8 +115,6 @@ bool cosmodon::socket::udp::send(cosmodon::buffer &x, std::string destination)
     const addrinfo* info;
     size_t length = x.size();
     int result;
-
-    //std::cout << "((Sending!))" << std::endl;
 
     // Check for empty message.
     if (length == 0) {
@@ -141,16 +141,17 @@ bool cosmodon::socket::udp::send(cosmodon::buffer &x, std::string destination)
 bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
 {
     sockaddr_storage address;
-    socklen_t address_size = sizeof(address);
+    socklen_t address_length = sizeof(address);
     char s[INET_ADDRSTRLEN];
     int result;
     x.clear();
 
     // Prepare to receive source address.
+    ::memset(&address, 0, sizeof(address));
     address.ss_family = AF_INET;
 
     // Attempt to receive data.
-    result = ::recvfrom(m_socket, m_buffer, m_buffer_length - 1, 0, reinterpret_cast<sockaddr*>(&address), &address_size);
+    result = ::recvfrom(m_socket, m_buffer, m_buffer_length - 1, 0, reinterpret_cast<sockaddr*>(&address), &address_length);
 
     // Check for error.
     if (result == -1) {
