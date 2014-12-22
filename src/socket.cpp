@@ -174,7 +174,10 @@ bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
     }
 
     // Interpret address information.
-    source = inet_ntop(address.ss_family, &address, s, sizeof(s)); 
+    if (::inet_ntop(AF_INET, &(reinterpret_cast<sockaddr_in*>(&address)->sin_addr.s_addr), s, sizeof(s)) == nullptr) {
+        throw exception::fatal("Could not interpret source address on receiving socket.");
+    }
+    source = s;
 
     // Load data into buffer.
     x.write(m_buffer, result);
