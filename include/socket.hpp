@@ -8,9 +8,9 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include "clock.hpp"
 #include "buffer.hpp"
 #include "exception.hpp"
-#include "network_utility.hpp"
 
 namespace cosmodon
 {
@@ -33,17 +33,19 @@ namespace cosmodon
          */
         class base
         {
-        protected:
-            // Bytes sent by this socket.
-            uint32_t m_bytes_out;
+        private:
+            // Total bytes sent, updated internally.
             uint32_t m_bytes_out_total;
-
-            // Bytes received by this socket.
-            uint32_t m_bytes_in;
             uint32_t m_bytes_in_total;
 
-            // Timer used to calculate bitrate.
-            time_t m_bytes_timer;
+            // Timers used to calculate rate of transfer.
+            cosmodon::clock m_bytes_out_timer;
+            cosmodon::clock m_bytes_in_timer;
+
+        protected:
+            // Recent count of bytes sent and received, updated by children.
+            uint32_t m_bytes_out;
+            uint32_t m_bytes_in;
 
         public:
             /**
@@ -54,7 +56,7 @@ namespace cosmodon
             base();
 
             /**
-             * Returns the amount of bytes sent by this socket.
+             * Returns the amount of bytes sent from this socket.
              */
             uint32_t bytes_out();
 

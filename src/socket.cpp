@@ -16,25 +16,35 @@ cosmodon::socket::base::base()
 // Return bytes sent.
 uint32_t cosmodon::socket::base::bytes_out()
 {
-    return 0;
+    return (m_bytes_out_total + m_bytes_out);
 }
 
 // Return bytes received.
 uint32_t cosmodon::socket::base::bytes_in()
 {
-    return 0;
+    return (m_bytes_in_total + m_bytes_in);
 }
 
-// Return outgoing throughput.
+// Return outgoing performance.
 uint32_t cosmodon::socket::base::rate_out()
 {
-    return 0;
+    // Update internal byte counts.
+    m_bytes_out_total += m_bytes_out;
+    m_bytes_out = 0;
+
+    // Return performance.
+    return m_bytes_out_total / m_bytes_out_timer.elapsed_seconds(true);
 }
 
-// Return incoming throughput.
+// Return incoming performance.
 uint32_t cosmodon::socket::base::rate_in()
 {
-    return 0;
+    // Update internal byte counts.
+    m_bytes_in_total += m_bytes_in;
+    m_bytes_in = 0;
+
+    // Return performance.
+    return (m_bytes_in_total / m_bytes_in_timer.elapsed_seconds(true));
 }
 
 // UDP Constructor.
@@ -133,7 +143,6 @@ bool cosmodon::socket::udp::send(cosmodon::buffer &x, std::string destination)
     // Count bits up, clean up.
     x.reset();
     m_bytes_out += result;
-    m_bytes_out_total += result;
     return true;
 }
 
@@ -171,6 +180,5 @@ bool cosmodon::socket::udp::receive(cosmodon::buffer &x, std::string &source)
     x.write(m_buffer, result);
     x.reset();
     m_bytes_in += result;
-    m_bytes_in_total += result;
     return true;
 }
