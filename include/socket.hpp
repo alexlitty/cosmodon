@@ -17,6 +17,16 @@ namespace cosmodon
     namespace socket
     {
         /**
+         * Socket mode of operation.
+         */
+        enum class mode : uint8_t
+        {
+            BIDIRECTIONAL,
+            INPUT,
+            OUTPUT,
+        };
+
+        /**
          * Prototype socket.
          *
          * Sending and receiving data is implemented by children.
@@ -65,9 +75,7 @@ namespace cosmodon
         };
 
         /**
-         * A barebones UDP socket.
-         *
-         * Sending and receiving is not blocked.
+         * A barebones UDP socket, which operates in input and output modes.
          */
         class udp : public base
         {

@@ -56,7 +56,7 @@ cosmodon::socket::udp::udp(uint16_t port, size_t buffer_length) : cosmodon::sock
     // Prepare binding address.
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = m_port;
+    address.sin_port = ::htons(m_port);
 
     // Bind socket.
     if (::bind(m_socket, reinterpret_cast<sockaddr*>(&address), sizeof(address)) == -1) {
@@ -98,7 +98,7 @@ const addrinfo* cosmodon::socket::udp::get_address_info(std::string address)
     }
     m_address_info = addr;
 
-    // Sanity check.
+    // @@@ Sanity check.
     char* dummy = static_cast<char*>(malloc(1024));
     inet_ntop(AF_INET, &((reinterpret_cast<sockaddr_in*>(m_address_info->ai_addr))->sin_addr), dummy, 1024);
     if (::strcmp(dummy, address.c_str()) != 0) {
