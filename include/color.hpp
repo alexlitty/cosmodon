@@ -20,10 +20,13 @@ namespace cosmodon
         // Blue color part.
         uint8_t b;
 
+        // Alpha part.
+        uint8_t a;
+
         /**
          * Constructor.
          */
-        color();
+        color(uint8_t init_r = 0, uint8_t init_g = 0, uint8_t init_b = 0, uint8_t init_a = 255);
     };
 }
 

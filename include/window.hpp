@@ -1,9 +1,11 @@
 #ifndef COSMODON_WINDOW
 #define COSMODON_WINDOW
 
+#include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <string>
+
+#include "color.hpp"
 
 namespace cosmodon
 {
@@ -18,6 +20,11 @@ namespace cosmodon
          * Constructor.
          */
         window();
+
+        /**
+         * Clear the window using a color.
+         */
+        void clear(cosmodon::color &color);
     };
 }
 

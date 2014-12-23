@@ -32,3 +32,11 @@ cosmodon::window::window()
         throw cosmodon::exception::fatal("Could not initialize GLEW.");
     }
 }
+
+// Clear the window using a color.
+void cosmodon::window::clear(cosmodon::color &color)
+{
+    ::glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
+    ::glClear(GL_COLOR_BUFFER_BIT);
+    ::glfwSwapBuffers(m_handle);
+}
