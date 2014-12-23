@@ -7,6 +7,7 @@
 
 #include "buffer.hpp"
 #include "clock.hpp"
+#include "color.hpp"
 #include "component.hpp"
 #include "debug.hpp"
 #include "exception.hpp"
