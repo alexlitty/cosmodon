@@ -13,5 +13,6 @@
 #include "engine.hpp"
 #include "socket.hpp"
 #include "string.hpp"
+#include "window.hpp"
 
 #endif
