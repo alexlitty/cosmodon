@@ -1,4 +1,4 @@
-SOURCES=buffer.cpp clock.cpp color.cpp component.cpp exception.cpp layer.cpp socket.cpp network_utility.cpp engine.cpp window.cpp
+SOURCES=buffer.cpp clock.cpp color.cpp component.cpp exception.cpp layer.cpp model.cpp socket.cpp network_utility.cpp point.cpp engine.cpp window.cpp
 SRCPATH=src/
 INCPATHS=include/
 LIBPATHS=lib/

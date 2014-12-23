@@ -27,21 +27,22 @@ namespace cosmodon
         };
 
         /**
-         * Three-Dimmensional Graphical or Physical component.
+         * Physical component.
          *
-         * May obey physics. May be invisible.
+         * Provides child objects with customizable physics features.
          */
-        class model
+        class physics
         {
 
         };
 
         /**
-         * Two-Dimmensional Graphical component.
+         * Graphical component.
          *
-         * Used to display flat graphics.
+         * Allows child objects to be rendered. Subject to physics, which may be individually
+         * disabled.
          */
-        class graphic
+        class graphic : public physics
         {
 
         };
