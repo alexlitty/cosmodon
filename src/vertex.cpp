@@ -18,6 +18,12 @@ cosmodon::vertices::~vertices()
     delete [] m_vertices_raw;
 }
 
+// Adds a vertex to the collection.
+void cosmodon::vertices::add(const cosmodon::vertex& vertex)
+{
+    m_vertices.push_back(vertex);
+}
+
 // Sets the primitive of vertices.
 void cosmodon::vertices::set_primitive(cosmodon::primitive primitive)
 {

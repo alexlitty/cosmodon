@@ -53,6 +53,11 @@ namespace cosmodon
          * Destructor.
          */
         ~vertices();
+
+        /**
+         * Adds a vertex to the collection.
+         */
+        void add(const vertex& v);
         
         /**
          * Sets the primitive of vertices.
