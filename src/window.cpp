@@ -40,3 +40,9 @@ void cosmodon::window::clear(cosmodon::color &color)
     ::glClear(GL_COLOR_BUFFER_BIT);
     ::glfwSwapBuffers(m_handle);
 }
+
+// Render vertices to the window.
+void cosmodon::window::render(cosmodon::primitive primitive, const float *vertices, uint32_t count)
+{
+
+}

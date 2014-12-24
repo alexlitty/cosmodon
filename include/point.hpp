@@ -6,41 +6,26 @@
 namespace cosmodon
 {
     /**
-     * A point, representing a spot inside an area.
+     * A point, representing a three dimmensional location.
      *
-     * The dimmensions of the point are provided by the first template parameter. For example, a
-     * two-dimmensional point is represented by passing the integer 2.
-     *
-     * Values have an undefined default value, and should be assigned immediately.
+     * When used in two dimmensional environments, the Z axis still represents depth.
      */
-    template <uint8_t T, typename U = float>
     class point
     {
-    protected:
-        // Collection of internal values.
-        U m_value[T];
-    };
-
-    /**
-     * A specialized three-dimmensional point.
-     */
-    template <typename U = float>
-    class point3 : public point<3>
-    {
     public:
-        // First value.
-        U &x;
+        // X axis.
+        float x;
 
-        // Second value.
-        U &y;
+        // Y axis.
+        float y;
 
-        // Third value.
-        U &z;
+        // Z axis.
+        float z;
 
         /**
          * Constructor.
          */
-        point3(U init_x, U init_y, U init_z);
+        point(float init_x = 0, float init_y = 0, float init_z = 0);
     };
 }
 

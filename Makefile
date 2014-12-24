@@ -1,4 +1,4 @@
-SOURCES=buffer.cpp clock.cpp color.cpp component.cpp exception.cpp layer.cpp model.cpp socket.cpp network_utility.cpp point.cpp engine.cpp window.cpp
+SOURCES=buffer.cpp clock.cpp color.cpp component/canvas.cpp exception.cpp layer.cpp socket.cpp network_utility.cpp point.cpp engine.cpp vertex.cpp window.cpp
 SRCPATH=src/
 INCPATHS=include/
 LIBPATHS=lib/
@@ -41,14 +41,15 @@ BINARY=$(BINARY_PREFIX)_$(GOAL)
 $(GOAL): $(SOURCE_FILES) $(BINARY)
 
 # Link into a library
-$(BINARY_PREFIX)_linux64: $(OBJECTS)
+$(BINARY_PREFIX)_linux64: $(OBJECT_FILES)
 	@echo "$(BG_WHITE)$(FG_GREEN) Creating $@.a $(COLOR_RESET)"
 	ar crf lib/linux64/$(BINARY_PREFIX).a $(OBJECT_FILES)
 #$(CC) $(OBJECT_FILES) $(LIBFLAGS) $(LDFLAGS) -o $(BINPATH)$@
 	@echo ""
 
 # Compile source into objects
-%.o: $(SRCPATH)%.cpp
+$(OBJPATH)%.o: $(SRCPATH)%.cpp
 	@echo "$(BG_WHITE)$(FG_BLUE) Compiling $< $(COLOR_RESET)"
-	$(CC) $(INCFLAGS) -c $< $(LIBFLAGS) $(LDFLAGS) $(CFLAGS) -o $(OBJPATH)$@
+	@mkdir -p $(dir $@)
+	$(CC) $(INCFLAGS) -c $< $(LIBFLAGS) $(LDFLAGS) $(CFLAGS) -o $@
 	@echo ""

@@ -1,7 +1,7 @@
 #ifndef COSMODON_LAYER
 #define COSMODON_LAYER
 
-#include "component.hpp"
+#include "component/code.hpp"
 
 namespace cosmodon
 {
