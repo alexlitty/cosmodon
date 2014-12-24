@@ -1,11 +1,6 @@
 #ifndef COSMODON_WINDOW
 #define COSMODON_WINDOW
 
-namespace cosmodon
-{
-    class window;
-}
-
 #include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -19,7 +14,7 @@ namespace cosmodon
     /**
      * A window, ideal to display a Cosmodon application.
      */
-    class window
+    class window : public component::canvas
     {
     protected:
         // GLFW window handle.
@@ -45,9 +40,14 @@ namespace cosmodon
         void clear(cosmodon::color &color);
 
         /**
+         * Inherit render methods.
+         */
+        using component::canvas::render;
+
+        /**
          * Render vertices to the window.
          */
-        void render(cosmodon::primitive primitive, const float *vertices, uint32_t count);
+        virtual void render(cosmodon::primitive primitive, const float *vertices, uint32_t count);
     };
 }
 

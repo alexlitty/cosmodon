@@ -32,7 +32,7 @@ namespace cosmodon
             /**
              * Renders this graphic onto a canvas.
              */
-            virtual void render(canvas &object) = 0;
+            virtual void render(canvas *object) = 0;
         };
     }
 }

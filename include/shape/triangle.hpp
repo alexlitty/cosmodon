@@ -1,7 +1,7 @@
 #ifndef COSMODON_SHAPE_TRIANGLE
 #define COSMODON_SHAPE_TRIANGLE
 
-#include "component/graphic.hpp"
+#include "../component/graphic.hpp"
 
 namespace cosmodon
 {
@@ -21,7 +21,7 @@ namespace cosmodon
             /**
              * Render this triangle to a canvas.
              */
-            void render(component::canvas &object);
+            void render(component::canvas *object);
         };
     }
 }

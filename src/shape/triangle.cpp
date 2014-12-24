@@ -12,7 +12,7 @@ cosmodon::shape::triangle::triangle()
 }
 
 // Render triangle.
-void cosmodon::shape::triangle::render(cosmodon::component::canvas &object)
+void cosmodon::shape::triangle::render(cosmodon::component::canvas *object)
 {
-    object.render(m_vertices);
+    object->render(m_vertices);
 }

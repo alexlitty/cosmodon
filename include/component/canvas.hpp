@@ -45,14 +45,14 @@ namespace cosmodon
              *
              * Calls the render() method of the graphic object.
              */
-            void render(graphic *object);
+            virtual void render(graphic *object);
 
             /**
              * Renders graphic, by reference, onto this canvas.
              *
              * Passed to the render(graphic *object) method.
              */
-            void render(graphic &object);
+            virtual void render(graphic &object);
 
             /**
              * Clear the entire canvas with a color.
