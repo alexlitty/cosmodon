@@ -13,10 +13,19 @@ namespace cosmodon
      * A vertex.
      *
      * Functionally identical to a point, but separated to add functionality.
+     *
+     * @@@ Implement graphic component.
      */
     class vertex : public point
     {
-        // @@@ Derive as graphical component
+    public:
+        // Alpha.
+        float a;
+
+        /**
+         * Constructor.
+         */
+        vertex(float init_x = 0, float init_y = 0, float init_z = 0, float init_a = 0);
     };
 
     /**
@@ -29,7 +38,7 @@ namespace cosmodon
         std::vector<vertex> m_vertices;
 
         // GPU-friendly vertices container.
-        const float *m_vertices_raw;
+        float *m_vertices_raw;
 
         // Primitive explaining how vertices should be drawn.
         cosmodon::primitive m_primitive;
@@ -40,6 +49,11 @@ namespace cosmodon
          */
         vertices(cosmodon::primitive primitive = cosmodon::primitive::triangle);
 
+        /**
+         * Destructor.
+         */
+        ~vertices();
+        
         /**
          * Sets the primitive of vertices.
          */
@@ -56,9 +70,10 @@ namespace cosmodon
         void render(component::canvas *object);
 
         /**
-         * Data access operator.
+         * Data access operators.
          */
-
+        vertex& operator [](const uint32_t index);
+        const vertex& operator [](const uint32_t index) const;
     };
 }
 
