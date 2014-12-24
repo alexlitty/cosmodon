@@ -31,6 +31,17 @@ cosmodon::window::window()
     if (::glewInit() != GLEW_OK) {
         throw cosmodon::exception::fatal("Could not initialize GLEW.");
     }
+
+    // Prepare OpenGL buffer.
+    ::glGenBuffers(1, &m_buffer);
+}
+
+// Destructor.
+cosmodon::window::~window()
+{
+    ::glDeleteBuffers(1, &m_buffer);
+    ::glfwDestroyWindow(m_handle);
+    ::glfwTerminate();
 }
 
 // Clear the window using a color.
@@ -44,5 +55,17 @@ void cosmodon::window::clear(cosmodon::color &color)
 // Render vertices to the window.
 void cosmodon::window::render(cosmodon::primitive primitive, const float *vertices, uint32_t count)
 {
+    // Load vertices into GPU buffer.
+    ::glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+    ::glBufferData(GL_ARRAY_BUFFER, count, vertices, GL_STATIC_DRAW);
 
+    // ... ?
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Render.
+    glDrawArrays(GL_TRIANGLES, 0, count);
+
+    // Unbind buffer.
+    ::glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

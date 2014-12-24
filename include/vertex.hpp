@@ -54,6 +54,11 @@ namespace cosmodon
          * Render vertices to a canvas object.
          */
         void render(component::canvas *object);
+
+        /**
+         * Data access operator.
+         */
+
     };
 }
 

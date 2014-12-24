@@ -23,13 +23,21 @@ namespace cosmodon
     {
     protected:
         // GLFW window handle.
-        GLFWwindow* m_handle;
+        GLFWwindow *m_handle;
+
+        // OpenGL Buffer.
+        GLuint m_buffer;
 
     public:
         /**
          * Constructor.
          */
         window();
+
+        /**
+         * Destructor.
+         */
+        ~window();
 
         /**
          * Clear the window using a color.
