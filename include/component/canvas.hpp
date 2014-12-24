@@ -4,7 +4,6 @@
 #include "../color.hpp"
 #include "../primitive.hpp"
 #include "graphic.hpp"
-#include "../vertex.hpp"
 
 /**
  * Forward declarations to resolve circular dependencies.
@@ -62,5 +61,10 @@ namespace cosmodon
         };
     }
 }
+
+/**
+ * Include normal decalaration of vertices.
+ */
+#include "../vertex.hpp"
 
 #endif

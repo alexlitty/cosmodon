@@ -31,7 +31,7 @@ void cosmodon::vertices::set_primitive(cosmodon::primitive primitive)
 }
 
 // Render vertices.
-void cosmodon::vertices::render(cosmodon::component::canvas *object)
+void cosmodon::vertices::render(cosmodon::component::canvas &object)
 {
     delete [] m_vertices_raw;
 
@@ -50,7 +50,7 @@ void cosmodon::vertices::render(cosmodon::component::canvas *object)
     }
 
     // Render raw vertices.
-    object->render(m_primitive, m_vertices_raw, m_vertices.size());
+    object.render(m_primitive, m_vertices_raw, m_vertices.size());
 }
 
 // Data access operator.

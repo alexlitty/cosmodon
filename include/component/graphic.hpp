@@ -1,20 +1,26 @@
 #ifndef COSMODON_COMPONENT_GRAPHIC
 #define COSMODON_COMPONENT_GRAPHIC
 
-#include "canvas.hpp"
 #include "position.hpp"
 
+/**
+ * Forward declaration to resolve circular dependency.
+ */
 namespace cosmodon
 {
     namespace component
     {
-        /**
-         * Forward declarations.
-         *
-         * Resolves circular dependencies between canvas and graphic components.
-         */
         class canvas;
+    }
+}
 
+/**
+ * Normal declarations.
+ */
+namespace cosmodon
+{
+    namespace component
+    {
         /**
          * Graphical component.
          *
@@ -30,5 +36,10 @@ namespace cosmodon
         };
     }
 }
+
+/**
+ * Include normal declarations of canvas.
+ */
+#include "canvas.hpp"
 
 #endif
