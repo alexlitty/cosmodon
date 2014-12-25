@@ -22,7 +22,14 @@ void cosmodon::rate::tally(uint64_t count)
 // Retrieve the current rate, and reset counter.
 uint64_t cosmodon::rate::get()
 {
-    uint64_t result = (m_count * 1000) / m_clock.elapsed(cosmodon::unit::millisecond);
+    uint64_t time, result;
+
+    time = m_clock.elapsed(cosmodon::unit::millisecond);
+    if (time == 0) {
+        result = 0;
+    } else {
+        result = (m_count * 1000) / m_clock.elapsed(cosmodon::unit::millisecond);
+    }
     reset();
     return result;
 }

@@ -59,7 +59,7 @@ void cosmodon::window::clear(cosmodon::color &color)
 // Render vertices to the window.
 void cosmodon::window::render(cosmodon::vertices &vertices)
 {
-    /*static float *vertex_positions;
+    static float *vertex_positions;
     static float *vertex_colors;
 
     // Get vertex positions.
@@ -72,7 +72,7 @@ void cosmodon::window::render(cosmodon::vertices &vertices)
     }
 
     // Get vertex colors.
-    /*vertex_colors = new float[vertices.size() * 3];
+    vertex_colors = new float[vertices.size() * 3];
     for (uint32_t i = 0; i < vertices.size(); i++) {
         vertex_colors[i + 0] = vertices[i].b;
         vertex_colors[i + 1] = vertices[i].g;
@@ -86,7 +86,7 @@ void cosmodon::window::render(cosmodon::vertices &vertices)
     ::glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Load colors into GPU buffer.
-    /*::glBindBuffer(GL_ARRAY_BUFFER, m_buffer_colors);
+    ::glBindBuffer(GL_ARRAY_BUFFER, m_buffer_colors);
     ::glBufferData(GL_ARRAY_BUFFER, vertices.size() * 3, vertex_colors, GL_STATIC_DRAW);
     ::glEnableVertexAttribArray(1);
     ::glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -97,7 +97,7 @@ void cosmodon::window::render(cosmodon::vertices &vertices)
     // Unbind resources.
     delete [] vertex_positions;
     //delete [] vertex_colors;
-    ::glBindBuffer(GL_ARRAY_BUFFER, 0);*/
+    ::glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 // Display currently rendered graphics on the window.
