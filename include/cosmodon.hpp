@@ -17,6 +17,7 @@
 #include "point.hpp"
 #include "primitive.hpp"
 #include "rate.hpp"
+#include "shader.hpp"
 #include "shape/triangle.hpp"
 #include "socket.hpp"
 #include "string.hpp"

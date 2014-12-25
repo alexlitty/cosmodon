@@ -1,4 +1,4 @@
-SOURCES=buffer.cpp clock.cpp color.cpp component/canvas.cpp exception.cpp layer.cpp rate.cpp shape/triangle.cpp socket.cpp network_utility.cpp point.cpp engine.cpp vertex.cpp window.cpp
+SOURCES=buffer.cpp clock.cpp color.cpp component/canvas.cpp exception.cpp layer.cpp rate.cpp shader.cpp shape/triangle.cpp socket.cpp network_utility.cpp point.cpp engine.cpp vertex.cpp window.cpp
 SRCPATH=src/
 INCPATHS=include/
 LIBPATHS=lib/
