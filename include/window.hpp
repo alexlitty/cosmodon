@@ -5,9 +5,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "clock.hpp"
 #include "color.hpp"
 #include "component/canvas.hpp"
 #include "primitive.hpp"
+#include "rate.hpp"
 
 namespace cosmodon
 {
@@ -20,8 +22,12 @@ namespace cosmodon
         // GLFW window handle.
         GLFWwindow *m_handle;
 
-        // OpenGL Buffer.
-        GLuint m_buffer;
+        // OpenGL buffers.
+        GLuint m_buffer_positions;
+        GLuint m_buffer_colors;
+
+        // Frames per second calculator.
+        mutable rate m_fps;
 
     public:
         /**
@@ -47,7 +53,17 @@ namespace cosmodon
         /**
          * Render vertices to the window.
          */
-        virtual void render(cosmodon::primitive primitive, const float *vertices, uint32_t count);
+        virtual void render(cosmodon::vertices &vertices);
+
+        /**
+         * Display rendered graphics on the window.
+         */
+        virtual void display() override;
+        
+        /**
+         * Retrieve current FPS.
+         */
+        uint16_t fps() const;
     };
 }
 

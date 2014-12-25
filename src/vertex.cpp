@@ -4,10 +4,11 @@
 cosmodon::vertex::vertex(float init_x, float init_y, float init_z, float init_a)
   : cosmodon::point(init_x, init_y, init_z), a(init_a)
 {
+
 }
 
 // Vertices constructor.
-cosmodon::vertices::vertices(cosmodon::primitive primitive) : m_vertices_raw(nullptr)
+cosmodon::vertices::vertices(cosmodon::primitive primitive)
 {
     set_primitive(primitive);
 }
@@ -15,13 +16,19 @@ cosmodon::vertices::vertices(cosmodon::primitive primitive) : m_vertices_raw(nul
 // Vertices destructor.
 cosmodon::vertices::~vertices()
 {
-    delete [] m_vertices_raw;
+
 }
 
 // Adds a vertex to the collection.
 void cosmodon::vertices::add(const cosmodon::vertex& vertex)
 {
     m_vertices.push_back(vertex);
+}
+
+// Retrieve the amount of vertices inside this collection.
+uint32_t cosmodon::vertices::size() const
+{
+    return m_vertices.size();
 }
 
 // Sets the primitive of vertices.
@@ -33,24 +40,7 @@ void cosmodon::vertices::set_primitive(cosmodon::primitive primitive)
 // Render vertices.
 void cosmodon::vertices::render(cosmodon::component::canvas *object)
 {
-    delete [] m_vertices_raw;
-
-    // Check if vertices are available.
-    if (m_vertices.size() == 0) {
-        return;
-    }
-
-    // Prepare raw vertices.
-    m_vertices_raw = new float[m_vertices.size() * 4];
-    for (uint32_t i = 0; i < m_vertices.size(); i++) {
-        m_vertices_raw[i + 0] = m_vertices[i].x;
-        m_vertices_raw[i + 1] = m_vertices[i].y;
-        m_vertices_raw[i + 2] = m_vertices[i].z;
-        m_vertices_raw[i + 3] = m_vertices[i].a;
-    }
-
-    // Render raw vertices.
-    object->render(m_primitive, m_vertices_raw, m_vertices.size());
+    object->render(*this);
 }
 
 // Data access operator.

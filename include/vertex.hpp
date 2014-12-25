@@ -16,7 +16,7 @@ namespace cosmodon
      *
      * @@@ Implement graphic component.
      */
-    class vertex : public point
+    class vertex : public point, public color
     {
     public:
         // Alpha.
@@ -34,11 +34,8 @@ namespace cosmodon
     class vertices : public component::graphic
     {
     protected:
-        // Programmer-friendly vertices container.
+        // Internal vertex storage.
         std::vector<vertex> m_vertices;
-
-        // GPU-friendly vertices container.
-        float *m_vertices_raw;
 
         // Primitive explaining how vertices should be drawn.
         cosmodon::primitive m_primitive;
@@ -58,6 +55,11 @@ namespace cosmodon
          * Adds a vertex to the collection.
          */
         void add(const vertex& v);
+
+        /**
+         * Retrieves the amount of vertices inside this collection.
+         */
+        uint32_t size() const;
         
         /**
          * Sets the primitive of vertices.

@@ -16,6 +16,7 @@
 #include "engine.hpp"
 #include "point.hpp"
 #include "primitive.hpp"
+#include "rate.hpp"
 #include "shape/triangle.hpp"
 #include "socket.hpp"
 #include "string.hpp"

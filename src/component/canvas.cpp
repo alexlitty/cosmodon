@@ -11,3 +11,9 @@ void cosmodon::component::canvas::render(graphic &object)
 {
     render(&object);
 }
+
+// Display currently rendered graphics.
+void cosmodon::component::canvas::display()
+{
+
+}
