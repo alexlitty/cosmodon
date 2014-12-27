@@ -2,46 +2,40 @@
 #define COSMODON_WINDOW
 
 #include <string>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
-#include "clock.hpp"
-#include "color.hpp"
-#include "component/canvas.hpp"
-#include "primitive.hpp"
 #include "rate.hpp"
-#include "shader.hpp"
+#include "render/driver.hpp"
+#include "render/opengl.hpp"
 
 namespace cosmodon
 {
     /**
      * A window, ideal to display a Cosmodon application.
      */
-    class window : public component::canvas
+    class window : public render::target
     {
+        /**
+         * Copy constructor.
+         *
+         * Made private to prevent window copying.
+         */
+        window(window &copy);
+
     protected:
-        // GLFW window handle.
-        GLFWwindow *m_handle;
-
-        // OpenGL buffers.
-        GLuint m_buffer_positions;
-        GLuint m_buffer_colors;
-
-        // OpenGL shader objects.
-        GLuint m_shader_vertex;
-        GLuint m_shader_fragment;
-
-        // OpenGL shader program.
-        GLuint m_shader_program;
+        // Rendering driver which created this window.
+        render::driver *m_driver;
 
         // Frames per second calculator.
         mutable rate m_fps;
+
+        // GLFW window handle. @@@
+        GLFWwindow *m_handle;
 
     public:
         /**
          * Constructor.
          */
-        window();
+        window(render::driver *driver, GLFWwindow *handle);
 
         /**
          * Destructor.
@@ -49,34 +43,24 @@ namespace cosmodon
         ~window();
 
         /**
-         * Apply a shader to the window.
-         *
-         * If linking is not requested, the shader is compiled and attached to the window, but
-         * not linked together with other existing shaders. The current shader program remains.
-         *
-         * A Cosmodon exception is thrown if an error occurs.
+         * Clear window.
          */
-        void apply(cosmodon::shader *shader, bool link = true);
-
-        /**
-         * Clear the window using a color.
-         */
-        void clear(cosmodon::color &color);
+        virtual void clear(color c = cosmodon::black);
 
         /**
          * Inherit render methods.
          */
-        using component::canvas::render;
+        using cosmodon::render::target::render;
 
         /**
          * Render vertices to the window.
          */
-        virtual void render(cosmodon::vertices &vertices);
+        virtual void render(cosmodon::vertices *vertices) override;
 
         /**
          * Display rendered graphics on the window.
          */
-        virtual void display() override;
+        void display();
         
         /**
          * Retrieve current FPS.

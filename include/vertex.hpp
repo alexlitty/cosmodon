@@ -3,7 +3,8 @@
 
 #include <vector>
 
-#include "component/canvas.hpp"
+#include "color.hpp"
+#include "render/target.hpp"
 #include "point.hpp"
 #include "primitive.hpp"
 
@@ -19,19 +20,21 @@ namespace cosmodon
     class vertex : public point, public color
     {
     public:
-        // Alpha.
-        float a;
-
         /**
          * Constructor.
          */
-        vertex(float init_x = 0, float init_y = 0, float init_z = 0, float init_a = 0);
+        vertex(float init_x = 0, float init_y = 0, float init_z = 0, cosmodon::color c = cosmodon::black);
+
+        /**
+         * Copy constructor.
+         */
+        vertex(const vertex &copy);
     };
 
     /**
      * A collection of vertices to be rendered.
      */
-    class vertices : public component::graphic
+    class vertices : public graphic
     {
     protected:
         // Internal vertex storage.
@@ -74,7 +77,7 @@ namespace cosmodon
         /**
          * Render vertices to a canvas object.
          */
-        void render(component::canvas *object);
+        void render(render::target *target);
 
         /**
          * Data access operators.

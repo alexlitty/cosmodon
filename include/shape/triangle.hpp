@@ -1,13 +1,13 @@
 #ifndef COSMODON_SHAPE_TRIANGLE
 #define COSMODON_SHAPE_TRIANGLE
 
-#include "../component/graphic.hpp"
+#include "../render.hpp"
 
 namespace cosmodon
 {
     namespace shape
     {
-        class triangle : public component::graphic
+        class triangle : public graphic
         {
             // Vertices which compose a triangle.
             vertices m_vertices;
@@ -19,9 +19,9 @@ namespace cosmodon
             triangle();
 
             /**
-             * Render this triangle to a canvas.
+             * Render this triangle.
              */
-            void render(component::canvas *object);
+            void render(render::target *target);
         };
     }
 }

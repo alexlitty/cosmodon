@@ -1,8 +1,15 @@
 #include <vertex.hpp>
 
 // Vertex constructor.
-cosmodon::vertex::vertex(float init_x, float init_y, float init_z, float init_a)
-  : cosmodon::point(init_x, init_y, init_z), a(init_a)
+cosmodon::vertex::vertex(float init_x, float init_y, float init_z, cosmodon::color color)
+  : cosmodon::point(init_x, init_y, init_z), cosmodon::color(color)
+{
+
+}
+
+// Vertex copy constructor.
+cosmodon::vertex::vertex(const cosmodon::vertex &copy)
+  : cosmodon::point(copy.x, copy.y, copy.z), cosmodon::color(copy.r, copy.g, copy.b, copy.a)
 {
 
 }
@@ -38,9 +45,9 @@ void cosmodon::vertices::set_primitive(cosmodon::primitive primitive)
 }
 
 // Render vertices.
-void cosmodon::vertices::render(cosmodon::component::canvas *object)
+void cosmodon::vertices::render(cosmodon::render::target *target)
 {
-    object->render(*this);
+    target->render(this);
 }
 
 // Data access operator.

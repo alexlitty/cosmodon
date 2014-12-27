@@ -27,7 +27,21 @@ namespace cosmodon
          * Constructor.
          */
         color(uint8_t init_r = 0, uint8_t init_g = 0, uint8_t init_b = 0, uint8_t init_a = 255);
+
+        /**
+         * Copy constructor.
+         */
+        color(const color &copy);
     };
+
+    /**
+     * Generic color instances.
+     */
+    extern color black;
+    extern color white;
+    extern color red;
+    extern color green;
+    extern color blue;
 }
 
 #endif

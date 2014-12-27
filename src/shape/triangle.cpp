@@ -3,16 +3,16 @@
 // Constructor.
 cosmodon::shape::triangle::triangle()
 {
-    cosmodon::vertex vertex(0, 0, 1, 1);
+    cosmodon::vertex vertex(0, 0, 0, cosmodon::red);
     m_vertices.add(vertex);
-    vertex.y = 1;
+    vertex.y = 100;
     m_vertices.add(vertex);
-    vertex.x = 1;
+    vertex.x = 100;
     m_vertices.add(vertex);
 }
 
 // Render triangle.
-void cosmodon::shape::triangle::render(cosmodon::component::canvas *object)
+void cosmodon::shape::triangle::render(cosmodon::render::target *target)
 {
-    object->render(m_vertices);
+    target->render(&m_vertices);
 }

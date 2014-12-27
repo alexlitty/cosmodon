@@ -1,5 +1,5 @@
-#ifndef COSMODON_SHADER
-#define COSMODON_SHADER
+#ifndef COSMODON_RENDER_SHADER_HPP
+#define COSMODON_RENDER_SHADER_HPP
 
 #include <string>
 
