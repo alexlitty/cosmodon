@@ -1,7 +1,7 @@
 #ifndef COSMODON_RENDER_TARGET_HPP
 #define COSMODON_RENDER_TARGET_HPP
 
-#include "color.hpp"
+#include "../color.hpp"
 #include "graphic.hpp"
 #include "../vertex.hpp"
 
@@ -40,7 +40,7 @@ namespace cosmodon
              *
              * Provides this renderer to the object's render() method.
              */
-            void render(cosmodon::graphic *object);
+            virtual void render(cosmodon::graphic *object);
 
             /**
              * Clear the rendering area, using a color.

@@ -1,37 +1,25 @@
 #ifndef COSMODON_RENDER_DRIVER_HPP
 #define COSMODON_RENDER_DRIVER_HPP
 
+#include "../rate.hpp"
 #include "shader.hpp"
 #include "target.hpp"
 
-/**
- * Forward declarations to resolve circular dependencies.
- */
-namespace cosmodon
-{
-    class window;
-}
-
-/**
- * Normal declarations.
- */
 namespace cosmodon
 {
     namespace render
     {
         /**
          * A driver to render graphics.
+         *
+         * Responsible for creating a single window.
          */
         class driver : public target
         {
-        public:
-            /**
-             * Creates a window.
-             *
-             * Throws a Cosmodon exception upon error.
-             */
-            virtual cosmodon::window* create_window(std::string title, uint16_t width, uint16_t height) = 0;
+        protected:
+            mutable rate m_fps;
 
+        public:
             /**
              * Set shaders to be used when rendering.
              *
@@ -40,11 +28,18 @@ namespace cosmodon
              * Returns false if one or more shaders could not be used.
              */
             virtual bool set_shaders(cosmodon::shader *vertex, cosmodon::shader *fragment, cosmodon::shader *geometry) = 0;
+
+            /**
+             * Display rendered objects.
+             */
+            virtual void display() = 0;
+
+            /**
+             * Retrieve frames per second.
+             */
+            virtual uint32_t get_fps() const;
         };
     }
 }
-
-// @@@
-#include "window.hpp"
 
 #endif

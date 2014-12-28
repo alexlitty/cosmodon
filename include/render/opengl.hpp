@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <map>
 
 #include "../render.hpp"
 
@@ -16,6 +17,9 @@ namespace cosmodon
     protected:
         // Total running OpenGL instances.
         static uint8_t m_instances;
+
+        // Vector of internal window handles opened by this driver.
+        GLFWwindow* m_handle;
 
         // Buffer for vertex positions.
         GLuint m_positions;
@@ -37,22 +41,27 @@ namespace cosmodon
         /**
          * Constructor.
          */
-        opengl();
+        opengl(uint16_t width, uint16_t height, std::string title);
 
         /**
          * Destructor.
          */
-        ~opengl();
+        virtual ~opengl();
 
         /**
-         * Create a window.
+         * Clear rendering area using a color.
          */
-        virtual window* create_window(std::string title, uint16_t width, uint16_t height) override;
+        virtual void clear(color c = cosmodon::black) override;
 
         /**
          * Render a collection of vertices.
          */
         virtual void render(vertices *v) override;
+
+        /**
+         * Display rendered objects.
+         */
+        virtual void display() override;
 
         /**
          * Set shaders.
