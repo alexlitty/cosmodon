@@ -215,3 +215,9 @@ bool cosmodon::opengl::set_shaders(cosmodon::shader *vertex, cosmodon::shader *f
     ::glUseProgram(m_shader_program);
     return true;
 }
+
+// Set window title.
+void cosmodon::opengl::set_window_title(std::string title)
+{
+    ::glfwSetWindowTitle(m_handle, title.c_str());
+}

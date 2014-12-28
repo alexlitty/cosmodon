@@ -59,14 +59,19 @@ namespace cosmodon
         virtual void render(vertices *v) override;
 
         /**
-         * Display rendered objects.
+         * Display the currently rendered result.
          */
         virtual void display() override;
 
         /**
-         * Set shaders.
+         * Sets shaders.
          */
         virtual bool set_shaders(shader *vertex = nullptr, shader *fragment = nullptr, shader *geometry = nullptr) override;
+
+        /**
+         * Set window title.
+         */
+        void set_window_title(std::string title);
     };
 }
 
