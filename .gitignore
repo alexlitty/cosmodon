@@ -1,2 +1,4 @@
 lib/*
 obj/*
+demo/bin/*
+demo/obj/*
