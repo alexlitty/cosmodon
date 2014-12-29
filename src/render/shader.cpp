@@ -31,7 +31,7 @@ cosmodon::shader::shader(cosmodon::shader::level_type init_level, std::string in
                    "\n"
                    "void main()\n"
                    "{\n"
-                   "    out_color = vec4(1.0, 0.0f, 1.0f, 1.0f);\n"
+                   "    out_color = frag_color;\n"
                    "}";
         }
     }

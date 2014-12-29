@@ -73,89 +73,53 @@ void cosmodon::opengl::clear(cosmodon::color color)
 // Render vertices.
 void cosmodon::opengl::render(cosmodon::vertices *v)
 {
-    /*// Prepare fake data.
-    GLfloat positions[] = {
-        0.0f, 0.0f, 0.0f, 1.0f
-    };
-
-    // 
-
-    // Bind position buffer.
-    glBindBuffer(m_shader_program, m_positions);
-    glBufferData(m_shader_program, 4, positions, GL_STATIC_DRAW);*/
-
+    uint32_t i, j;
+    GLfloat *positions;
+    GLfloat *colors;
     cosmodon::vertices vertices = *v;
 
-    /* @@@
-    cosmodon::vertices vertices;
-    cosmodon::vertex vertex;
-
-    vertices.add
-    // / @@@*/
-
-    //GLfloat *positions;
-    //GLfloat *colors;
+    // Prepare vertices information.
+    uint32_t count = vertices.size() * 4;
 
     // Bind vertex array.
     ::glBindVertexArray(m_array);
 
     // Get vertex positions.
-    /*positions = new GLfloat[vertices.size() * 4];
-    for (uint32_t i = 0; i < vertices.size(); i++) {
-        positions[i  0] = vertices[i].x;
-        positions[i * 1] = vertices[i].y;
-        positions[i + 2] = vertices[i].z;
-        positions[i + 3] = 1.0f;
-    }*/
-
-    // @@@
-    GLfloat *positions = new GLfloat[12];
-    positions[0] = 0.5f; positions[1] = 0.5f; positions[2] = 0.0f; positions[3] = 1.0f;
-    positions[4] = -0.5f; positions[5] = -0.5f; positions[6] = 0.0f; positions[7] = 1.0f;
-    positions[8] = -0.5f; positions[9] = 0.5f; positions[10] = 0.0f; positions[11] = 1.0f;
+    positions = new GLfloat[count];
+    for (i = j = 0; i < vertices.size(); i++) {
+        positions[j++] = vertices[i].x;
+        positions[j++] = vertices[i].y;
+        positions[j++] = vertices[i].z;
+        positions[j++] = 1.0f;
+    }
 
     // Point to vertex positions.
-    //::glBindBuffer(GL_ARRAY_BUFFER, m_positions);
-    //::glBufferData(GL_ARRAY_BUFFER, vertices.size() * 4, positions, GL_STATIC_DRAW);
-    //::glEnableVertexAttribArray(0);
-    //::glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    //::glBindAttribLocation(m_shader_program, 0, "position");
-    //::glVertexAttrib4fv(0, positions);
     ::glBindBuffer(GL_ARRAY_BUFFER, m_positions);
-    ::glBufferData(GL_ARRAY_BUFFER, 12*sizeof(GLfloat), positions, GL_DYNAMIC_DRAW);
+    ::glBufferData(GL_ARRAY_BUFFER, count*sizeof(GLfloat), positions, GL_DYNAMIC_DRAW);
     ::glEnableVertexAttribArray(0);
     ::glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Get vertex colors.
-    /*colors = new GLfloat[vertices.size() * 4];
-    for (uint32_t i = 0; i < vertices.size(); i++) {
-        colors[i + 0] = vertices[i].r / 255.0f;
-        colors[i + 1] = vertices[i].g / 255.0f;
-        colors[i + 2] = vertices[i].b / 255.0f;
-        colors[i + 3] = 255.0f / 255.0f;
-    }*/
-
-    // @@@
-    GLfloat *colors = new GLfloat[12];
+    colors = new GLfloat[count];
+    for (i = j = 0; i < vertices.size(); i++) {
+        colors[j++] = vertices[i].r / 255.0f;
+        colors[j++] = vertices[i].g / 255.0f;
+        colors[j++] = vertices[i].b / 255.0f;
+        colors[j++] = 255.0f / 255.0f;
+    }
 
     // Point to vertex colors.
-    //::glBindBuffer(GL_ARRAY_BUFFER, m_colors);
-    //::glBufferData(GL_ARRAY_BUFFER, vertices.size() * 4, colors, GL_STATIC_DRAW);
-    //::glEnableVertexAttribArray(1);
-    //::glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    //::glBindAttribLocation(m_shader_program, 1, "color");
-    //::glVertexAttrib4fv(1, colors);
     ::glBindBuffer(GL_ARRAY_BUFFER, m_colors);
-    ::glBufferData(GL_ARRAY_BUFFER, 12*sizeof(GLfloat), colors, GL_DYNAMIC_DRAW);
+    ::glBufferData(GL_ARRAY_BUFFER, count*sizeof(GLfloat), colors, GL_DYNAMIC_DRAW);
     ::glEnableVertexAttribArray(1);
     ::glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Render.
-    ::glDrawArrays(GL_TRIANGLES, 0, 3);
+    ::glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     
     // Clean up.
-    //delete [] positions;
-    //delete [] colors;
+    delete [] positions;
+    delete [] colors;
     ::glDisableVertexAttribArray(0);
     ::glDisableVertexAttribArray(1);
 }
