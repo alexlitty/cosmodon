@@ -40,7 +40,7 @@ BINARY=$(BINARY_PREFIX)_$(GOAL)
 # Initial Target
 $(GOAL): $(SOURCE_FILES) $(BINARY)
 	@echo "$(BG_WHITE)$(FG_MAGENTA) Executing $(COLOR_RESET)"
-	(cd bin && ./$(BINARY))
+	(cd bin && optirun ./$(BINARY))
 	@echo ""
 
 # Link into a library

@@ -27,6 +27,9 @@ namespace cosmodon
         // Buffer for vertex colors.
         GLuint m_colors;
 
+        // Vertex array objects.
+        GLuint m_array;
+
         // Shader program.
         GLuint m_shader_program;
 
@@ -52,6 +55,11 @@ namespace cosmodon
          * Clear rendering area using a color.
          */
         virtual void clear(color c = cosmodon::black) override;
+
+        /**
+         * Inherit all rendering methods.
+         */
+        using render::target::render;
 
         /**
          * Render a collection of vertices.

@@ -2,6 +2,8 @@
 #define COSMODON_VERTEX
 
 #include <vector>
+#include <string>
+#include <ostream>
 
 #include "color.hpp"
 #include "render/target.hpp"
@@ -29,6 +31,11 @@ namespace cosmodon
          * Copy constructor.
          */
         vertex(const vertex &copy);
+
+        /**
+         * Convert to string, to visually explain its internal coordinates.
+         */
+        operator std::string() const;
     };
 
     /**

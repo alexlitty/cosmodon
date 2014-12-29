@@ -14,6 +14,12 @@ cosmodon::vertex::vertex(const cosmodon::vertex &copy)
 
 }
 
+// Vertex to string.
+cosmodon::vertex::operator std::string() const
+{
+    return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+}
+
 // Vertices constructor.
 cosmodon::vertices::vertices(cosmodon::primitive primitive)
 {

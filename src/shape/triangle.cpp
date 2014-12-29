@@ -1,13 +1,16 @@
 #include <shape/triangle.hpp>
 
+// @@@
+#include <iostream>
+
 // Constructor.
 cosmodon::shape::triangle::triangle()
 {
-    cosmodon::vertex vertex(0, 0, 0, cosmodon::red);
+    cosmodon::vertex vertex(0.5f, 0.5f, 0, cosmodon::red);
     m_vertices.add(vertex);
-    vertex.y = 100;
+    vertex.y = 0.0f;
     m_vertices.add(vertex);
-    vertex.x = 100;
+    vertex.x = 0.0f;
     m_vertices.add(vertex);
 }
 
