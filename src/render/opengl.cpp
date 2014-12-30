@@ -12,6 +12,7 @@ static void handle_glfw_error(int error, const char *description)
 
 // Constructor.
 cosmodon::opengl::opengl(uint16_t width, uint16_t height, std::string title)
+  : m_width(width), m_height(height)
 {
     // Ensure this is the only active instance. @@@ Change later.
     if (m_instances != 0) {
@@ -30,7 +31,7 @@ cosmodon::opengl::opengl(uint16_t width, uint16_t height, std::string title)
     ::glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     // Create window.
-    m_handle = ::glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    m_handle = ::glfwCreateWindow(m_width, m_height, title.c_str(), nullptr, nullptr);
     ::glfwMakeContextCurrent(m_handle);
 
     // Initialize GLEW.

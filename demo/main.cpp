@@ -1,5 +1,6 @@
 #include <cosmodon.hpp>
 #include <render/opengl.hpp>
+#include "test.hpp"
 
 int main()
 {
@@ -7,6 +8,9 @@ int main()
     cosmodon::rate fps;
 
     try {
+        // Perform matrices tests.
+        cosmodon::demo::matrix();
+
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");
         cosmodon::shape::triangle triangle;

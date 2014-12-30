@@ -33,6 +33,10 @@ namespace cosmodon
         // Shader program.
         GLuint m_shader_program;
 
+        // Width and height of the rendering viewport.
+        uint16_t m_width;
+        uint16_t m_height;
+
         /**
          * Compiles a shader.
          *

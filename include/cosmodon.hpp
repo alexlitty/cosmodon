@@ -18,5 +18,6 @@
 #include "shape/triangle.hpp"
 #include "socket.hpp"
 #include "string.hpp"
+#include "vector.hpp"
 
 #endif
