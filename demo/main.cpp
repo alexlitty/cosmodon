@@ -12,7 +12,7 @@ int main()
         cosmodon::demo::matrix();
 
         // Start OpenGL window.
-        cosmodon::opengl window(1024, 768, "Cosmodon Demo");
+        /*cosmodon::opengl window(1024, 768, "Cosmodon Demo");
         cosmodon::shape::triangle triangle;
 
         // Set default shaders.
@@ -31,7 +31,7 @@ int main()
                 timer.reset();
                 window.set_window_title(std::to_string(fps.get()));
             }
-        }
+        }*/
     }
 
     // Catch errors.
