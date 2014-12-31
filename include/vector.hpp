@@ -18,11 +18,12 @@ namespace cosmodon
         number x;
         number y;
         number z;
+        number w;
 
         /**
          * Constructor.
          */
-        vector(number init_x = 0, number init_y = 0, number init_z = 0);
+        vector(number init_x = 0, number init_y = 0, number init_z = 0, number init_w = 0);
 
         /**
          * Copy constructor.
@@ -72,6 +73,10 @@ cosmodon::vector operator+(const cosmodon::vector &lhs, const cosmodon::vector &
 
 // Subtraction operator.
 cosmodon::vector operator-(const cosmodon::vector &lhs, const cosmodon::vector &rhs);
+
+// Multiply a vector by a matrix.
+cosmodon::vector operator*(const cosmodon::matrix &lhs, const cosmodon::vector &rhs);
+cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::matrix &rhs);
 
 // Output stream operator.
 std::ostream& operator<<(std::ostream &stream, cosmodon::vector &value);

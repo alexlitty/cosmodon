@@ -4,7 +4,7 @@
 cosmodon::matrix::matrix()
 {
     m_values = new number[16];
-    zero();
+    identity();
 }
 
 // Copy constructor.
