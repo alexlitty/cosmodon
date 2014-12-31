@@ -3,21 +3,18 @@
 
 #include <string>
 #include "math.hpp"
+#include "number.hpp"
 
-/**
- * Matrix declaration and definition.
- */
 namespace cosmodon
 {
     /**
-     * A matrix of R rows and C columns, with T-type values.
+     * A 4x4 matrix for rendering transformations.
      */
-    template <uint8_t R, uint8_t C, typename T = float>
     class matrix
     {
     protected:
         // Internal array of matrix values.
-        T *m_values;
+        number *m_values;
 
     public:
         /**
@@ -28,12 +25,12 @@ namespace cosmodon
         /**
          * Copy constructor.
          */
-        matrix(matrix<R, C, T> &other);
+        matrix(matrix &other);
 
         /**
          * Move constructor.
          */
-        matrix(matrix<R, C, T> &&other);
+        matrix(matrix &&other);
 
         /**
          * Destructor.
@@ -47,68 +44,56 @@ namespace cosmodon
 
         /**
          * Generates an identity matrix.
-         *
-         * Nothing happens if the row and column counts are not equivalent.
          */
         void identity();
 
         /**
-         * Perform a translation on 4x4 matrices.
-         *
-         * If the matrix is not 4x4, nothing happens.
+         * Generate a translation matrix.
          */
-        void translate(T x, T y, T z = 0);
+        void translate(number x, number y, number z = 0);
 
         /**
-         * Perform a scaling on 4x4 matrices.
-         *
-         * If the matrix is not 4x4, nothing happens.
+         * Generate a scale matrix.
          */
-        void scale(T x, T y, T z = 1);
+        void scale(number x, number y, number z = 1);
 
         /**
-         * Generate a 4x4 rotation matrix, using a rotation about the x-axis.
+         * Generate a rotation matrix about the x-axis.
          */
-        void rotate_x(T radians);
+        void rotate_x(number radians);
 
         /**
-         * Generate a 4x4 rotation matrix, using a rotation about the x-axis.
+         * Generate a rotation matrix about the y-axis.
          */
-        void rotate_y(T radians);
+        void rotate_y(number radians);
 
         /**
-         * Generate a 4x4 rotation matrix, using a rotation about the x-axis.
+         * Generate a rotation matrix about the z-axis.
          */
-        void rotate_z(T radians);
+        void rotate_z(number radians);
 
         /**
          * Swaps this matrix with a different matrix.
          */
-        void swap(matrix<R, C, T> &other);
+        void swap(matrix &other);
 
         /**
-         * Assignment to matrix operator.
+         * Assignmentment from matrix.
          */
-        matrix<R, C, T>& operator=(matrix<R, C, T> other);
+        matrix& operator=(matrix other);
 
         /**
-         * Assignment to scalar operator.
+         * Assignmentment from scalar.
          */
-        matrix<R, C, T>& operator=(T other);
+        matrix& operator=(number other);
 
         /**
          * Subscript operator, to access matrix rows.
          *
-         * Use another subscript to access matrix values.
+         * Proceed with another subscript to access matrix values.
          */
-        T* operator[](uint8_t index);
-
-        /**
-         * Subscript operator with const, to read matrix rows.
-         *
-         * Use another subscript to access matrix values.
-         */
-        T* operator[](uint8_t index) const;
+        number* operator[](uint8_t index);
+        number* operator[](uint8_t index) const;
 
         /**
          * Converts matrix to a string.
@@ -120,86 +105,21 @@ namespace cosmodon
 }
 
 // Equivalency operator.
-template <uint8_t R, uint8_t C, uint8_t M, uint8_t N, typename T, typename U>
-bool operator==(cosmodon::matrix<R, C, T> &lhs, cosmodon::matrix<M, N, U> &rhs)
-{
-    // Size.
-    if (R != M || C != N) {
-        return false;
-    }
-
-    // Values.
-    for (uint8_t i = 0; i < R; i++) {
-        for (uint8_t j = 0; j < C; j++) {
-            if (lhs[i][j] != rhs[i][j]) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-// Include member definitions.
-#include "matrix.tpp"
+bool operator==(cosmodon::matrix &lhs, cosmodon::matrix &rhs);
 
 // Inequivalency operator.
-template <uint8_t R, uint8_t C, uint8_t M, uint8_t N, typename T, typename U>
-bool operator!=(cosmodon::matrix<R, C, T> &lhs, cosmodon::matrix<M, N, U> &rhs)
-{
-    return !(lhs == rhs);
-}
+bool operator!=(cosmodon::matrix &lhs, cosmodon::matrix &rhs);
 
 // Addition operator.
-template <uint8_t R, uint8_t C, typename T>
-cosmodon::matrix<R, C, T> operator+(const cosmodon::matrix<R, C, T> &A, const cosmodon::matrix<R, C, T> &B)
-{
-    cosmodon::matrix<R, C, T> result;
-    for (uint8_t i = 0; i < R; i++) {
-        for (uint8_t j = 0; j < C; j++) {
-            result[i][j] = A[i][j] + B[i][j];
-        }
-    }
-    return result;
-}
+cosmodon::matrix operator+(const cosmodon::matrix &A, const cosmodon::matrix &B);
 
 // Subtraction operator.
-template <uint8_t R, uint8_t C, typename T>
-cosmodon::matrix<R, C, T> operator-(const cosmodon::matrix<R, C, T> &A, const cosmodon::matrix<R, C, T> &B)
-{
-    cosmodon::matrix<R, C, T> result;
-    for (uint8_t i = 0; i < R; i++) {
-        for (uint8_t j = 0; j < C; j++) {
-            result[i][j] = A[i][j] - B[i][j];
-        }
-    }
-    return result;
-}
+cosmodon::matrix operator-(const cosmodon::matrix &A, const cosmodon::matrix &B);
 
 // Multiplication operator.
-template <uint8_t R, uint8_t N, uint8_t C, typename T>
-cosmodon::matrix<R, C, T> operator*(const cosmodon::matrix<R, N, T> &A, const cosmodon::matrix<N, C, T> &B)
-{
-    cosmodon::matrix<R, C, T> result;
-    T sum;
-
-    for (uint8_t i = 0; i < R; i++) {
-        for (uint8_t j = 0; j < C; j++) {
-            sum = 0;
-            for (uint8_t k = 0; k < N; k++) {
-                sum += A[i][k] * B[k][j];
-            }
-            result[i][j] = sum;
-        }
-    }
-    return result;
-}
+cosmodon::matrix operator*(const cosmodon::matrix &A, const cosmodon::matrix &B);
 
 // Output stream operator.
-template <uint8_t R, uint8_t C, typename T>
-std::ostream& operator<<(std::ostream &stream, cosmodon::matrix<R, C, T> &value)
-{
-    stream << static_cast<std::string>(value);
-    return stream;
-}
+std::ostream& operator<<(std::ostream &stream, cosmodon::matrix &value);
 
 #endif
