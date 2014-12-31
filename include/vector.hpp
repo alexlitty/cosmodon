@@ -1,6 +1,7 @@
 #ifndef COSMODON_VECTOR_HPP
 #define COSMODON_VECTOR_HPP
 
+#include <iostream>
 #include "matrix.hpp"
 
 namespace cosmodon
@@ -23,7 +24,7 @@ namespace cosmodon
         /**
          * Constructor.
          */
-        vector(number init_x = 0, number init_y = 0, number init_z = 0, number init_w = 0);
+        vector(number init_x = 0, number init_y = 0, number init_z = 0, number init_w = 1);
 
         /**
          * Copy constructor.

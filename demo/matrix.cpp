@@ -8,20 +8,22 @@ namespace cosmodon
         void matrix()
         {
             cosmodon::matrix I, A, B, C;
+            cosmodon::vector result;
 
-            // Set all to identity.
-            I.identity();
-            A.identity();
-            B.identity();
-            C.identity();
+            // Output start.
+            std::cout << "Starting Vector: " << result << std::endl << std::endl;
 
             // Perform test.
             A.translate(16, 7, -4);
-            //B.rotate_x(cosmodon::math::pi / 3);
-            C = A * B * I;
+            B.rotate_x(cosmodon::math::pi / 3);
+            C = B * A;
+
+            // Transform matrix.
+            result = C * result;
 
             // Output result.
             std::cout << "Result Matrix:\n" << C << std::endl << std::endl;
+            std::cout << "Result Vector: " << result << std::endl;
         }
     }
 }
