@@ -15,7 +15,7 @@ namespace cosmodon
 
             // Perform test.
             A.translate(16, 7, -4);
-            B.rotate_x(cosmodon::math::pi / 3);
+            B.scale(2, 2, 2);
             C = B * A;
 
             // Transform matrix.

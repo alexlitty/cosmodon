@@ -69,15 +69,14 @@ void cosmodon::opengl::clear(cosmodon::color color)
     ::glClear(GL_COLOR_BUFFER_BIT);
 }
 
-#include <iostream>
-
 // Render vertices.
-void cosmodon::opengl::render(cosmodon::vertices *v)
+void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform)
 {
     uint32_t i, j;
     GLfloat *positions;
     GLfloat *colors;
     cosmodon::vertices vertices = *v;
+    GLuint matrix_id;
 
     // Prepare vertices information.
     uint32_t count = vertices.size() * 4;
@@ -115,6 +114,14 @@ void cosmodon::opengl::render(cosmodon::vertices *v)
     ::glEnableVertexAttribArray(1);
     ::glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
+    // Prepare tranformation matrix.
+    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_model");
+    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, transform.raw());
+
+    // Prepare view matrix.
+    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_view");
+    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, m_view.result().raw());
+
     // Render.
     ::glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     
@@ -123,6 +130,12 @@ void cosmodon::opengl::render(cosmodon::vertices *v)
     delete [] colors;
     ::glDisableVertexAttribArray(0);
     ::glDisableVertexAttribArray(1);
+}
+
+// Sets view transformation.
+void cosmodon::opengl::set_view(cosmodon::transformation view)
+{
+    m_view = view;
 }
 
 // Display rendering area.

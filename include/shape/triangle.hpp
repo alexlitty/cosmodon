@@ -2,12 +2,13 @@
 #define COSMODON_SHAPE_TRIANGLE
 
 #include "../render.hpp"
+#include "../transformation.hpp"
 
 namespace cosmodon
 {
     namespace shape
     {
-        class triangle : public graphic
+        class triangle : public graphic, public transformation
         {
             // Vertices which compose a triangle.
             vertices m_vertices;

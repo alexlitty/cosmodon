@@ -37,6 +37,9 @@ namespace cosmodon
         uint16_t m_width;
         uint16_t m_height;
 
+        // View transformation.
+        transformation m_view;
+
         /**
          * Compiles a shader.
          *
@@ -68,7 +71,12 @@ namespace cosmodon
         /**
          * Render a collection of vertices.
          */
-        virtual void render(vertices *v) override;
+        virtual void render(vertices *v, matrix &transform) override;
+
+        /**
+         * Sets view transformation.
+         */
+        void set_view(transformation view);
 
         /**
          * Display the currently rendered result.

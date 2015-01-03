@@ -25,7 +25,7 @@ namespace cosmodon
         /**
          * Copy constructor.
          */
-        matrix(matrix &other);
+        matrix(const matrix &other);
 
         /**
          * Move constructor.
@@ -36,6 +36,11 @@ namespace cosmodon
          * Destructor.
          */
         virtual ~matrix();
+
+        /**
+         * Retrieve raw matrix values as an array.
+         */
+        number* raw();
 
         /**
          * Generates a matrix of zeroes.

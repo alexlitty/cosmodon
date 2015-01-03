@@ -4,6 +4,7 @@
 #include "../color.hpp"
 #include "graphic.hpp"
 #include "../vertex.hpp"
+#include "../transformation.hpp"
 
 /**
  * Forward declarations, to resolve circular dependencies.
@@ -33,7 +34,7 @@ namespace cosmodon
              * This is the primary method to render graphics. All other render() methods depend on
              * this.
              */
-            virtual void render(cosmodon::vertices *vertices) = 0;
+            virtual void render(vertices *vertices, matrix &transform) = 0;
 
             /**
              * Render a graphic.

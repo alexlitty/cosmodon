@@ -8,7 +8,7 @@ cosmodon::matrix::matrix()
 }
 
 // Copy constructor.
-cosmodon::matrix::matrix(cosmodon::matrix &other)
+cosmodon::matrix::matrix(const cosmodon::matrix &other)
 {
     m_values = new number[16];
     for (uint8_t i = 0; i < 16; i++) {
@@ -27,6 +27,12 @@ cosmodon::matrix::matrix(cosmodon::matrix &&other)
 cosmodon::matrix::~matrix()
 {
     delete [] m_values;
+}
+
+// Retrieve raw matrix values as an array.
+cosmodon::number* cosmodon::matrix::raw()
+{
+    return m_values;
 }
 
 // Generates a matrix of zeroes.

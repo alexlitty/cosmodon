@@ -15,9 +15,12 @@ cosmodon::shader::shader(cosmodon::shader::level_type init_level, std::string in
                    "layout (location = 1) in vec4 color;\n"
                    "smooth out vec4 frag_color;\n"
                    "\n"
+                   "uniform mat4 matrix_model;\n"
+                   "uniform mat4 matrix_view;\n"
+                   "\n"
                    "void main()\n"
                    "{\n"
-                   "    gl_Position = position;\n"
+                   "    gl_Position = matrix_view * matrix_model * position;\n"
                    "    frag_color = color;\n"
                    "}";
         }

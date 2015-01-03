@@ -1,8 +1,5 @@
 #include <shape/triangle.hpp>
 
-// @@@
-#include <iostream>
-
 // Constructor.
 cosmodon::shape::triangle::triangle()
 {
@@ -23,5 +20,5 @@ cosmodon::shape::triangle::triangle()
 // Render triangle.
 void cosmodon::shape::triangle::render(cosmodon::render::target *target)
 {
-    target->render(&m_vertices);
+    target->render(&m_vertices, result());
 }
