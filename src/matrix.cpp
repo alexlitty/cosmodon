@@ -59,7 +59,7 @@ void cosmodon::matrix::set(
 }
 
 // Retrieve raw matrix values as an array.
-cosmodon::number* cosmodon::matrix::raw()
+const cosmodon::number* cosmodon::matrix::raw() const
 {
     return m_values;
 }

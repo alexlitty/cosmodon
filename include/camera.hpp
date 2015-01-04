@@ -58,12 +58,12 @@ namespace cosmodon
         /**
          * Retrieves the orientation matrix.
          */
-        matrix get_orientation();
+        const matrix& get_orientation() const;
 
         /**
          * Retrieves the perspective matrix.
          */
-        matrix get_perspective();
+        const matrix& get_perspective() const;
     };
 }
 

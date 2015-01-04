@@ -37,9 +37,6 @@ namespace cosmodon
         uint16_t m_width;
         uint16_t m_height;
 
-        // View transformation.
-        transformation m_view;
-
         // Current rendering camera.
         camera *m_camera;
 
@@ -79,7 +76,7 @@ namespace cosmodon
         /**
          * Render a collection of vertices.
          */
-        virtual void render(vertices *v, matrix &transform) override;
+        virtual void render(vertices *v, transformation &transform) override;
 
         /**
          * Sets view transformation.

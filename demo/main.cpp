@@ -10,17 +10,17 @@ int main()
 
     try {
         cosmodon::number value = 0.01;
-        // Perform matrices tests.
-        //cosmodon::demo::matrix();
+        cosmodon::vector up;
 
         // Prepare test camera.
+        cosmodon::camera camera;
 
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");
-        cosmodon::shape::triangle triangle;
+        window.set_camera(camera);
 
-        // Prepare view transformation.
-        cosmodon::transformation view;
+        // Prepare rendered objects.
+        cosmodon::shape::triangle triangle;
 
         // Set default shaders.
         cosmodon::shader vertex(cosmodon::shader::vertex), fragment(cosmodon::shader::fragment);
@@ -30,18 +30,15 @@ int main()
         while (true) {
             // Transform triangle.
             if (i++ <= 255) {
-                triangle.rotate(0, 0, value);
-                //triangle.scale(value, value, value);
+                triangle.rotate(value, value, value);
 
-                view.rotate(value);
-                window.set_view(view);
                 i = 0;
                 value += 0.01;
             }
 
             // Display triangle.
             window.clear(cosmodon::black);
-            triangle.render(&window);
+            window.render(&triangle);
             window.display();
 
             // Update FPS.

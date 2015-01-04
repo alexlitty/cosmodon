@@ -1,6 +1,9 @@
 #include <exception.hpp>
 #include <render/opengl.hpp>
 
+// @@@
+#include <iostream>
+
 // Set total running OpenGL instances.
 uint8_t cosmodon::opengl::m_instances = 0;
 
@@ -76,14 +79,14 @@ void cosmodon::opengl::clear(cosmodon::color color)
 }
 
 // Render vertices.
-void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform)
+void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::transformation &transform)
 {
     uint32_t i, j;
     GLfloat *positions;
     GLfloat *colors;
     cosmodon::vertices vertices = *v;
     GLuint matrix_id;
-    GLfloat *matrix_values;
+    const float *matrix_values;
 
     static matrix identity;
 
@@ -123,13 +126,9 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
     ::glEnableVertexAttribArray(1);
     ::glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // Prepare tranformation matrix.
+    // Prepare model matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_model");
-    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, transform.raw());
-
-    // Prepare view matrix.
-    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_view");
-    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, m_view.result().raw());
+    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, transform.get_matrix().raw());
 
     // Prepare orientation matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_orientation");
@@ -142,11 +141,11 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
 
     // Prepare perspective matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_perspective");
-    if (m_camera != nullptr) {
-        matrix_values = m_camera->get_perspective().raw();
-    } else {
+    //if (m_camera != nullptr) {
+    //    matrix_values = m_camera->get_perspective().raw();
+    //} else {
         matrix_values = identity.raw();
-    }
+    //}
     ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, matrix_values);
 
     // Render.
@@ -157,12 +156,6 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
     delete [] colors;
     ::glDisableVertexAttribArray(0);
     ::glDisableVertexAttribArray(1);
-}
-
-// Sets view transformation.
-void cosmodon::opengl::set_view(cosmodon::transformation view)
-{
-    m_view = view;
 }
 
 // Display rendering area.

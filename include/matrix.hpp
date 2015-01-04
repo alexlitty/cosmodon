@@ -60,7 +60,7 @@ namespace cosmodon
         /**
          * Retrieve raw matrix values as an array.
          */
-        number* raw();
+        const number* raw() const;
 
         /**
          * Generates a matrix of zeroes.

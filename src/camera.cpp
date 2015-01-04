@@ -38,16 +38,17 @@ void cosmodon::camera::update_view()
     );
 }
 
-// Sets 
+// @@@
+#include <iostream>
 
 // Retrieves the orientation matrix.
-cosmodon::matrix cosmodon::camera::get_orientation()
+const cosmodon::matrix& cosmodon::camera::get_orientation() const
 {
     return m_orientation;
 }
 
 // Retrieves the perspective matrix.
-cosmodon::matrix cosmodon::camera::get_perspective()
+const cosmodon::matrix& cosmodon::camera::get_perspective() const
 {
     return m_perspective;
 }

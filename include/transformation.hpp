@@ -53,9 +53,9 @@ namespace cosmodon
         void rotate(number x, number y = 0, number z = 0);
 
         /**
-         * Returns result matrix.
+         * Returns the resulting transformation matrix.
          */
-        matrix& result();
+        matrix& get_matrix();
 
         /**
          * Convert to matrix, outputting the result matrix.

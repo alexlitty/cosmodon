@@ -35,7 +35,7 @@ void cosmodon::transformation::rotate(number x, number y, number z)
 }
 
 // Returns result matrix.
-cosmodon::matrix& cosmodon::transformation::result()
+cosmodon::matrix& cosmodon::transformation::get_matrix()
 {
     return m_result;
 }
@@ -43,5 +43,5 @@ cosmodon::matrix& cosmodon::transformation::result()
 // Convert to matrix, outputting the result matrix.
 cosmodon::transformation::operator matrix()
 {
-    return result();
+    return get_matrix();
 }
