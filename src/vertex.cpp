@@ -44,6 +44,12 @@ uint32_t cosmodon::vertices::size() const
     return m_vertices.size();
 }
 
+// Resize the vertex count inside this collection.
+void cosmodon::vertices::resize(uint32_t amount)
+{
+    m_vertices.resize(amount);
+}
+
 // Sets the primitive of vertices.
 void cosmodon::vertices::set_primitive(cosmodon::primitive primitive)
 {

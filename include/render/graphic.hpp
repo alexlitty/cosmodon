@@ -2,6 +2,7 @@
 #define COSMODON_RENDER_GRAPHIC_HPP
 
 #include "target.hpp"
+#include "../transformation.hpp"
 
 /**
  * Forward declarations to resolve circular dependencies.
@@ -24,7 +25,7 @@ namespace cosmodon
      *
      * Graphics are able to be rendered on a rendering target.
      */
-    class graphic
+    class graphic : public transformation
     {
     public:
         /**

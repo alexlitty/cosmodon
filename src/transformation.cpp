@@ -5,11 +5,6 @@
 void cosmodon::transformation::update()
 {
     m_result = m_rotation_z * m_rotation_y * m_rotation_x * m_translation * m_scale;
-
-    // @@@
-    cosmodon::vector a(0, 0), b(1.0f, 1.0f);
-    a = m_result * a;
-    b = m_result * b;
 }
 
 // Perform a scaling.

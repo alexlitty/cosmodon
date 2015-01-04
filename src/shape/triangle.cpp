@@ -20,5 +20,5 @@ cosmodon::shape::triangle::triangle()
 // Render triangle.
 void cosmodon::shape::triangle::render(cosmodon::render::target *target)
 {
-    target->render(&m_vertices, *this);
+    target->render(&m_vertices, get_matrix());
 }

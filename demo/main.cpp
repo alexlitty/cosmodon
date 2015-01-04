@@ -20,7 +20,7 @@ int main()
         window.set_camera(camera);
 
         // Prepare rendered objects.
-        cosmodon::shape::triangle triangle;
+        cosmodon::shape::pyramid shape(0.5f, 0.3f);
 
         // Set default shaders.
         cosmodon::shader vertex(cosmodon::shader::vertex), fragment(cosmodon::shader::fragment);
@@ -28,17 +28,17 @@ int main()
 
         // Perform demo.
         while (true) {
-            // Transform triangle.
+            // Transform shape.
             if (i++ <= 255) {
-                triangle.rotate(value, value, value);
-
+                shape.rotate(value, value, value);
+                //shape.scale(value, value, value);
                 i = 0;
                 value += 0.01;
             }
 
-            // Display triangle.
+            // Display shape.
             window.clear(cosmodon::black);
-            window.render(&triangle);
+            window.render(&shape);
             window.display();
 
             // Update FPS.

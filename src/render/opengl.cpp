@@ -79,7 +79,7 @@ void cosmodon::opengl::clear(cosmodon::color color)
 }
 
 // Render vertices.
-void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::transformation &transform)
+void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform)
 {
     uint32_t i, j;
     GLfloat *positions;
@@ -128,7 +128,7 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::transformation &t
 
     // Prepare model matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_model");
-    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, transform.get_matrix().raw());
+    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, transform.raw());
 
     // Prepare orientation matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_orientation");

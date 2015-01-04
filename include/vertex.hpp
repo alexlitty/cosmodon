@@ -67,9 +67,14 @@ namespace cosmodon
         void add(const vertex& v);
 
         /**
-         * Retrieves the amount of vertices inside this collection.
+         * Retrieves the vertex count of this collection.
          */
         uint32_t size() const;
+
+        /**
+         * Changes the vertex count inside this collection.
+         */
+        void resize(uint32_t amount);
         
         /**
          * Sets the primitive of vertices.

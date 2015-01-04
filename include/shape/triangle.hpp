@@ -8,7 +8,7 @@ namespace cosmodon
 {
     namespace shape
     {
-        class triangle : public graphic, public transformation
+        class triangle : public graphic
         {
             // Vertices which compose a triangle.
             vertices m_vertices;
