@@ -19,6 +19,12 @@ namespace cosmodon
         // Up vector for the camera.
         vector m_up;
 
+        // Perspective information.
+        number m_fov;
+        number m_aspect;
+        number m_z_near;
+        number m_z_far;
+
         // The orientation of the camera.
         matrix m_orientation;
 
@@ -26,11 +32,31 @@ namespace cosmodon
         matrix m_perspective;
 
         /**
-         * Updates the view matrix.
+         * Updates the orientation matrix.
          */
-        void update_view();
+        void update_orientation();
+
+        /**
+         * Updates the perspective matrix.
+         */
+        void update_perspective();
 
     public:
+        /**
+         * Sets field of view.
+         */
+        void set_fov(number degrees);
+
+        /**
+         * Sets aspect.
+         */
+        void set_aspect(number aspect);
+
+        /**
+         * Sets z clipping distance?
+         */
+        void set_z(number near, number far);
+
         /**
          * Moves the camera position, relative to the current position.
          */

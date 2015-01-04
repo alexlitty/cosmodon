@@ -14,6 +14,9 @@ int main()
 
         // Prepare test camera.
         cosmodon::camera camera;
+        //camera.set_fov(90);
+        //camera.set_aspect(1024 / 768);
+        //camera.set_z(4.9, 5);
 
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");
@@ -30,7 +33,7 @@ int main()
         while (true) {
             // Transform shape.
             if (i++ <= 255) {
-                shape.rotate(value, value, value);
+                shape.rotate(0, value / 2, value);
                 //shape.scale(value, value, value);
                 i = 0;
                 value += 0.01;

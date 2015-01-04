@@ -5,39 +5,39 @@ cosmodon::shape::pyramid::pyramid(cosmodon::number width, cosmodon::number heigh
 {
     cosmodon::number w = width / 2;
     cosmodon::vertex top(0, 0, height);
-    cosmodon::vertex up_right(w, w);
-    cosmodon::vertex up_left(-w, w);
-    cosmodon::vertex down_right(w, -w);
-    cosmodon::vertex down_left(-w, -w);
+    cosmodon::vertex northeast(w, w);
+    cosmodon::vertex northwest(-w, w);
+    cosmodon::vertex southeast(w, -w);
+    cosmodon::vertex southwest(-w, -w);
 
     // Base.
-    m_vertices.add(up_left);
-    m_vertices.add(up_right);
-    m_vertices.add(down_right);
+    m_vertices.add(northeast);
+    m_vertices.add(northwest);
+    m_vertices.add(southeast);
 
-    m_vertices.add(up_left);
-    m_vertices.add(down_right);
-    m_vertices.add(down_left);
+    m_vertices.add(southwest);
+    m_vertices.add(southeast);
+    m_vertices.add(northwest);
 
     // First side.
-    m_vertices.add(up_left);
-    m_vertices.add(up_right);
     m_vertices.add(top);
+    m_vertices.add(northwest);
+    m_vertices.add(northeast);
 
     // Second side.
-    m_vertices.add(up_left);
-    m_vertices.add(down_left);
     m_vertices.add(top);
+    m_vertices.add(northwest);
+    m_vertices.add(southwest);
 
     // Third side.
-    m_vertices.add(down_left);
-    m_vertices.add(down_right);
     m_vertices.add(top);
+    m_vertices.add(southwest);
+    m_vertices.add(southeast);
 
     // Fourth side.
-    m_vertices.add(down_right);
-    m_vertices.add(up_right);
     m_vertices.add(top);
+    m_vertices.add(southeast);
+    m_vertices.add(northeast);
 
     // Assign vertex colors.
     for (uint8_t i = 0; i < m_vertices.size(); i++) {

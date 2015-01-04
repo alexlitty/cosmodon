@@ -49,6 +49,13 @@ cosmodon::opengl::opengl(uint16_t width, uint16_t height, std::string title)
 
     // Generate OpenGL vertex array objects.
     ::glGenVertexArrays(1, &m_array);
+
+    // Enable depth buffer.
+    ::glEnable(GL_DEPTH_TEST);
+    ::glDepthMask(GL_TRUE);
+    ::glDepthFunc(GL_LEQUAL);
+    ::glDepthRange(0.0f, 1.0f);
+    ::glDisable(GL_DEPTH_CLAMP);
 }
 
 // Destructor.
@@ -75,7 +82,8 @@ void cosmodon::opengl::set_camera(cosmodon::camera &camera)
 void cosmodon::opengl::clear(cosmodon::color color)
 {
     ::glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
-    ::glClear(GL_COLOR_BUFFER_BIT);
+    ::glClearDepth(1.0f);
+    ::glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 // Render vertices.
@@ -141,11 +149,11 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
 
     // Prepare perspective matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_perspective");
-    //if (m_camera != nullptr) {
-    //    matrix_values = m_camera->get_perspective().raw();
-    //} else {
+    if (m_camera != nullptr) {
+        matrix_values = m_camera->get_perspective().raw();
+    } else {
         matrix_values = identity.raw();
-    //}
+    }
     ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, matrix_values);
 
     // Render.
