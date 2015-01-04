@@ -13,6 +13,8 @@ int main()
         // Perform matrices tests.
         //cosmodon::demo::matrix();
 
+        // Prepare test camera.
+
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");
         cosmodon::shape::triangle triangle;

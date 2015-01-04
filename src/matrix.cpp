@@ -1,10 +1,26 @@
 #include <matrix.hpp>
 
-// Constructor.
+// Default constructor.
 cosmodon::matrix::matrix()
 {
     m_values = new number[16];
     identity();
+}
+
+// Constructor.
+cosmodon::matrix::matrix(
+  number x0, number x1, number x2, number x3,
+  number y0, number y1, number y2, number y3,
+  number z0, number z1, number z2, number z3,
+  number w0, number w1, number w2, number w3)
+{
+    m_values = new number[16];
+    set(
+        x0, x1, x2, x3,
+        y0, y1, y2, y3,
+        z0, z1, z2, z3,
+        w0, w1, w2, w3
+    );
 }
 
 // Copy constructor.
@@ -27,6 +43,19 @@ cosmodon::matrix::matrix(cosmodon::matrix &&other)
 cosmodon::matrix::~matrix()
 {
     delete [] m_values;
+}
+
+// Sets matrix values.
+void cosmodon::matrix::set(
+  number x0, number x1, number x2, number x3,
+  number y0, number y1, number y2, number y3,
+  number z0, number z1, number z2, number z3,
+  number w0, number w1, number w2, number w3)
+{
+    m_values[0] = x0; m_values[1] = x1; m_values[2] = x2; m_values[3] = x3;
+    m_values[4] = y0; m_values[5] = y1; m_values[6] = y2; m_values[7] = y3;
+    m_values[8] = z0; m_values[9] = z1; m_values[10] = z2; m_values[11] = z3;
+    m_values[12] = w0; m_values[13] = w1; m_values[14] = w2; m_values[15] = w3;
 }
 
 // Retrieve raw matrix values as an array.

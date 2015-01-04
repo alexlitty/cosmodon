@@ -3,14 +3,38 @@
 // Value of pi.
 double cosmodon::math::pi = ::acos(-1);
 
+// Take the power of a value.
+double cosmodon::math::power(double base, double exponent)
+{
+    return std::pow(base, exponent);
+}
+
+// Take the second power of a value.
+double cosmodon::math::squared(double base)
+{
+    return cosmodon::math::power(base, 2);
+}
+
+// Take the root of a value.
+double cosmodon::math::root(double base, double n)
+{
+    return cosmodon::math::power(base, 1 / n);
+}
+
 // Trigonometric sine.
 double cosmodon::math::sine(double radians)
 {
-    return ::sin(radians);
+    return std::sin(radians);
 }
 
 // Trigonometric cosine.
 double cosmodon::math::cosine(double radians)
 {
-    return cosmodon::math::sine(radians + (pi / 2));
+    return std::cos(radians);
+}
+
+// Trigonometric tangent.
+double cosmodon::math::tangent(double radians)
+{
+    return std::tan(radians);
 }

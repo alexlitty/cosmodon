@@ -1,7 +1,7 @@
 #ifndef COSMODON_COMPONENT_POSITION
 #define COSMODON_COMPONENT_POSITION
 
-#include "../point.hpp"
+#include "../vector.hpp"
 
 namespace cosmodon
 {
@@ -12,14 +12,23 @@ namespace cosmodon
          *
          * Children are subject to positioning.
          */
-        class position
+        class position : public vector
         {
-        protected:
-            // Internal position.
-            cosmodon::point m_position;
-
         public:
-            // @@@ Positioning functions
+            /**
+             * Moves this object relative to its current position.
+             */
+            void move(number move_x, number move_y, number move_z = 0);
+
+            /**
+             * Sets object position.
+             */
+            virtual void set_position(number set_x, number set_y, number set_z = 0);
+
+            /**
+             * Gets object position.
+             */
+            virtual vector get_position() const;
         };
     }
 }

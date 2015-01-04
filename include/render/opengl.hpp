@@ -3,9 +3,9 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <map>
 
 #include "../render.hpp"
+#include "../camera.hpp"
 
 namespace cosmodon
 {
@@ -40,6 +40,9 @@ namespace cosmodon
         // View transformation.
         transformation m_view;
 
+        // Current rendering camera.
+        camera *m_camera;
+
         /**
          * Compiles a shader.
          *
@@ -57,6 +60,11 @@ namespace cosmodon
          * Destructor.
          */
         virtual ~opengl();
+
+        /**
+         * Set the camera.
+         */
+        virtual void set_camera(camera &object);
 
         /**
          * Clear rendering area using a color.

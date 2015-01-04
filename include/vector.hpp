@@ -52,6 +52,16 @@ namespace cosmodon
         void swap(vector &other);
 
         /**
+         * Calculates vector magnitude.
+         */
+        number magnitude() const;
+
+        /**
+         * Returns a normalized version of this vector.
+         */
+        vector normalize() const;
+
+        /**
          * Assignment to vector operator.
          */
         vector& operator=(vector other);
@@ -78,6 +88,9 @@ cosmodon::vector operator-(const cosmodon::vector &lhs, const cosmodon::vector &
 // Multiply a vector by a matrix.
 cosmodon::vector operator*(const cosmodon::matrix &lhs, const cosmodon::vector &rhs);
 cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::matrix &rhs);
+
+// Multiply vectors by performing a cross-product.
+cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::vector &rhs);
 
 // Output stream operator.
 std::ostream& operator<<(std::ostream &stream, cosmodon::vector &value);

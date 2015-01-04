@@ -45,6 +45,24 @@ void cosmodon::vector::swap(vector& other)
     std::swap(w, other.w);
 }
 
+// Calculates vector magnitude.
+cosmodon::number cosmodon::vector::magnitude() const
+{
+    return cosmodon::math::root(
+        cosmodon::math::squared(x) + cosmodon::math::squared(y) + cosmodon::math::squared(z)
+    );
+}
+
+// Returns a normalized version of this vector.
+cosmodon::vector cosmodon::vector::normalize() const
+{
+    cosmodon::number mag = magnitude();
+    if (mag == 0) {
+        return cosmodon::vector();
+    }
+    return cosmodon::vector(x / mag, y / mag, z / mag);
+}
+
 // Assignment to vector operator.
 cosmodon::vector& cosmodon::vector::operator=(cosmodon::vector other)
 {
@@ -106,6 +124,18 @@ cosmodon::vector operator*(const cosmodon::matrix &lhs, const cosmodon::vector &
 cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::matrix &rhs)
 {
     return rhs * lhs;
+}
+
+// Multiply vectors by performing a cross-product.
+cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::vector &rhs)
+{
+    cosmodon::vector result;
+
+    result.x = (lhs.y * rhs.z) - (lhs.z * rhs.y);
+    result.y = (lhs.z * rhs.x) - (lhs.x * rhs.z);
+    result.z = (lhs.x * rhs.y) - (lhs.y * rhs.x);
+
+    return result;
 }
 
 // Output stream operator.

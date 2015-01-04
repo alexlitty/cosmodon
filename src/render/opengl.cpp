@@ -12,7 +12,7 @@ static void handle_glfw_error(int error, const char *description)
 
 // Constructor.
 cosmodon::opengl::opengl(uint16_t width, uint16_t height, std::string title)
-  : m_width(width), m_height(height)
+  : m_width(width), m_height(height), m_camera(nullptr)
 {
     // Ensure this is the only active instance. @@@ Change later.
     if (m_instances != 0) {
@@ -62,6 +62,12 @@ cosmodon::opengl::~opengl()
     m_instances--;
 }
 
+// Set the camera.
+void cosmodon::opengl::set_camera(cosmodon::camera &camera)
+{
+    m_camera = &camera;
+}
+
 // Clear rendering area using a color.
 void cosmodon::opengl::clear(cosmodon::color color)
 {
@@ -77,6 +83,9 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
     GLfloat *colors;
     cosmodon::vertices vertices = *v;
     GLuint matrix_id;
+    GLfloat *matrix_values;
+
+    static matrix identity;
 
     // Prepare vertices information.
     uint32_t count = vertices.size() * 4;
@@ -121,6 +130,24 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
     // Prepare view matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_view");
     ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, m_view.result().raw());
+
+    // Prepare orientation matrix.
+    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_orientation");
+    if (m_camera != nullptr) {
+        matrix_values = m_camera->get_orientation().raw();
+    } else {
+        matrix_values = identity.raw();
+    }
+    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, matrix_values);
+
+    // Prepare perspective matrix.
+    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_perspective");
+    if (m_camera != nullptr) {
+        matrix_values = m_camera->get_perspective().raw();
+    } else {
+        matrix_values = identity.raw();
+    }
+    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, matrix_values);
 
     // Render.
     ::glDrawArrays(GL_TRIANGLES, 0, vertices.size());

@@ -18,9 +18,19 @@ namespace cosmodon
 
     public:
         /**
-         * Constructor.
+         * Default constructor.
          */
         matrix();
+
+        /**
+         * Constructor.
+         */
+        matrix(
+            number x0, number x1, number x2, number x3,
+            number y0, number y1, number y2, number y3,
+            number z0, number z1, number z2, number z3,
+            number w0, number w1, number w2, number w3
+        );
 
         /**
          * Copy constructor.
@@ -36,6 +46,16 @@ namespace cosmodon
          * Destructor.
          */
         virtual ~matrix();
+
+        /**
+         * Sets matrix values.
+         */
+        void set(
+            number x0, number x1, number x2, number x3,
+            number y0, number y1, number y2, number y3,
+            number z0, number z1, number z2, number z3,
+            number w0, number w1, number w2, number w3
+        );
 
         /**
          * Retrieve raw matrix values as an array.

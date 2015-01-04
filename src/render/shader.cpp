@@ -17,10 +17,12 @@ cosmodon::shader::shader(cosmodon::shader::level_type init_level, std::string in
                    "\n"
                    "uniform mat4 matrix_model;\n"
                    "uniform mat4 matrix_view;\n"
+                   "uniform mat4 matrix_orientation;\n"
+                   "uniform mat4 matrix_perspective;\n"
                    "\n"
                    "void main()\n"
                    "{\n"
-                   "    gl_Position = matrix_view * matrix_model * position;\n"
+                   "    gl_Position = matrix_orientation * matrix_view * matrix_model * position;\n"
                    "    frag_color = color;\n"
                    "}";
         }
