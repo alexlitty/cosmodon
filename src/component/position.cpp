@@ -6,12 +6,20 @@ void cosmodon::component::position::move(number move_x, number move_y, number mo
     set_position((x + move_x), (y + move_y), (z + move_z));
 }
 
-// Set object position.
+// Set object position, given vector components.
 void cosmodon::component::position::set_position(number set_x, number set_y, number set_z)
 {
     x = set_x;
     y = set_y;
     z = set_z;
+}
+
+// Set object position, given a vector.
+void cosmodon::component::position::set_position(cosmodon::vector vec)
+{
+    x = vec.x;
+    y = vec.y;
+    z = vec.z;
 }
 
 // Get object position.

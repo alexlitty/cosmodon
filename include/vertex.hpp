@@ -7,8 +7,8 @@
 
 #include "color.hpp"
 #include "render/target.hpp"
-#include "point.hpp"
 #include "primitive.hpp"
+#include "vector.hpp"
 
 namespace cosmodon
 {
@@ -19,7 +19,7 @@ namespace cosmodon
      *
      * @@@ Implement graphic component.
      */
-    class vertex : public point, public color
+    class vertex : public vector, public color
     {
     public:
         /**
@@ -64,7 +64,12 @@ namespace cosmodon
         /**
          * Adds a vertex to the collection.
          */
-        void add(const vertex& v);
+        void add(const vertex& v, bool end = true);
+
+        /**
+         * Recalculates information about this set of vertices.
+         */
+        void refresh();
 
         /**
          * Retrieves the vertex count of this collection.

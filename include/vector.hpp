@@ -7,10 +7,9 @@
 namespace cosmodon
 {
     /**
-     * A vector of 3 values with type T.
+     * A vector of 3 components. Not a container, like std::vector.
      *
-     * Identifies a point in space, depicts a magnitude with direction, and more. Not to be
-     * confused with std::vector.
+     * Identifies a point in space, depicts a magnitude with direction, and more.
      */
     class vector
     {
@@ -19,12 +18,11 @@ namespace cosmodon
         number x;
         number y;
         number z;
-        number w;
 
         /**
          * Constructor.
          */
-        vector(number init_x = 0, number init_y = 0, number init_z = 0, number init_w = 1);
+        vector(number init_x = 0, number init_y = 0, number init_z = 0);
 
         /**
          * Copy constructor.

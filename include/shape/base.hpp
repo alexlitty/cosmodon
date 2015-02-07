@@ -8,9 +8,9 @@ namespace cosmodon
         /**
          * Base class for all shapes.
          */
-        class base
+        class base : public vertices
         {
-
+            using vertices::render;
         };
     }
 }

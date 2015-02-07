@@ -11,33 +11,33 @@ cosmodon::shape::pyramid::pyramid(cosmodon::number width, cosmodon::number heigh
     cosmodon::vertex southwest(-w, -w, 0.1f);
 
     // Base.
-    m_vertices.add(northeast);
-    m_vertices.add(northwest);
-    m_vertices.add(southeast);
+    add(northeast);
+    add(northwest);
+    add(southeast);
 
-    m_vertices.add(southwest);
-    m_vertices.add(southeast);
-    m_vertices.add(northwest);
+    add(southwest);
+    add(southeast);
+    add(northwest);
 
     // First side.
-    m_vertices.add(top);
-    m_vertices.add(northwest);
-    m_vertices.add(northeast);
+    add(top);
+    add(northwest);
+    add(northeast);
 
     // Second side.
-    m_vertices.add(top);
-    m_vertices.add(northwest);
-    m_vertices.add(southwest);
+    add(top);
+    add(northwest);
+    add(southwest);
 
     // Third side.
-    m_vertices.add(top);
-    m_vertices.add(southwest);
-    m_vertices.add(southeast);
+    add(top);
+    add(southwest);
+    add(southeast);
 
     // Fourth side.
-    m_vertices.add(top);
-    m_vertices.add(southeast);
-    m_vertices.add(northeast);
+    add(top);
+    add(southeast);
+    add(northeast);
 
     // Assign vertex colors.
     for (uint8_t i = 0; i < m_vertices.size(); i++) {
@@ -45,22 +45,4 @@ cosmodon::shape::pyramid::pyramid(cosmodon::number width, cosmodon::number heigh
         m_vertices[i].g = 255 - (i * 10);
         m_vertices[i].b = 150;
     }
-}
-
-// Render pyramid.
-void cosmodon::shape::pyramid::render(cosmodon::render::target *target)
-{
-    target->render(&m_vertices, get_matrix());
-}
-
-// Get pyramid position.
-cosmodon::vector cosmodon::shape::pyramid::get_position()
-{
-    cosmodon::vector result;
-    for (uint8_t i = 0; i < m_vertices.size(); i++) {
-        result.x += m_vertices[i].x;
-        result.y += m_vertices[i].y;
-        result.z += m_vertices[i].z;
-    }
-    return cosmodon::vector(0, 0, 0.5f);
 }

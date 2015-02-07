@@ -3,32 +3,19 @@
 
 #include "../render.hpp"
 #include "../vector.hpp"
+#include "base.hpp"
 
 namespace cosmodon
 {
     namespace shape
     {
-        class pyramid : public graphic
+        class pyramid : public shape::base
         {
-        protected:
-            // Internal vertices.
-            vertices m_vertices;
-
         public:
             /**
              * Constructor.
              */
             pyramid(number width, number height);
-
-            /**
-             * Render pyramid.
-             */
-            virtual void render(render::target *target) override;
-
-            /**
-             * Get pyramid position.
-             */
-            virtual vector get_position();
         };
     }
 }

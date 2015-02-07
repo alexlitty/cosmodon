@@ -25,6 +25,7 @@ int main()
         // Camera perspective.
         camera.set_perspective(90, 1024.0f / 768.0f, 0.01f, 1.0f);
         std::cout << camera.get_perspective() << std::endl;
+        std::cout << shape[0] << std::endl;
 
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");

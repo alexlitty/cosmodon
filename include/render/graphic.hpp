@@ -3,6 +3,7 @@
 
 #include "target.hpp"
 #include "../transformation.hpp"
+#include "../component/position.hpp"
 
 /**
  * Forward declarations to resolve circular dependencies.
@@ -25,7 +26,7 @@ namespace cosmodon
      *
      * Graphics are able to be rendered on a rendering target.
      */
-    class graphic : public transformation
+    class graphic : public transformation, public component::position
     {
     public:
         /**

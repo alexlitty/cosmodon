@@ -21,9 +21,14 @@ namespace cosmodon
             void move(number move_x, number move_y, number move_z = 0);
 
             /**
-             * Sets object position.
+             * Sets object position, given vector components.
              */
             virtual void set_position(number set_x, number set_y, number set_z = 0);
+
+            /**
+             * Sets object position, given a vector.
+             */
+            virtual void set_position(cosmodon::vector vec);
 
             /**
              * Gets object position.
