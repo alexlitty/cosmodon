@@ -19,6 +19,9 @@ namespace cosmodon
         // Take the root of a value.
         double root(double base, double n = 2);
 
+        //  Convert degrees to radians.
+        double radians(double degrees);
+
         // Trigonometric sine.
         double sine(double radians);
 

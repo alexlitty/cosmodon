@@ -5,10 +5,10 @@ cosmodon::shape::pyramid::pyramid(cosmodon::number width, cosmodon::number heigh
 {
     cosmodon::number w = width / 2;
     cosmodon::vertex top(0, 0, height);
-    cosmodon::vertex northeast(w, w);
-    cosmodon::vertex northwest(-w, w);
-    cosmodon::vertex southeast(w, -w);
-    cosmodon::vertex southwest(-w, -w);
+    cosmodon::vertex northeast(w, w, 0.1f);
+    cosmodon::vertex northwest(-w, w, 0.1f);
+    cosmodon::vertex southeast(w, -w, 0.1f);
+    cosmodon::vertex southwest(-w, -w, 0.1f);
 
     // Base.
     m_vertices.add(northeast);
@@ -51,4 +51,16 @@ cosmodon::shape::pyramid::pyramid(cosmodon::number width, cosmodon::number heigh
 void cosmodon::shape::pyramid::render(cosmodon::render::target *target)
 {
     target->render(&m_vertices, get_matrix());
+}
+
+// Get pyramid position.
+cosmodon::vector cosmodon::shape::pyramid::get_position()
+{
+    cosmodon::vector result;
+    for (uint8_t i = 0; i < m_vertices.size(); i++) {
+        result.x += m_vertices[i].x;
+        result.y += m_vertices[i].y;
+        result.z += m_vertices[i].z;
+    }
+    return cosmodon::vector(0, 0, 0.5f);
 }

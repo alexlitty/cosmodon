@@ -31,31 +31,16 @@ namespace cosmodon
         // The perspective of the camera.
         matrix m_perspective;
 
-        /**
-         * Updates the orientation matrix.
-         */
-        void update_orientation();
-
-        /**
-         * Updates the perspective matrix.
-         */
-        void update_perspective();
-
     public:
         /**
-         * Sets field of view.
+         * Sets the camera perspective.
          */
-        void set_fov(number degrees);
+        void set_perspective(number fov, number aspect, number z_near, number z_far);
 
         /**
-         * Sets aspect.
+         * Sets the camera orientation.
          */
-        void set_aspect(number aspect);
-
-        /**
-         * Sets z clipping distance?
-         */
-        void set_z(number near, number far);
+        void set_orientation(vector target, vector up);
 
         /**
          * Moves the camera position, relative to the current position.
@@ -71,15 +56,6 @@ namespace cosmodon
          * Gets the camera position.
          */
         using component::position::get_position;
-
-        /**
-         * Sets the point where the camera should look.
-         */
-        void set_orientation(vector target, vector up);
-
-        /**
-         * Sets the perspective of the camera.
-         */
 
         /**
          * Retrieves the orientation matrix.

@@ -4,10 +4,9 @@
 void cosmodon::camera::set_position(number set_x, number set_y, number set_z)
 {
     component::position::set_position(set_x, set_y, set_z);
-    update_orientation();
 }
 
-// Sets the point where the camera should look.
+/*// Sets the point where the camera should look.
 void cosmodon::camera::set_orientation(cosmodon::vector target, cosmodon::vector up)
 {
     // Save target.
@@ -35,19 +34,23 @@ void cosmodon::camera::set_z(cosmodon::number near, cosmodon::number far)
     m_z_near = near;
     m_z_far = far;
     update_perspective();
-}
+}*/
 
-// Updates the orientation matrix.
-void cosmodon::camera::update_orientation()
+// Sets the camera orientation.
+void cosmodon::camera::set_orientation(cosmodon::vector target, cosmodon::vector up)
 {
-    cosmodon::vector eye = get_position();
-    cosmodon::vector delta = m_target - eye;
-    cosmodon::vector up;
-    cosmodon::vector s;
+    cosmodon::vector eye, delta, s;
 
-    // Prepare vectors.
+    // Normalize parameters.
+    target = target.normalize();
+    up = up.normalize();
+
+    // Prepare delta vector.
+    eye = get_position();
+    delta = target - eye;
     delta = delta.normalize();
-    up = m_up.normalize();
+
+    // Prepare up and s vector.
     s = delta * up;
     up = s * delta;
 
@@ -61,23 +64,47 @@ void cosmodon::camera::update_orientation()
 }
 
 // Updates the perspective matrix.
-void cosmodon::camera::update_perspective()
+void cosmodon::camera::set_perspective(number fov, number aspect, number z_near, number z_far)
 {
-    // Check for invalid parameters.
-    if (m_fov == 0 || m_aspect == 0 || (m_z_near - m_z_far) == 0) {
+    /*// Check for invalid parameters.
+    if (fov == 0 || aspect == 0 || (z_near - z_far) == 0) {
         m_perspective.identity();
         return;
     }
 
     // Prepare parameters.
-    cosmodon::number f = (1 / cosmodon::math::tangent(m_fov / 2));
+    cosmodon::number f = (1 / cosmodon::math::tangent(cosmodon::math::radians(fov) / 2));
 
     // Set matrix.
     m_perspective.set(
-        (f / m_aspect), 0, 0, 0,
+        (f / aspect), 0, 0, 0,
         0, f, 0, 0,
-        0, 0, ((m_z_far + m_z_near) / (m_z_near - m_z_far)), ((2*m_z_far*m_z_near)/(m_z_near - m_z_far)),
+        0, 0, ((z_far + z_near) / (z_near - z_far)), ((2*z_far*z_near)/(z_near - z_far)),
         0, 0, -1, 0
+    );*/
+
+    cosmodon::number xy_max, x_min, y_min;
+    cosmodon::number width, height, depth, q, qn;
+
+    xy_max = z_near * cosmodon::math::tangent(cosmodon::math::radians(fov / 2));
+    x_min = -xy_max;
+    y_min = -xy_max;
+
+    width = xy_max - x_min;
+    height = xy_max - y_min;
+
+    depth = z_far - z_near;
+    q = -(z_far + z_near) / depth;
+    qn = -2 * (z_far * z_near) / depth;
+
+    width = (2 * z_near / width) / aspect;
+    height = 2 * z_near / height;
+
+    m_perspective.set(
+        width, 0, 0, 0,
+        0, height, 0, 0,
+        0, 0, q, -1,
+        0, 0, qn, 0
     );
 }
 

@@ -125,7 +125,7 @@ namespace cosmodon
          *
          * Excellent for debugging.
          */
-        operator std::string();
+        operator std::string() const;
     };
 }
 
@@ -145,6 +145,6 @@ cosmodon::matrix operator-(const cosmodon::matrix &A, const cosmodon::matrix &B)
 cosmodon::matrix operator*(const cosmodon::matrix &A, const cosmodon::matrix &B);
 
 // Output stream operator.
-std::ostream& operator<<(std::ostream &stream, cosmodon::matrix &value);
+std::ostream& operator<<(std::ostream &stream, const cosmodon::matrix &value);
 
 #endif

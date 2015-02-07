@@ -2,6 +2,7 @@
 #define COSMODON_SHAPE_PYRAMID_HPP
 
 #include "../render.hpp"
+#include "../vector.hpp"
 
 namespace cosmodon
 {
@@ -23,6 +24,11 @@ namespace cosmodon
              * Render pyramid.
              */
             virtual void render(render::target *target) override;
+
+            /**
+             * Get pyramid position.
+             */
+            virtual vector get_position();
         };
     }
 }

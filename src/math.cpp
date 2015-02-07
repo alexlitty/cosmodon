@@ -21,6 +21,12 @@ double cosmodon::math::root(double base, double n)
     return cosmodon::math::power(base, 1 / n);
 }
 
+// Convert degrees to radians.
+double cosmodon::math::radians(double degrees)
+{
+    return degrees * cosmodon::math::pi / 180.0f;
+}
+
 // Trigonometric sine.
 double cosmodon::math::sine(double radians)
 {
