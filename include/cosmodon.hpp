@@ -12,7 +12,6 @@
 #include "component/network.hpp"
 #include "debug.hpp"
 #include "exception.hpp"
-#include "point.hpp"
 #include "primitive.hpp"
 #include "rate.hpp"
 #include "shape/pyramid.hpp"
