@@ -1,4 +1,4 @@
-SOURCES=main.cpp matrix.cpp
+SOURCES=main.cpp
 SRCPATH=
 INCPATHS=../include/
 LIBPATHS=../lib/linux64

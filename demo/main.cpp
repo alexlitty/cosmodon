@@ -24,8 +24,12 @@ int main()
 
         // Camera perspective.
         camera.set_perspective(90, 1024.0f / 768.0f, 0.01f, 1.0f);
-        std::cout << camera.get_perspective() << std::endl;
-        std::cout << shape[0] << std::endl;
+        std::cout << "Matrix: " << camera.get_perspective() << std::endl;
+        std::cout << "Normal vertex: " << shape[0] << std::endl;
+
+        cosmodon::vector test = shape[0] * camera.get_perspective();
+
+        std::cout << "Perspective result: " << test << std::endl;
 
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");
@@ -36,8 +40,8 @@ int main()
         window.set_shaders(&vertex, &fragment);
 
         // Perform demo.
-        bool rotate = true;
-        cosmodon::number z = 0;
+        //bool rotate = true;
+        //cosmodon::number z = 0;
         while (true) {
             // Transform shape.
             if (i++ <= 255) {
@@ -63,7 +67,6 @@ int main()
             }
 
             // Transform z-clipping.
-
 
             // Display shape.
             window.clear(cosmodon::black);

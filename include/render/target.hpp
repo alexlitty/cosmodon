@@ -37,6 +37,14 @@ namespace cosmodon
             virtual void render(vertices *vertices, matrix &transform) = 0;
 
             /**
+             * Render a collection of vertices.
+             *
+             * Retrieves the matrix from a transformation, and passes vertices to primary
+             * rendering method.
+             */
+            virtual void render(vertices *vertices, transformation &transform);
+
+            /**
              * Render a graphic.
              *
              * Provides this renderer to the object's render() method.

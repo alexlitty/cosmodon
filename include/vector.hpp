@@ -83,10 +83,6 @@ cosmodon::vector operator+(const cosmodon::vector &lhs, const cosmodon::vector &
 // Subtraction operator.
 cosmodon::vector operator-(const cosmodon::vector &lhs, const cosmodon::vector &rhs);
 
-// Multiply a vector by a matrix.
-cosmodon::vector operator*(const cosmodon::matrix &lhs, const cosmodon::vector &rhs);
-cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::matrix &rhs);
-
 // Multiply vectors by performing a cross-product.
 cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::vector &rhs);
 

@@ -1,8 +1,8 @@
 #include <vector.hpp>
 
 // Constructor.
-cosmodon::vector::vector(number init_x, number init_y, number init_z, number init_w)
-: x(init_x), y(init_y), z(init_z), w(init_w)
+cosmodon::vector::vector(number init_x, number init_y, number init_z)
+: x(init_x), y(init_y), z(init_z)
 {
 }
 
@@ -12,7 +12,6 @@ cosmodon::vector::vector(cosmodon::vector &other) : vector()
     x = other.x;
     y = other.y;
     z = other.z;
-    w = other.w;
 }
 
 // Move constructor.
@@ -33,7 +32,6 @@ void cosmodon::vector::reset()
     x = 0;
     y = 0;
     z = 0;
-    w = 1;
 }
 
 // Swap this vector with another vector.
@@ -42,7 +40,6 @@ void cosmodon::vector::swap(vector& other)
     std::swap(x, other.x);
     std::swap(y, other.y);
     std::swap(z, other.z);
-    std::swap(w, other.w);
 }
 
 // Calculates vector magnitude.
@@ -76,14 +73,13 @@ cosmodon::vector::operator std::string()
     return "(" + std::to_string(x)
       + ", " + std::to_string(y)
       + ", " + std::to_string(z)
-      + ", " + std::to_string(w)
       + ")";
 }
 
 // Equivalency operator.
 bool operator==(const cosmodon::vector &lhs, const cosmodon::vector &rhs)
 {
-    if (lhs.x != rhs.x || lhs.y != rhs.y || lhs.z != rhs.z || lhs.w != rhs.w) {
+    if (lhs.x != rhs.x || lhs.y != rhs.y || lhs.z != rhs.z) {
         return false;
     }
     return true;
@@ -105,25 +101,6 @@ cosmodon::vector operator+(const cosmodon::vector &lhs, const cosmodon::vector &
 cosmodon::vector operator-(const cosmodon::vector &lhs, const cosmodon::vector &rhs)
 {
     return cosmodon::vector((lhs.x - rhs.x), (lhs.y - rhs.y), (lhs.z - rhs.z));
-}
-
-// Multiply a vector by a matrix.
-cosmodon::vector operator*(const cosmodon::matrix &lhs, const cosmodon::vector &rhs)
-{
-    cosmodon::vector result;
-
-    result.x = (lhs[0][0] * rhs.x) + (lhs[0][1] * rhs.y) + (lhs[0][2] * rhs.z) + (lhs[0][3] * rhs.w);
-    result.y = (lhs[1][0] * rhs.x) + (lhs[1][1] * rhs.y) + (lhs[1][2] * rhs.z) + (lhs[1][3] * rhs.w);
-    result.z = (lhs[2][0] * rhs.x) + (lhs[2][1] * rhs.y) + (lhs[2][2] * rhs.z) + (lhs[2][3] * rhs.w);
-    result.w = (lhs[3][0] * rhs.x) + (lhs[3][1] * rhs.y) + (lhs[3][2] * rhs.z) + (lhs[3][3] * rhs.w);
-
-    return result;
-}
-
-// Multiply a vector by a matrix, reverse order.
-cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::matrix &rhs)
-{
-    return rhs * lhs;
 }
 
 // Multiply vectors by performing a cross-product.

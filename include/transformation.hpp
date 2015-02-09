@@ -62,6 +62,11 @@ namespace cosmodon
          */
         operator matrix();
     };
+
+    /**
+     * Default transformation.
+     */
+    extern transformation no_transformation;
 }
 
 #endif

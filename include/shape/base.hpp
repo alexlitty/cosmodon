@@ -1,6 +1,9 @@
 #ifndef COSMODON_SHAPE_BASE_HPP
 #define COSMODON_SHAPE_BASE_HPP
 
+#include "../vertex.hpp"
+#include "../render/graphic.hpp"
+
 namespace cosmodon
 {
     namespace shape
@@ -8,9 +11,9 @@ namespace cosmodon
         /**
          * Base class for all shapes.
          */
-        class base : public vertices
+        class base : public vertices, public graphic
         {
-            using vertices::render;
+            virtual void render(render::target *object) override;
         };
     }
 }

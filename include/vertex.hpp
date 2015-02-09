@@ -22,10 +22,25 @@ namespace cosmodon
     class vertex : public vector, public color
     {
     public:
+        // w component.
+        cosmodon::number w;
+
         /**
-         * Constructor.
+         * Default constructor.
          */
-        vertex(float init_x = 0, float init_y = 0, float init_z = 0, cosmodon::color c = cosmodon::black);
+        vertex();
+
+        /**
+         * Constructor, without w component.
+         */
+        vertex(number init_x, number init_y, number init_z, cosmodon::color c = cosmodon::black);
+
+        /**
+         * Constructor, with w component.
+         */
+        vertex(number init_x, number init_y, number init_z, number init_w,
+          cosmodon::color c = cosmodon::black
+        );
 
         /**
          * Copy constructor.
@@ -41,7 +56,7 @@ namespace cosmodon
     /**
      * A collection of vertices to be rendered.
      */
-    class vertices : public graphic
+    class vertices
     {
     protected:
         // Internal vertex storage.
@@ -67,9 +82,9 @@ namespace cosmodon
         void add(const vertex& v, bool end = true);
 
         /**
-         * Recalculates information about this set of vertices.
+         * Retrieves center vertex.
          */
-        void refresh();
+        vector get_center();
 
         /**
          * Retrieves the vertex count of this collection.
@@ -92,16 +107,15 @@ namespace cosmodon
         cosmodon::primitive get_primitive();
 
         /**
-         * Render vertices to a canvas object.
-         */
-        void render(render::target *target);
-
-        /**
          * Data access operators.
          */
         vertex& operator [](const uint32_t index);
         const vertex& operator [](const uint32_t index) const;
     };
 }
+
+// Vertex and matrix multiplication.
+cosmodon::vertex operator*(const cosmodon::matrix &lhs, const cosmodon::vertex &rhs);
+cosmodon::vertex operator*(const cosmodon::vertex &lhs, const cosmodon::matrix &rhs);
 
 #endif

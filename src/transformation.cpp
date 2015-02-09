@@ -40,3 +40,6 @@ cosmodon::transformation::operator matrix()
 {
     return get_matrix();
 }
+
+// Definition of standard transformation.
+cosmodon::transformation cosmodon::no_transformation;

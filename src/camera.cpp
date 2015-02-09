@@ -66,7 +66,7 @@ void cosmodon::camera::set_orientation(cosmodon::vector target, cosmodon::vector
 // Updates the perspective matrix.
 void cosmodon::camera::set_perspective(number fov, number aspect, number z_near, number z_far)
 {
-    /*// Check for invalid parameters.
+    // Check for invalid parameters.
     if (fov == 0 || aspect == 0 || (z_near - z_far) == 0) {
         m_perspective.identity();
         return;
@@ -81,9 +81,9 @@ void cosmodon::camera::set_perspective(number fov, number aspect, number z_near,
         0, f, 0, 0,
         0, 0, ((z_far + z_near) / (z_near - z_far)), ((2*z_far*z_near)/(z_near - z_far)),
         0, 0, -1, 0
-    );*/
+    );
 
-    cosmodon::number xy_max, x_min, y_min;
+    /*cosmodon::number xy_max, x_min, y_min;
     cosmodon::number width, height, depth, q, qn;
 
     xy_max = z_near * cosmodon::math::tangent(cosmodon::math::radians(fov / 2));
@@ -105,7 +105,7 @@ void cosmodon::camera::set_perspective(number fov, number aspect, number z_near,
         0, height, 0, 0,
         0, 0, q, -1,
         0, 0, qn, 0
-    );
+    );*/
 }
 
 // Retrieves the orientation matrix.
