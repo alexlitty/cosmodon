@@ -8,39 +8,81 @@ namespace cosmodon
 {
     /**
      * A camera. Used to control the view of rendered objects.
-     *
-     * Explained with a transformation view, and a perspective matrix.
      */
     class camera : protected component::position
     {
         // Target position to look at.
         vector m_target;
 
-        // Up vector for the camera.
-        vector m_up;
+        // Orientation of the camera.
+        vector m_orientation;
 
-        // Perspective information.
+        // Field of view of camera "lens."
         number m_fov;
+
+        // Aspect ratio of camera "lens."
         number m_aspect;
-        number m_z_near;
-        number m_z_far;
 
-        // The orientation of the camera.
-        matrix m_orientation;
+        // Clipping values.
+        number m_near;
+        number m_far;
 
-        // The perspective of the camera.
-        matrix m_perspective;
+        // Current view matrix.
+        matrix m_view;
+
+        // Current projection matrix.
+        matrix m_projection;
 
     public:
         /**
-         * Sets the camera perspective.
+         * Constructor.
          */
-        void set_perspective(number fov, number aspect, number z_near, number z_far);
+        camera();
+
+        /**
+         * Updates the projection matrix.
+         */
+        void update_projection();
+
+        /**
+         * Updates the view matrix.
+         */
+        void update_view();
+
+        /**
+         * Sets field of view.
+         *
+         * Updates projection matrix.
+         */
+        void set_fov(number fov);
+
+        /**
+         * Sets aspect ratio.
+         *
+         * Updates projection matrix.
+         */
+        void set_aspect(number aspect);
+
+        /**
+         * Sets near and far clipping distances.
+         *
+         * Updates projection matrix.
+         */
+        void set_clipping(number near, number far);
 
         /**
          * Sets the camera orientation.
+         *
+         * Updates the view matrix.
          */
-        void set_orientation(vector target, vector up);
+        void set_orientation(vector orientation);
+
+        /**
+         * Sets the camera target.
+         *
+         * Updates the view matrix.
+         */
+        void set_target(vector target);
 
         /**
          * Moves the camera position, relative to the current position.
@@ -60,12 +102,12 @@ namespace cosmodon
         /**
          * Retrieves the orientation matrix.
          */
-        const matrix& get_orientation() const;
+        const matrix& get_view() const;
 
         /**
          * Retrieves the perspective matrix.
          */
-        const matrix& get_perspective() const;
+        const matrix& get_projection() const;
     };
 }
 

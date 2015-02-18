@@ -35,7 +35,7 @@ namespace cosmodon
              * This is the primary method to render graphics. All other render() methods depend on
              * this.
              */
-            virtual void render(const vertices *vertices, const matrix &transform) = 0;
+            virtual void render(const vertices *vertices, const matrix &transform, bool fill = true) = 0;
 
             /**
              * Render a collection of vertices.

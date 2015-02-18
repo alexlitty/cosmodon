@@ -76,7 +76,7 @@ namespace cosmodon
         /**
          * Render a collection of vertices.
          */
-        virtual void render(const vertices *v, const matrix &transform) override;
+        virtual void render(const vertices *v, const matrix &transform, bool fill = true) override;
 
         /**
          * Sets view transformation.

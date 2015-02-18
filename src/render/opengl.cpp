@@ -50,12 +50,16 @@ cosmodon::opengl::opengl(uint16_t width, uint16_t height, std::string title)
     // Generate OpenGL vertex array objects.
     ::glGenVertexArrays(1, &m_array);
 
+    // Set viewport.
+    ::glViewport(0, 0, width, height);
+
     // Enable depth buffer.
     ::glEnable(GL_DEPTH_TEST);
     ::glDepthMask(GL_TRUE);
     ::glDepthFunc(GL_LEQUAL);
     ::glDepthRange(0.0f, 1.0f);
     ::glDisable(GL_DEPTH_CLAMP);
+    //::glEnable(GL_DEPTH_CLAMP);
 }
 
 // Destructor.
@@ -87,7 +91,7 @@ void cosmodon::opengl::clear(const cosmodon::color color)
 }
 
 // Render vertices.
-void cosmodon::opengl::render(const cosmodon::vertices *v, const cosmodon::matrix &transform)
+void cosmodon::opengl::render(const cosmodon::vertices *v, const cosmodon::matrix &transform, bool fill)
 {
     uint32_t i, j;
     GLfloat *positions;
@@ -100,6 +104,9 @@ void cosmodon::opengl::render(const cosmodon::vertices *v, const cosmodon::matri
 
     // Prepare vertices information.
     uint32_t count = vertices.size() * 4;
+
+    // Prepare correct filling mode.
+    ::glPolygonMode(GL_FRONT_AND_BACK, fill ? GL_FILL : GL_LINE);
 
     // Bind vertex array.
     ::glBindVertexArray(m_array);
@@ -139,18 +146,18 @@ void cosmodon::opengl::render(const cosmodon::vertices *v, const cosmodon::matri
     ::glUniformMatrix4fv(matrix_id, 1, GL_TRUE, transform.raw());
 
     // Prepare orientation matrix.
-    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_orientation");
+    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_view");
     if (m_camera != nullptr) {
-        matrix_values = m_camera->get_orientation().raw();
+        matrix_values = m_camera->get_view().raw();
     } else {
         matrix_values = identity.raw();
     }
     ::glUniformMatrix4fv(matrix_id, 1, GL_TRUE, matrix_values);
 
     // Prepare perspective matrix.
-    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_perspective");
+    matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_projection");
     if (m_camera != nullptr) {
-        matrix_values = m_camera->get_perspective().raw();
+        matrix_values = m_camera->get_projection().raw();
     } else {
         matrix_values = identity.raw();
     }

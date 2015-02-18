@@ -15,16 +15,24 @@ int main()
 
         // Prepare rendered objects.
         cosmodon::shape::pyramid shape(0.1f, 0.3f);
-        shape.set_position(0, 0, 0.25f);
+        shape.set_position(0, 0, 0.2f);
 
-        // Camera orientation.
-        camera.set_position(0.1f, 0.1f, 0.0f);
+        // Camera view options.
+        camera.set_position(0.15f, 0.15f, -0.01f);
+        camera.set_target(shape.get_position());
         up = camera.get_position();
         up.x = 1.0f;
-        camera.set_orientation(shape.get_position(), up);
+        camera.set_orientation(up);
 
-        // Camera perspective.
-        camera.set_perspective(90, 1024.0f / 768.0f, 0.001f, 999.0f);
+        // Camera projection options.
+        camera.set_fov(90);
+        camera.set_aspect(1024.0f / 768.0f);
+        camera.set_clipping(0.001f, 1.0f);
+
+        std::cout << "View:\n" << camera.get_view() << "\nProjection:\n" << camera.get_projection() << std::endl;
+        std::cout << "\nTotal:\n" << camera.get_projection() * camera.get_view() << std::endl;
+        std::cout << "\nOriginal: " << shape.get_position() << std::endl;
+        std::cout << "Result: " << (camera.get_projection() * camera.get_view()) * shape.get_position() << std::endl;
 
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");
@@ -61,17 +69,26 @@ int main()
                 b += 0.001;
 
                 shape.rotate(0, 0, a);
-                shape.move(0, 0, a * a);
-                std::cout << "Shape: " << shape.get_position() << "\n" << shape.get_matrix() << "\n\n";
-                //std::cout << "Camera: " << camera.get_position() << "\n" << camera.get_matrix() << "\n\n";
-                std::cout << "Total: " << camera.get_perspective() * camera.get_orientation() * shape.get_matrix() * shape.get_position() << std::endl;
+                //camera.move(b, 0, 0);
+                //std::cout << "Total: " << (camera.get_perspective() * camera.get_orientation() * shape.get_matrix()) * shape.get_position() << std::endl;
             }
 
             // Transform z-clipping.
 
-            // Display shape.
+            // Prepare window.
             window.clear(cosmodon::black);
+
+            // Render shape.
+            shape.set_scale(0.8);
+            shape.set_fill(true);
             window.render(&shape);
+
+            // Render shape outline.
+            shape.set_scale(1.2);
+            shape.set_fill(false);
+            window.render(&shape);
+
+            // Display window.
             window.display();
 
             // Update FPS.

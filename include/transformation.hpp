@@ -39,9 +39,14 @@ namespace cosmodon
 
     public:
         /**
-         * Perform a scaling.
+         * Sets the absolute scale.
          */
-        void scale(number x, number y, number z = 1);
+        void set_scale(number x, number y, number z = 1);
+
+        /**
+         * Sets the absolute scale of all components.
+         */
+        void set_scale(number s);
 
         /**
          * Perform a translation.

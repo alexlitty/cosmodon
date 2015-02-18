@@ -1,49 +1,68 @@
 #include <camera.hpp>
 
+// Camera constructor.
+cosmodon::camera::camera()
+: m_target(0, 0, 0),
+  m_orientation(0, 0.5f, 0),
+  m_fov(90),
+  m_aspect(0),
+  m_near(0),
+  m_far(1)
+{
+
+}
+
 // Sets the camera position.
 void cosmodon::camera::set_position(number set_x, number set_y, number set_z)
 {
     component::position::set_position(set_x, set_y, set_z);
-}
-
-/*// Sets the point where the camera should look.
-void cosmodon::camera::set_orientation(cosmodon::vector target, cosmodon::vector up)
-{
-    // Save target.
-    m_target = target;
-    update_orientation();
+    update_view();
 }
 
 // Sets vertical field of view.
 void cosmodon::camera::set_fov(cosmodon::number degrees)
 {
-    m_fov = degrees * (cosmodon::math::pi / 180.0f);
-    update_perspective();
+    m_fov = degrees;
+    update_projection();
 }
 
 // Sets aspect.
 void cosmodon::camera::set_aspect(cosmodon::number aspect)
 {
     m_aspect = aspect;
-    update_perspective();
+    update_projection();
 }
 
-// Sets z clipping distance? @@@
-void cosmodon::camera::set_z(cosmodon::number near, cosmodon::number far)
+// Sets clipping distance.
+void cosmodon::camera::set_clipping(cosmodon::number near, cosmodon::number far)
 {
-    m_z_near = near;
-    m_z_far = far;
-    update_perspective();
-}*/
+    m_near = near;
+    m_far = far;
+    update_projection();
+}
 
-// Sets the camera orientation.
-void cosmodon::camera::set_orientation(cosmodon::vector target, cosmodon::vector up)
+// Sets camera orientation.
+void cosmodon::camera::set_orientation(vector orientation)
 {
-    cosmodon::vector eye, delta, s;
+    m_orientation = orientation;
+    update_view();
+}
+
+// Sets camera target.
+void cosmodon::camera::set_target(vector target)
+{
+    m_target = target;
+    update_view();
+}
+
+// Updates the view matrix.
+void cosmodon::camera::update_view()
+{
+    cosmodon::vector eye, delta, s, target, up;
 
     // Normalize parameters.
-    target = target.normalize();
-    up = up.normalize();
+    target = m_target.normalize();
+    up = m_orientation.normalize();
 
     // Prepare delta vector.
     eye = get_position();
@@ -55,7 +74,7 @@ void cosmodon::camera::set_orientation(cosmodon::vector target, cosmodon::vector
     up = s * delta;
 
     // Set matrix.
-    m_orientation.set(
+    m_view.set(
         s.x, s.y, s.z, -eye.x,
         up.x, up.y, up.z, -eye.y,
         -delta.x, -delta.y, -delta.z, -eye.z,
@@ -63,59 +82,35 @@ void cosmodon::camera::set_orientation(cosmodon::vector target, cosmodon::vector
     );
 }
 
-// Updates the perspective matrix.
-void cosmodon::camera::set_perspective(number fov, number aspect, number z_near, number z_far)
+// Updates the projection matrix.
+void cosmodon::camera::update_projection()
 {
     // Check for invalid parameters.
-    if (fov == 0 || aspect == 0 || (z_near - z_far) == 0) {
-        m_perspective.identity();
+    if (m_fov == 0 || m_aspect == 0 || (m_near - m_far) == 0) {
+        m_projection.identity();
         return;
     }
 
     // Prepare parameters.
-    cosmodon::number f = (1 / cosmodon::math::tangent(cosmodon::math::radians(fov) / 2));
+    cosmodon::number f = (1 / cosmodon::math::tangent(cosmodon::math::radians(m_fov) / 2));
 
     // Set matrix.
-    m_perspective.set(
-        (f / aspect), 0, 0, 0,
+    m_projection.set(
+        (f / m_aspect), 0, 0, 0,
         0, f, 0, 0,
-        0, 0, ((z_far + z_near) / (z_near - z_far)), ((2*z_far*z_near)/(z_near - z_far)),
+        0, 0, ((m_far + m_near) / (m_near - m_far)), ((2*m_far*m_near)/(m_near - m_far)),
         0, 0, -1, 0
     );
-
-    /*cosmodon::number xy_max, x_min, y_min;
-    cosmodon::number width, height, depth, q, qn;
-
-    xy_max = z_near * cosmodon::math::tangent(cosmodon::math::radians(fov / 2));
-    x_min = -xy_max;
-    y_min = -xy_max;
-
-    width = xy_max - x_min;
-    height = xy_max - y_min;
-
-    depth = z_far - z_near;
-    q = -(z_far + z_near) / depth;
-    qn = -2 * (z_far * z_near) / depth;
-
-    width = (2 * z_near / width) / aspect;
-    height = 2 * z_near / height;
-
-    m_perspective.set(
-        width, 0, 0, 0,
-        0, height, 0, 0,
-        0, 0, q, -1,
-        0, 0, qn, 0
-    );*/
 }
 
 // Retrieves the orientation matrix.
-const cosmodon::matrix& cosmodon::camera::get_orientation() const
+const cosmodon::matrix& cosmodon::camera::get_view() const
 {
-    return m_orientation;
+    return m_view;
 }
 
 // Retrieves the perspective matrix.
-const cosmodon::matrix& cosmodon::camera::get_perspective() const
+const cosmodon::matrix& cosmodon::camera::get_projection() const
 {
-    return m_perspective;
+    return m_projection;
 }

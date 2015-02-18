@@ -9,10 +9,16 @@ void cosmodon::transformation::update()
 }
 
 // Perform a scaling.
-void cosmodon::transformation::scale(number x, number y, number z)
+void cosmodon::transformation::set_scale(number x, number y, number z)
 {
     m_scale.scale(x, y, z);
     update();
+}
+
+// Perform an even scaling.
+void cosmodon::transformation::set_scale(cosmodon::number s)
+{
+    set_scale(s, s, s);
 }
 
 // Perform a translation.

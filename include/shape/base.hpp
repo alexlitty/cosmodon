@@ -13,6 +13,9 @@ namespace cosmodon
          */
         class base : public vertices, public graphic
         {
+            // Fill mode.
+            bool m_fill;
+
         public:
             // Render shape.
             virtual void render(render::target *object) const override;
@@ -22,6 +25,9 @@ namespace cosmodon
 
             // Get center.
             virtual vector get_center() const override;
+
+            // Set fill mode.
+            void set_fill(bool fill);
         };
     }
 }
