@@ -3,7 +3,8 @@
 // Vertex default constructor.
 cosmodon::vertex::vertex()
 : cosmodon::vector(0, 0, 0),
-  cosmodon::color(cosmodon::black)
+  cosmodon::color(cosmodon::black),
+  w(1)
 {
 
 }
@@ -12,7 +13,8 @@ cosmodon::vertex::vertex()
 cosmodon::vertex::vertex(cosmodon::number init_x, cosmodon::number init_y, cosmodon::number init_z,
                          cosmodon::color color)
 : cosmodon::vector(init_x, init_y, init_z),
-  cosmodon::color(color)
+  cosmodon::color(color),
+  w(1)
 {
 
 }
@@ -27,10 +29,20 @@ cosmodon::vertex::vertex(cosmodon::number init_x, cosmodon::number init_y, cosmo
 
 }
 
+// Vertex constructor, from vector.
+cosmodon::vertex::vertex(const cosmodon::vector &other, cosmodon::color c)
+: cosmodon::vector(other.x, other.y, other.z),
+  cosmodon::color(c),
+  w(1)
+{
+
+}
+
 // Vertex copy constructor.
 cosmodon::vertex::vertex(const cosmodon::vertex &copy)
 : cosmodon::vector(copy.x, copy.y, copy.z),
-  cosmodon::color(copy.r, copy.g, copy.b, copy.a)
+  cosmodon::color(copy.r, copy.g, copy.b, copy.a),
+  w(copy.w)
 {
 
 }
@@ -60,7 +72,7 @@ void cosmodon::vertices::add(const cosmodon::vertex& vertex, bool end)
 }
 
 // Retrieves center vertex.
-cosmodon::vector cosmodon::vertices::get_center()
+cosmodon::vector cosmodon::vertices::get_center() const
 {
     cosmodon::vector result(0, 0, 0);
     cosmodon::number min_x = 0, min_y = 0, min_z = 0;
@@ -73,7 +85,8 @@ cosmodon::vector cosmodon::vertices::get_center()
 
     // Single vertex.
     else if (m_vertices.size() == 1) {
-        return m_vertices[0];
+        result = m_vertices[0];
+        return result;
     }
 
     // Multiple vertices.
@@ -140,10 +153,10 @@ cosmodon::vertex operator*(const cosmodon::matrix &lhs, const cosmodon::vertex &
 {
     cosmodon::vertex result;
 
-    result.x = (lhs[0][0] * rhs.x) + (lhs[1][0] * rhs.y) + (lhs[2][0] * rhs.z) + (lhs[3][0] * rhs.w);
-    result.y = (lhs[0][1] * rhs.x) + (lhs[1][1] * rhs.y) + (lhs[2][1] * rhs.z) + (lhs[3][1] * rhs.w);
-    result.z = (lhs[0][2] * rhs.x) + (lhs[1][2] * rhs.y) + (lhs[2][2] * rhs.z) + (lhs[3][2] * rhs.w);
-    result.w = (lhs[0][3] * rhs.x) + (lhs[1][3] * rhs.y) + (lhs[2][3] * rhs.z) + (lhs[3][3] * rhs.w);
+    result.x = (lhs[0][0] * rhs.x) + (lhs[0][1] * rhs.y) + (lhs[0][2] * rhs.z) + (lhs[0][3] * rhs.w);
+    result.y = (lhs[1][0] * rhs.x) + (lhs[1][1] * rhs.y) + (lhs[1][2] * rhs.z) + (lhs[1][3] * rhs.w);
+    result.z = (lhs[2][0] * rhs.x) + (lhs[2][1] * rhs.y) + (lhs[2][2] * rhs.z) + (lhs[2][3] * rhs.w);
+    result.w = (lhs[3][0] * rhs.x) + (lhs[3][1] * rhs.y) + (lhs[3][2] * rhs.z) + (lhs[3][3] * rhs.w);
 
     return result;
 }

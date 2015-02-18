@@ -7,7 +7,7 @@ cosmodon::vector::vector(number init_x, number init_y, number init_z)
 }
 
 // Copy constructor.
-cosmodon::vector::vector(cosmodon::vector &other) : vector()
+cosmodon::vector::vector(const cosmodon::vector &other) : vector()
 {
     x = other.x;
     y = other.y;
@@ -68,7 +68,7 @@ cosmodon::vector& cosmodon::vector::operator=(cosmodon::vector other)
 }
 
 // Convert to string.
-cosmodon::vector::operator std::string()
+cosmodon::vector::operator std::string() const
 {
     return "(" + std::to_string(x)
       + ", " + std::to_string(y)
@@ -116,8 +116,8 @@ cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::vector &
 }
 
 // Output stream operator.
-std::ostream& operator<<(std::ostream &stream, cosmodon::vector &value)
+std::ostream& operator<<(std::ostream &stream, const cosmodon::vector &value)
 {
-    stream << static_cast<std::string>(value);
+    stream << static_cast<const std::string>(value);
     return stream;
 }

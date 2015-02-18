@@ -45,17 +45,22 @@ cosmodon::matrix::~matrix()
     delete [] m_values;
 }
 
-// Sets matrix values.
+// Sets matrix values. @@ This is row-major!
 void cosmodon::matrix::set(
   number x0, number x1, number x2, number x3,
   number y0, number y1, number y2, number y3,
   number z0, number z1, number z2, number z3,
   number w0, number w1, number w2, number w3)
 {
-    m_values[0] = x0; m_values[1] = y0; m_values[2] = z0; m_values[3] = w0;
+    /*m_values[0] = x0; m_values[1] = y0; m_values[2] = z0; m_values[3] = w0;
     m_values[4] = x1; m_values[5] = y1; m_values[6] = z1; m_values[7] = w1;
     m_values[8] = x2; m_values[9] = y2; m_values[10] = z2; m_values[11] = w2;
-    m_values[12] = x3; m_values[13] = y3; m_values[14] = z3; m_values[15] = w3;
+    m_values[12] = x3; m_values[13] = y3; m_values[14] = z3; m_values[15] = w3;*/
+
+    m_values[0] = x0; m_values[1] = x1; m_values[2] = x2; m_values[3] = x3;
+    m_values[4] = y0; m_values[5] = y1; m_values[6] = y2; m_values[7] = y3;
+    m_values[8] = z0; m_values[9] = z1; m_values[10] = z2; m_values[11] = z3;
+    m_values[12] = w0; m_values[13] = w1; m_values[14] = w2; m_values[15] = w3;
 }
 
 // Retrieve raw matrix values as an array.

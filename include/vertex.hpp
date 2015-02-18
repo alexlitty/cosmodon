@@ -43,6 +43,11 @@ namespace cosmodon
         );
 
         /**
+         * Constructor, from vector.
+         */
+        vertex(const vector &other, cosmodon::color c = cosmodon::black);
+
+        /**
          * Copy constructor.
          */
         vertex(const vertex &copy);
@@ -84,7 +89,7 @@ namespace cosmodon
         /**
          * Retrieves center vertex.
          */
-        vector get_center();
+        virtual vector get_center() const;
 
         /**
          * Retrieves the vertex count of this collection.

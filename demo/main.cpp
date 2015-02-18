@@ -7,29 +7,24 @@ int main()
     uint8_t i;
     cosmodon::clock timer;
     cosmodon::rate fps;
+    cosmodon::number a = 0, b = 0;
 
     try {
-        cosmodon::number value = 0.01;
         cosmodon::vector up;
         cosmodon::camera camera;
 
         // Prepare rendered objects.
-        cosmodon::shape::pyramid shape(0.5f, 0.3f);
+        cosmodon::shape::pyramid shape(0.1f, 0.3f);
+        shape.set_position(0, 0, 0.25f);
 
         // Camera orientation.
-        camera.set_position(0.0f, 0.0f, 0.5f);
+        camera.set_position(0.1f, 0.1f, 0.0f);
         up = camera.get_position();
-        up.y = 1.0f;
+        up.x = 1.0f;
         camera.set_orientation(shape.get_position(), up);
 
         // Camera perspective.
-        camera.set_perspective(90, 1024.0f / 768.0f, 0.01f, 1.0f);
-        std::cout << "Matrix: " << camera.get_perspective() << std::endl;
-        std::cout << "Normal vertex: " << shape[0] << std::endl;
-
-        cosmodon::vector test = shape[0] * camera.get_perspective();
-
-        std::cout << "Perspective result: " << test << std::endl;
+        camera.set_perspective(90, 1024.0f / 768.0f, 0.001f, 999.0f);
 
         // Start OpenGL window.
         cosmodon::opengl window(1024, 768, "Cosmodon Demo");
@@ -62,8 +57,14 @@ int main()
                         rotate = true;
                     }
                 }*/
-                value += 0.05;
-                shape.rotate(value, 0, 0);
+                a += 0.05;
+                b += 0.001;
+
+                shape.rotate(0, 0, a);
+                shape.move(0, 0, a * a);
+                std::cout << "Shape: " << shape.get_position() << "\n" << shape.get_matrix() << "\n\n";
+                //std::cout << "Camera: " << camera.get_position() << "\n" << camera.get_matrix() << "\n\n";
+                std::cout << "Total: " << camera.get_perspective() * camera.get_orientation() * shape.get_matrix() * shape.get_position() << std::endl;
             }
 
             // Transform z-clipping.

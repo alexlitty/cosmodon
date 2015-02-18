@@ -17,9 +17,7 @@ void cosmodon::component::position::set_position(number set_x, number set_y, num
 // Set object position, given a vector.
 void cosmodon::component::position::set_position(cosmodon::vector vec)
 {
-    x = vec.x;
-    y = vec.y;
-    z = vec.z;
+    set_position(vec.x, vec.y, vec.z);
 }
 
 // Get object position.

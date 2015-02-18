@@ -22,6 +22,7 @@ cosmodon::shader::shader(cosmodon::shader::level_type init_level, std::string in
                    "void main()\n"
                    "{\n"
                    "    gl_Position = matrix_perspective * matrix_orientation * matrix_model * position;\n"
+                   //"gl_Position = position * matrix_model * matrix_orientation * matrix_perspective;\n"
                    "    frag_color = color;\n"
                    "}";
         }

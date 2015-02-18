@@ -7,6 +7,11 @@
 namespace cosmodon
 {
     /**
+     * Resolve circular dependencies.
+     */
+    class vertex;
+
+    /**
      * A vector of 3 components. Not a container, like std::vector.
      *
      * Identifies a point in space, depicts a magnitude with direction, and more.
@@ -27,7 +32,7 @@ namespace cosmodon
         /**
          * Copy constructor.
          */
-        vector(vector &other);
+        vector(const vector &other);
 
         /**
          * Move constructor.
@@ -67,7 +72,7 @@ namespace cosmodon
         /**
          * Convert to string.
          */
-        operator std::string();
+        operator std::string() const;
     };
 }
 
@@ -87,6 +92,6 @@ cosmodon::vector operator-(const cosmodon::vector &lhs, const cosmodon::vector &
 cosmodon::vector operator*(const cosmodon::vector &lhs, const cosmodon::vector &rhs);
 
 // Output stream operator.
-std::ostream& operator<<(std::ostream &stream, cosmodon::vector &value);
+std::ostream& operator<<(std::ostream &stream, const cosmodon::vector &value);
 
 #endif

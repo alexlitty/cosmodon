@@ -13,7 +13,15 @@ namespace cosmodon
          */
         class base : public vertices, public graphic
         {
-            virtual void render(render::target *object) override;
+        public:
+            // Render shape.
+            virtual void render(render::target *object) const override;
+
+            // Get position.
+            virtual vector get_position() const override;
+
+            // Get center.
+            virtual vector get_center() const override;
         };
     }
 }

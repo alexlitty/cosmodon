@@ -73,13 +73,13 @@ cosmodon::opengl::~opengl()
 }
 
 // Set the camera.
-void cosmodon::opengl::set_camera(cosmodon::camera &camera)
+void cosmodon::opengl::set_camera(const cosmodon::camera &camera)
 {
     m_camera = &camera;
 }
 
 // Clear rendering area using a color.
-void cosmodon::opengl::clear(cosmodon::color color)
+void cosmodon::opengl::clear(const cosmodon::color color)
 {
     ::glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
     ::glClearDepth(1.0f);
@@ -87,7 +87,7 @@ void cosmodon::opengl::clear(cosmodon::color color)
 }
 
 // Render vertices.
-void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform)
+void cosmodon::opengl::render(const cosmodon::vertices *v, const cosmodon::matrix &transform)
 {
     uint32_t i, j;
     GLfloat *positions;
@@ -136,7 +136,7 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
 
     // Prepare model matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_model");
-    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, transform.raw());
+    ::glUniformMatrix4fv(matrix_id, 1, GL_TRUE, transform.raw());
 
     // Prepare orientation matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_orientation");
@@ -145,7 +145,7 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
     } else {
         matrix_values = identity.raw();
     }
-    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, matrix_values);
+    ::glUniformMatrix4fv(matrix_id, 1, GL_TRUE, matrix_values);
 
     // Prepare perspective matrix.
     matrix_id = ::glGetUniformLocation(m_shader_program, "matrix_perspective");
@@ -154,7 +154,7 @@ void cosmodon::opengl::render(cosmodon::vertices *v, cosmodon::matrix &transform
     } else {
         matrix_values = identity.raw();
     }
-    ::glUniformMatrix4fv(matrix_id, 1, GL_FALSE, matrix_values);
+    ::glUniformMatrix4fv(matrix_id, 1, GL_TRUE, matrix_values);
 
     // Render.
     ::glDrawArrays(GL_TRIANGLES, 0, vertices.size());
@@ -271,7 +271,7 @@ bool cosmodon::opengl::set_shaders(cosmodon::shader *vertex, cosmodon::shader *f
 }
 
 // Set window title.
-void cosmodon::opengl::set_window_title(std::string title)
+void cosmodon::opengl::set_window_title(const std::string title)
 {
     ::glfwSetWindowTitle(m_handle, title.c_str());
 }

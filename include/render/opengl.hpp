@@ -38,7 +38,7 @@ namespace cosmodon
         uint16_t m_height;
 
         // Current rendering camera.
-        camera *m_camera;
+        const camera *m_camera;
 
         /**
          * Compiles a shader.
@@ -61,12 +61,12 @@ namespace cosmodon
         /**
          * Set the camera.
          */
-        virtual void set_camera(camera &object);
+        virtual void set_camera(const camera &object);
 
         /**
          * Clear rendering area using a color.
          */
-        virtual void clear(color c = cosmodon::black) override;
+        virtual void clear(const color c = cosmodon::black) override;
 
         /**
          * Inherit all rendering methods.
@@ -76,12 +76,12 @@ namespace cosmodon
         /**
          * Render a collection of vertices.
          */
-        virtual void render(vertices *v, matrix &transform) override;
+        virtual void render(const vertices *v, const matrix &transform) override;
 
         /**
          * Sets view transformation.
          */
-        void set_view(transformation view);
+        void set_view(const transformation view);
 
         /**
          * Display the currently rendered result.
@@ -96,7 +96,7 @@ namespace cosmodon
         /**
          * Set window title.
          */
-        void set_window_title(std::string title);
+        void set_window_title(const std::string title);
     };
 }
 

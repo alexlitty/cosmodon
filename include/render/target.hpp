@@ -12,6 +12,7 @@
 namespace cosmodon
 {
     class vertices;
+    class graphic;
 }
 
 namespace cosmodon
@@ -34,7 +35,7 @@ namespace cosmodon
              * This is the primary method to render graphics. All other render() methods depend on
              * this.
              */
-            virtual void render(vertices *vertices, matrix &transform) = 0;
+            virtual void render(const vertices *vertices, const matrix &transform) = 0;
 
             /**
              * Render a collection of vertices.
@@ -42,21 +43,21 @@ namespace cosmodon
              * Retrieves the matrix from a transformation, and passes vertices to primary
              * rendering method.
              */
-            virtual void render(vertices *vertices, transformation &transform);
+            virtual void render(const vertices *vertices, const transformation &transform);
 
             /**
              * Render a graphic.
              *
              * Provides this renderer to the object's render() method.
              */
-            virtual void render(cosmodon::graphic *object);
+            virtual void render(const cosmodon::graphic *object);
 
             /**
              * Clear the rendering area, using a color.
              *
              * Default color is black.
              */
-            virtual void clear(cosmodon::color color = cosmodon::black) = 0;
+            virtual void clear(const cosmodon::color color = cosmodon::black) = 0;
         };
     }
 }
