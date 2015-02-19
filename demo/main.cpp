@@ -15,22 +15,22 @@ int main()
 
         // Prepare rendered objects.
         cosmodon::shape::pyramid shape(0.1f, 0.3f);
-        shape.set_position(0, 0, 0.2f);
+        shape.set_position(0.0f, 0, 0.15f);
 
         // Camera view options.
-        camera.set_position(0.15f, 0.15f, -0.01f);
-        camera.set_target(shape.get_position());
+        camera.set_position(0.15f, 0.0f, -0.00f);
         up = camera.get_position();
         up.x = 1.0f;
         camera.set_orientation(up);
+        camera.set_target(shape.get_position());
+        std::cout << "Target: " << shape.get_position() << std::endl;
+        std::cout << "Position: " << camera.get_position() << std::endl;
 
         // Camera projection options.
         camera.set_fov(90);
         camera.set_aspect(1024.0f / 768.0f);
-        camera.set_clipping(0.001f, 1.0f);
+        camera.set_clipping(0.001f, 100.0f);
 
-        std::cout << "View:\n" << camera.get_view() << "\nProjection:\n" << camera.get_projection() << std::endl;
-        std::cout << "\nTotal:\n" << camera.get_projection() * camera.get_view() << std::endl;
         std::cout << "\nOriginal: " << shape.get_position() << std::endl;
         std::cout << "Result: " << (camera.get_projection() * camera.get_view()) * shape.get_position() << std::endl;
 
@@ -69,6 +69,7 @@ int main()
                 b += 0.001;
 
                 shape.rotate(0, 0, a);
+                //camera.set_position(shape.get_position());
                 //camera.move(b, 0, 0);
                 //std::cout << "Total: " << (camera.get_perspective() * camera.get_orientation() * shape.get_matrix()) * shape.get_position() << std::endl;
             }
@@ -78,14 +79,14 @@ int main()
             // Prepare window.
             window.clear(cosmodon::black);
 
-            // Render shape.
-            shape.set_scale(0.8);
-            shape.set_fill(true);
+            // Render shape outline.
+            //shape.set_scale(1);
+            shape.set_fill(false);
             window.render(&shape);
 
-            // Render shape outline.
-            shape.set_scale(1.2);
-            shape.set_fill(false);
+            // Render shape.
+            //shape.set_scale(0.8);
+            shape.set_fill(true);
             window.render(&shape);
 
             // Display window.

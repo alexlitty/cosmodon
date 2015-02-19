@@ -4,8 +4,8 @@
 // Update result matrix.
 void cosmodon::transformation::update()
 {
-    m_result = m_rotation_z * m_rotation_y * m_rotation_x * m_translation * m_scale;
-    //m_result = m_scale * m_translation * m_rotation_x * m_rotation_y * m_rotation_z;
+    //m_result = m_rotation_z * m_rotation_y * m_rotation_x * m_translation * m_scale;
+    m_result = m_scale * m_translation * m_rotation_x * m_rotation_y * m_rotation_z;
 }
 
 // Perform a scaling.

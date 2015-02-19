@@ -90,7 +90,12 @@ namespace cosmodon
         using component::position::move;
 
         /**
-         * Sets the camera position.
+         * Sets the camera position by vector.
+         */
+        using component::position::set_position;
+
+        /**
+         * Sets the camera position by components.
          */
         virtual void set_position(number set_x, number set_y, number set_z = 0) override;
 
