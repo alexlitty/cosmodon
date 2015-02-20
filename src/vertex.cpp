@@ -65,6 +65,12 @@ cosmodon::vertices::~vertices()
 
 }
 
+// Clears this collection of all vertices.
+void cosmodon::vertices::clear()
+{
+    resize(0);
+}
+
 // Adds a vertex to the collection.
 void cosmodon::vertices::add(const cosmodon::vertex& vertex, bool end)
 {

@@ -3,7 +3,6 @@
 // Move object relative to its current position.
 void cosmodon::component::position::move(number move_x, number move_y, number move_z)
 {
-    std::cout << "{{ Moving x: " << move_x << " ... " << x <<" + " << move_x << "}}" << std::endl;
     set_position((x + move_x), (y + move_y), (z + move_z));
 }
 

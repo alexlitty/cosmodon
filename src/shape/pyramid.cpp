@@ -1,8 +1,9 @@
-#include <shape/pyramid.hpp>
+#include <shape.hpp>
 
-// Constructor.
-cosmodon::shape::pyramid::pyramid(cosmodon::number width, cosmodon::number height)
+// Pyramid shape.
+void cosmodon::shape::pyramid(cosmodon::vertices &v, cosmodon::number width, cosmodon::number height)
 {
+    v.clear();
     cosmodon::number w = width / 2;
     cosmodon::vertex top(0, 0, height);
     cosmodon::vertex northeast(w, w, 0.1f);
@@ -11,38 +12,38 @@ cosmodon::shape::pyramid::pyramid(cosmodon::number width, cosmodon::number heigh
     cosmodon::vertex southwest(-w, -w, 0.1f);
 
     // Base.
-    add(northeast);
-    add(northwest);
-    add(southeast);
+    v.add(northeast);
+    v.add(northwest);
+    v.add(southeast);
 
-    add(southwest);
-    add(southeast);
-    add(northwest);
+    v.add(southwest);
+    v.add(southeast);
+    v.add(northwest);
 
     // First side.
-    add(top);
-    add(northwest);
-    add(northeast);
+    v.add(top);
+    v.add(northwest);
+    v.add(northeast);
 
     // Second side.
-    add(top);
-    add(northwest);
-    add(southwest);
+    v.add(top);
+    v.add(northwest);
+    v.add(southwest);
 
     // Third side.
-    add(top);
-    add(southwest);
-    add(southeast);
+    v.add(top);
+    v.add(southwest);
+    v.add(southeast);
 
     // Fourth side.
-    add(top);
-    add(southeast);
-    add(northeast);
+    v.add(top);
+    v.add(southeast);
+    v.add(northeast);
 
     // Assign vertex colors.
-    for (uint8_t i = 0; i < m_vertices.size(); i++) {
-        m_vertices[i].r = 255 - (i * 10);
-        m_vertices[i].g = 255 - (i * 10);
-        m_vertices[i].b = 150;
+    for (uint8_t i = 0; i < v.size(); i++) {
+        v[i].r = 255 - (i * 10);
+        v[i].g = 255 - (i * 10);
+        v[i].b = 150;
     }
 }

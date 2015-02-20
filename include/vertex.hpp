@@ -82,6 +82,11 @@ namespace cosmodon
         ~vertices();
 
         /**
+         * Clears this collection of all vertices.
+         */
+        void clear();
+
+        /**
          * Adds a vertex to the collection.
          */
         void add(const vertex& v, bool end = true);
