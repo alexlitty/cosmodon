@@ -9,7 +9,7 @@ namespace cosmodon
     /**
      * A camera. Used to control the view of rendered objects.
      */
-    class camera : protected component::position
+    class camera : public component::position
     {
         // Target position to look at.
         vector m_target;
@@ -83,6 +83,11 @@ namespace cosmodon
          * Updates the view matrix.
          */
         void set_target(vector target);
+
+        /**
+         * Retrieves the camera target.
+         */
+        cosmodon::vector get_target() const;
 
         /**
          * Moves the camera position, relative to the current position.

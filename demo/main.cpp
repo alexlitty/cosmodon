@@ -20,7 +20,7 @@ int main()
         // Camera view options.
         camera.set_position(0.00f, 0.0f, 0.0f);
         up = camera.get_position();
-        up.x = 1.0f;
+        up.y = 1.0f;
         camera.set_orientation(up);
         camera.set_target(shape.get_position());
         std::cout << "Target: " << shape.get_position() << std::endl;
@@ -66,13 +66,16 @@ int main()
                     }
                 }*/
                 a += 0.05;
-                b += 0.00001;
+                b = 0.001;
 
                 //shape.rotate(0, 0, a);
-                shape.move(0, -b, 0);
-                camera.move(0, b, 0);
-                camera.set_target(shape.get_position());
-                std::cout << shape.get_position() << std::endl;
+                shape.move(b, 0, 0);
+                camera.move(b, 0, 0);
+                camera.set_target(shape);
+                std::cout << "Camera targetting: " << camera.get_target() << std::endl;
+                std::cout << "Shape: " << shape.get_position() << std::endl;
+                std::cout << "Camera: " << camera.get_position() << std::endl;
+                std::cout << "Distance: " << cosmodon::distance(shape, camera) << std::endl << std::endl;
             }
 
             // Transform z-clipping.
