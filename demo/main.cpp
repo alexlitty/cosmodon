@@ -68,11 +68,11 @@ int main()
                 a += 0.05;
                 b += 0.00001;
 
-                shape.rotate(0, 0, 0);
-                shape.move(0, 0, a);
-                //camera.set_position(shape.get_position());
-                //camera.move(0, 0, -a*2);
-                //std::cout << "Total: " << (camera.get_perspective() * camera.get_orientation() * shape.get_matrix()) * shape.get_position() << std::endl;
+                //shape.rotate(0, 0, a);
+                shape.move(0, -b, 0);
+                camera.move(0, b, 0);
+                camera.set_target(shape.get_position());
+                std::cout << shape.get_position() << std::endl;
             }
 
             // Transform z-clipping.
