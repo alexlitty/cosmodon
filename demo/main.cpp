@@ -15,10 +15,10 @@ int main()
 
         // Prepare rendered objects.
         cosmodon::shape::pyramid shape(0.1f, 0.3f);
-        shape.set_position(0.0f, 0, 0.15f);
+        shape.set_position(0.00f, 0, 0.15f);
 
         // Camera view options.
-        camera.set_position(0.15f, 0.0f, -0.00f);
+        camera.set_position(0.00f, 0.0f, 0.0f);
         up = camera.get_position();
         up.x = 1.0f;
         camera.set_orientation(up);
@@ -66,11 +66,12 @@ int main()
                     }
                 }*/
                 a += 0.05;
-                b += 0.001;
+                b += 0.00001;
 
-                shape.rotate(0, 0, a);
+                shape.rotate(0, 0, 0);
+                shape.move(0, 0, a);
                 //camera.set_position(shape.get_position());
-                //camera.move(b, 0, 0);
+                //camera.move(0, 0, -a*2);
                 //std::cout << "Total: " << (camera.get_perspective() * camera.get_orientation() * shape.get_matrix()) * shape.get_position() << std::endl;
             }
 

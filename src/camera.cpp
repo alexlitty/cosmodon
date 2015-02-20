@@ -58,7 +58,34 @@ void cosmodon::camera::set_target(vector target)
 // Updates the view matrix.
 void cosmodon::camera::update_view()
 {
-    cosmodon::vector eye, delta, s, target, up;
+    cosmodon::vector eye = get_position();
+
+    // Construct z-axis.
+    cosmodon::vector z = eye - m_target;
+    z.normalize();
+
+    // Prepare y-axis.
+    cosmodon::vector y = m_orientation;
+
+    // Construct x-axis.
+    cosmodon::vector x = y * z;
+
+    // Construct y-axis.
+    y = z * x;
+
+    // Normalize results.
+    x.normalize();
+    y.normalize();
+
+    // Set view matrix.
+    m_view.set(
+        x.x, x.y, x.z, -x.dot(eye),
+        y.x, y.y, y.z, -y.dot(eye),
+        z.x, z.y, z.z, -z.dot(eye),
+        0, 0, 0, 1.0f
+    );
+
+    /*cosmodon::vector eye, delta, s, target, up;
 
     // Normalize parameters.
     target = m_target.normalize();
@@ -75,11 +102,33 @@ void cosmodon::camera::update_view()
 
     // Set matrix.
     m_view.set(
-        s.x, s.y, s.z, -eye.x,
-        up.x, up.y, up.z, -eye.y,
-        -delta.x, -delta.y, -delta.z, -eye.z,
+        s.x, s.y, s.z, eye.x,
+        up.x, up.y, up.z, eye.y,
+        -delta.x, -delta.y, -delta.z, eye.z,
         0, 0, 0, 1
-    );
+    );*/
+
+    /*m_view.set(
+        s.x, up.x, -delta.x, 0,
+        s.y, up.y, -delta.y, 0,
+        s.z, up.z, -delta.z, 0,
+        -s.dot(eye), -up.dot(eye), -delta.dot(eye), 1
+    );*/
+
+    /*cosmodon::vector f, u, s, eye;
+
+    eye = get_position();
+    f = (m_target - eye).normalize();
+    u = m_orientation.normalize();
+    s = (f * u).normalize();
+    u = s * f;
+
+    m_view.set(
+        s.x, s.y, s.z, -s.dot(eye),
+        u.x, u.y, u.z, -u.dot(eye),
+        f.x, f.y, f.z,  f.dot(eye),
+        0, 0, 0, 1
+    );*/
 }
 
 // Updates the projection matrix.

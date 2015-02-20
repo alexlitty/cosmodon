@@ -51,13 +51,25 @@ cosmodon::number cosmodon::vector::magnitude() const
 }
 
 // Returns a normalized version of this vector.
-cosmodon::vector cosmodon::vector::normalize() const
+cosmodon::vector cosmodon::vector::normal() const
 {
     cosmodon::number mag = magnitude();
     if (mag == 0) {
         return cosmodon::vector();
     }
     return cosmodon::vector(x / mag, y / mag, z / mag);
+}
+
+// Normalizes this vector.
+void cosmodon::vector::normalize()
+{
+    *this = normal();
+}
+
+// Returns the dot product of two vectors.
+cosmodon::number cosmodon::vector::dot(cosmodon::vector other) const
+{
+    return (x * other.x) + (y * other.y) + (z * other.z);
 }
 
 // Assignment to vector operator.

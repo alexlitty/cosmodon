@@ -62,7 +62,19 @@ namespace cosmodon
         /**
          * Returns a normalized version of this vector.
          */
-        vector normalize() const;
+        vector normal() const;
+
+        /**
+         * Normalizes this vector.
+         *
+         * See normal() to return the normalized result.
+         */
+        void normalize();
+
+        /**
+         * Returns the dot product of two vectors.
+         */
+        number dot(vector other) const;
 
         /**
          * Assignment to vector operator.
