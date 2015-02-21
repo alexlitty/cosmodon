@@ -65,37 +65,37 @@ namespace cosmodon
         /**
          * Generates a matrix of zeroes.
          */
-        void zero();
+        void set_zero();
 
         /**
          * Generates an identity matrix.
          */
-        void identity();
+        void set_identity();
 
         /**
          * Generate a translation matrix.
          */
-        void translate(number x, number y, number z = 0);
+        void set_translation(number x, number y, number z = 0);
 
         /**
          * Generate a scale matrix.
          */
-        void scale(number x, number y, number z = 1);
+        void set_scale(number x, number y, number z = 1);
 
         /**
          * Generate a rotation matrix about the x-axis.
          */
-        void rotate_x(number radians);
+        void set_rotation_x(number radians);
 
         /**
          * Generate a rotation matrix about the y-axis.
          */
-        void rotate_y(number radians);
+        void set_rotation_y(number radians);
 
         /**
          * Generate a rotation matrix about the z-axis.
          */
-        void rotate_z(number radians);
+        void set_rotation_z(number radians);
 
         /**
          * Swaps this matrix with a different matrix.

@@ -49,17 +49,21 @@ namespace cosmodon
         void set_scale(number s);
 
         /**
-         * Perform a translation.
+         * Perform a relative translation.
+         *
+         * An alias for move().
          */
-        void translate(number x, number y, number z = 0);
+        void translate(number v_x, number v_y, number v_z = 0);
 
         /**
-         * Alias to perform a translation.
+         * Perform a relative translation.
+         *
+         * Calls set_position() with new final coordinates.
          */
-        void move(number x, number y, number z = 0);
+        using component::position::move;
 
         /**
-         * Sets translation absolutely.
+         * Perform an absolute translation.
          */
         virtual void set_position(number value_x, number value_y, number value_z) override;
 

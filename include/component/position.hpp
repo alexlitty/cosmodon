@@ -18,7 +18,7 @@ namespace cosmodon
             /**
              * Moves this object relative to its current position.
              */
-            void move(number move_x, number move_y, number move_z = 0);
+            virtual void move(number move_x, number move_y, number move_z = 0);
 
             /**
              * Sets object position, given vector components.

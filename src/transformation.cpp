@@ -11,7 +11,7 @@ void cosmodon::transformation::update()
 // Perform a scaling.
 void cosmodon::transformation::set_scale(number x, number y, number z)
 {
-    m_scale.scale(x, y, z);
+    m_scale.set_scale(x, y, z);
     update();
 }
 
@@ -22,33 +22,25 @@ void cosmodon::transformation::set_scale(cosmodon::number s)
 }
 
 // Perform a translation.
-void cosmodon::transformation::translate(number x, number y, number z)
+void cosmodon::transformation::translate(number v_x, number v_y, number v_z)
 {
-    m_translation.translate(x, y, z);
-    update();
-}
-
-// Alias to perform a translation.
-void cosmodon::transformation::move(number x, number y, number z)
-{
-    translate(x, y, z);
+    move((x + v_x), (y + v_y), (z + v_z));
 }
 
 // Sets translation absolutely.
-void cosmodon::transformation::set_position(cosmodon::number value_x, cosmodon::number value_y,
-                                            cosmodon::number value_z)
+void cosmodon::transformation::set_position(cosmodon::number value_x, cosmodon::number value_y, cosmodon::number value_z)
 {
     cosmodon::component::position::set_position(value_x, value_y, value_z);
-    m_translation.identity();
-    translate(value_x, value_y, value_z);
+    m_translation.set_translation(value_x, value_y, value_z);
+    update();
 }
 
 // Perform a rotation.
 void cosmodon::transformation::rotate(number x, number y, number z)
 {
-    m_rotation_x.rotate_x(x);
-    m_rotation_y.rotate_y(y);
-    m_rotation_z.rotate_z(z);
+    m_rotation_x.set_rotation_x(x);
+    m_rotation_y.set_rotation_y(y);
+    m_rotation_z.set_rotation_z(z);
     update();
 }
 

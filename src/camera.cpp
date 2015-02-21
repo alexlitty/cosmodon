@@ -97,7 +97,7 @@ void cosmodon::camera::update_projection()
 {
     // Check for invalid parameters.
     if (m_fov == 0 || m_aspect == 0 || (m_near - m_far) == 0) {
-        m_projection.identity();
+        m_projection.set_identity();
         return;
     }
 

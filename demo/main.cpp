@@ -64,9 +64,8 @@ int main()
                 a += 0.05;
                 b = 0.001;
 
-                //shape.rotate(0, 0, a);
+                //object.rotate(0, 0, a);
                 object.move(b, 0, 0);
-                camera.move(b, 0, 0);
                 camera.set_target(object);
             }
 

@@ -4,7 +4,7 @@
 cosmodon::matrix::matrix()
 {
     m_values = new number[16];
-    identity();
+    set_identity();
 }
 
 // Constructor.
@@ -52,11 +52,6 @@ void cosmodon::matrix::set(
   number z0, number z1, number z2, number z3,
   number w0, number w1, number w2, number w3)
 {
-    /*m_values[0] = x0; m_values[1] = y0; m_values[2] = z0; m_values[3] = w0;
-    m_values[4] = x1; m_values[5] = y1; m_values[6] = z1; m_values[7] = w1;
-    m_values[8] = x2; m_values[9] = y2; m_values[10] = z2; m_values[11] = w2;
-    m_values[12] = x3; m_values[13] = y3; m_values[14] = z3; m_values[15] = w3;*/
-
     m_values[0] = x0; m_values[1] = x1; m_values[2] = x2; m_values[3] = x3;
     m_values[4] = y0; m_values[5] = y1; m_values[6] = y2; m_values[7] = y3;
     m_values[8] = z0; m_values[9] = z1; m_values[10] = z2; m_values[11] = z3;
@@ -70,15 +65,15 @@ const cosmodon::number* cosmodon::matrix::raw() const
 }
 
 // Generates a matrix of zeroes.
-void cosmodon::matrix::zero()
+void cosmodon::matrix::set_zero()
 {
     for (uint8_t i = 0; i < 16; i++) {
         m_values[i] = 0;
     }
 }
 
-// Generates identity matrix.
-void cosmodon::matrix::identity()
+// Generates set_identity matrix.
+void cosmodon::matrix::set_identity()
 {
     for (uint8_t i = 0; i < 4; i++) {
         for (uint8_t j = 0; j < 4; j++) {
@@ -88,30 +83,30 @@ void cosmodon::matrix::identity()
 }
 
 // Generate a translation matrix.
-void cosmodon::matrix::translate(number x, number y, number z)
+void cosmodon::matrix::set_translation(number x, number y, number z)
 {
-    identity();
+    set_identity();
     (*this)[0][3] = x;
     (*this)[1][3] = y;
     (*this)[2][3] = z;
 }
 
 // Generate a scaling matrix.
-void cosmodon::matrix::scale(number x, number y, number z)
+void cosmodon::matrix::set_scale(number x, number y, number z)
 {
-    identity();
+    set_identity();
     (*this)[0][0] = x;
     (*this)[1][1] = y;
     (*this)[2][2] = z;
 }
 
 // Generate a rotation matrix, about the x-axis.
-void cosmodon::matrix::rotate_x(number radians)
+void cosmodon::matrix::set_rotation_x(number radians)
 {
     double sin = cosmodon::math::sine(radians);
     double cos = cosmodon::math::cosine(radians);
 
-    identity();
+    set_identity();
     (*this)[1][1] = cos;
     (*this)[1][2] = -sin;
     (*this)[2][1] = sin;
@@ -119,12 +114,12 @@ void cosmodon::matrix::rotate_x(number radians)
 }
 
 // Generate a rotation matrix, about the y-axis.
-void cosmodon::matrix::rotate_y(number radians)
+void cosmodon::matrix::set_rotation_y(number radians)
 {
     double sin = cosmodon::math::sine(radians);
     double cos = cosmodon::math::cosine(radians);
 
-    identity();
+    set_identity();
     (*this)[0][0] = cos;
     (*this)[0][2] = sin;
     (*this)[2][0] = -sin;
@@ -132,12 +127,12 @@ void cosmodon::matrix::rotate_y(number radians)
 }
 
 // Generate a rotation matrix, about the z-axis.
-void cosmodon::matrix::rotate_z(number radians)
+void cosmodon::matrix::set_rotation_z(number radians)
 {
     double sin = cosmodon::math::sine(radians);
     double cos = cosmodon::math::cosine(radians);
 
-    identity();
+    set_identity();
     (*this)[0][0] = cos;
     (*this)[0][1] = -sin;
     (*this)[1][0] = sin;
