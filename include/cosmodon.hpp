@@ -14,6 +14,7 @@
 #include "exception.hpp"
 #include "model.hpp"
 #include "physics/distance.hpp"
+#include "physics/physical.hpp"
 #include "primitive.hpp"
 #include "rate.hpp"
 #include "shape.hpp"
