@@ -7,6 +7,12 @@ namespace cosmodon
 {
     /**
      * Base class for all physics-obeying objects.
+     *
+     * Alone, this class explains the physical properties of an object: The ball has a constant velocity, the pencil is at rest with a vertical acceleration.
+     *
+     * Children classes choose how to use this information when time passes: All the vertices in a solid move together, while gas vertices are free to separate. You can customize how vertices react to physics by implementing your own classes.
+     *
+     * This class is not meant to directly interact with another physical object. If you want two objects to interact, an external method -- like physics::system -- should analyze and change the properties of your objects.
      */
     class physical : public model
     {
@@ -16,6 +22,9 @@ namespace cosmodon
 
         // Current acceleration in m/s*s.
         vector m_acceleration;
+
+        // Whether the object is static and unable to move.
+        bool m_static;
 
     public:
         /**
@@ -46,9 +55,18 @@ namespace cosmodon
         vector get_acceleration() const;
 
         /**
-         * Perform physics on this object.
+         * Sets the static status.
+         *
+         * A static object is unable to move, but influences other objects. Velocity and acceleration are set to zero.
          */
-        virtual void pass_time(number seconds) = 0;
+        void set_static(bool s);
+
+        /**
+         * Retrieves the static status.
+         *
+         * A static object has no acceleration and no velocity, but influences other objects.
+         */
+        bool is_static() const;
     };
 }
 
