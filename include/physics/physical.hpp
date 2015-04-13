@@ -2,6 +2,7 @@
 #define COSMODON_PHYSICS_PHYSICAL_HPP
 
 #include "../model.hpp"
+#include "boundary.hpp"
 
 namespace cosmodon
 {
@@ -25,6 +26,9 @@ namespace cosmodon
 
         // Whether the object is static and unable to move.
         bool m_static;
+
+        // Boundary model, which summarizes the physical shape.
+        boundary *m_boundary;
 
     public:
         /**
@@ -53,6 +57,15 @@ namespace cosmodon
          * Retrieves acceleration.
          */
         vector get_acceleration() const;
+
+        /**
+         * Determines if an intersection exists between this object and another object, using boundaries if available.
+         *
+         * @param other Object to compare against.
+         *
+         * @returns True if an intersection exists, or false otherwise.
+         */
+        virtual bool intersects(const physical &other) const;
 
         /**
          * Sets the static status.

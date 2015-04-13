@@ -2,7 +2,7 @@
 
 // Constructor.
 cosmodon::physical::physical()
-: m_velocity(0), m_acceleration(0), m_static(false)
+: m_velocity(0), m_acceleration(0), m_static(false), m_boundary(nullptr)
 {
 
 }
@@ -37,6 +37,29 @@ void cosmodon::physical::set_acceleration(cosmodon::vector acceleration)
 cosmodon::vector cosmodon::physical::get_acceleration() const
 {
     return m_acceleration;
+}
+
+// Determines if an intersection exists.
+bool cosmodon::physical::intersects(const physical &other) const
+{
+    // Boundary heuristic is available.
+    if (m_boundary) {
+        if (other.m_boundary) {
+            return m_boundary->intersects(*(other.m_boundary));
+        }
+        
+        else {
+            return m_boundary->intersects(other);
+        }
+    }
+
+    // Other boundary heuristic is available.
+    else if (other.m_boundary) {
+        return other.m_boundary->intersects(*this);
+    }
+
+    // No heuristic available. @@@ To do
+    return false;
 }
 
 // Sets static status.
