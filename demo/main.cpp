@@ -1,5 +1,5 @@
 #include <cosmodon.hpp>
-#include <render/opengl.hpp>
+#include <draw/opengl.hpp>
 #include "test.hpp"
 
 int main()
@@ -77,12 +77,12 @@ int main()
             // Render shape outline.
             //shape.set_scale(1);
             object.set_fill(false);
-            window.render(&object);
+            window.draw(&object);
 
             // Render shape.
             //shape.set_scale(0.8);
             object.set_fill(true);
-            window.render(&object);
+            window.draw(&object);
 
             // Display window.
             window.display();

@@ -1,7 +1,7 @@
 #ifndef COSMODON_PHYSICS_PHYSICAL_HPP
 #define COSMODON_PHYSICS_PHYSICAL_HPP
 
-#include "../model.hpp"
+#include "../render/model.hpp"
 #include "boundary.hpp"
 
 namespace cosmodon

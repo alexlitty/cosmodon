@@ -3,23 +3,23 @@
 
 #include <cstdint>
 
-#include "render.hpp"
-#include "utility.hpp"
+#include "draw/draw.hpp"
+#include "common/utility.hpp"
 
-#include "buffer.hpp"
-#include "clock.hpp"
-#include "color.hpp"
+#include "network/buffer.hpp"
+#include "common/clock.hpp"
+#include "render/color.hpp"
 #include "component/network.hpp"
-#include "debug.hpp"
-#include "exception.hpp"
-#include "model.hpp"
+#include "common/debug.hpp"
+#include "common/exception.hpp"
+#include "render/model.hpp"
 #include "physics/distance.hpp"
 #include "physics/physical.hpp"
-#include "primitive.hpp"
-#include "rate.hpp"
-#include "shape.hpp"
-#include "socket.hpp"
-#include "string.hpp"
-#include "vector.hpp"
+#include "draw/primitive.hpp"
+#include "common/rate.hpp"
+#include "render/shape.hpp"
+#include "network/socket.hpp"
+#include "common/string.hpp"
+#include "render/vector.hpp"
 
 #endif

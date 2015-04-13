@@ -1,7 +1,7 @@
 #ifndef COSMODON_COMPONENT_NETWORK
 #define COSMODON_COMPONENT_NETWORK
 
-#include "../buffer.hpp"
+#include "../network/buffer.hpp"
 
 namespace cosmodon
 {

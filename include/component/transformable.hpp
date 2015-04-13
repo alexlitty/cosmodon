@@ -1,7 +1,7 @@
 #ifndef COSMODON_COMPONENT_TRANSFORMABLE_HPP
 #define COSMODON_COMPONENT_TRANSFORMABLE_HPP
 
-#include "../transformation.hpp"
+#include "../render/transformation.hpp"
 
 namespace cosmodon
 {

@@ -1,7 +1,7 @@
 #ifndef COSMODON_COMPONENT_POSITION
 #define COSMODON_COMPONENT_POSITION
 
-#include "../vector.hpp"
+#include "../render/vector.hpp"
 
 namespace cosmodon
 {

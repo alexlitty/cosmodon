@@ -1,4 +1,4 @@
-SOURCES=buffer.cpp camera.cpp clock.cpp color.cpp component/position.cpp exception.cpp math.cpp matrix.cpp model.cpp network_utility.cpp physics/distance.cpp physics/physical.cpp physics/system.cpp rate.cpp render/driver.cpp render/opengl.cpp render/shader.cpp render/target.cpp shape/pyramid.cpp socket.cpp transformation.cpp vector.cpp vertex.cpp
+SOURCES=network/buffer.cpp draw/camera.cpp common/clock.cpp render/color.cpp component/position.cpp common/exception.cpp common/math.cpp render/matrix.cpp render/model.cpp network/network_utility.cpp physics/distance.cpp physics/physical.cpp physics/system.cpp common/rate.cpp draw/driver.cpp draw/opengl.cpp draw/shader.cpp draw/canvas.cpp render/shape/pyramid.cpp network/socket.cpp render/transformation.cpp render/vector.cpp render/vertex.cpp
 SRCPATH=src/
 INCPATHS=include/
 LIBPATHS=lib/

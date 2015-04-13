@@ -1,9 +1,9 @@
 #ifndef COSMODON_PHYSICS_DISTANCE_HPP
 #define COSMODON_PHYSICS_DISTANCE_HPP
 
-#include "../number.hpp"
+#include "../common/number.hpp"
 #include "../component/position.hpp"
-#include "../vector.hpp"
+#include "../render/vector.hpp"
 
 namespace cosmodon
 {
