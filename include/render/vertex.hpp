@@ -53,6 +53,11 @@ namespace cosmodon
         vertex(const vertex &copy);
 
         /**
+         * Assignment to color operator.
+         */
+        cosmodon::vertex& operator=(const color value);
+
+        /**
          * Convert to string, to visually explain its internal coordinates.
          */
         operator std::string() const;

@@ -19,8 +19,17 @@ int main()
         cosmodon::shape::rectangle(object, 0.1f, 0.2f);
         object.set_position(0.00f, 0, 0.15f);
 
+        // Color rendered objects.
+        cosmodon::color test;
+        for (uint32_t i = 0; i < object.size(); i++) {
+            test.r = cosmodon::random::integer(0, 255);
+            test.g = cosmodon::random::integer(0, 255);
+            test.b = cosmodon::random::integer(0, 255);
+            object[i] = test;
+        }
+
         // Camera view options.
-        camera.set_position(0, 0, -0.1f);
+        camera.set_position(0.0f, 0.0f, -0.1f);
         up = camera.get_position();
         up.y = 1.0f;
         camera.set_orientation(up);
@@ -67,7 +76,7 @@ int main()
 
                 object.rotate(a, 0, 0);
                 object.move(b, 0, 0);
-                //camera.set_target(object);
+                camera.set_target(object);
             }
 
             // Transform z-clipping.

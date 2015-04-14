@@ -5,6 +5,7 @@
 
 #include "draw/draw.hpp"
 #include "common/utility.hpp"
+#include "common/random.hpp"
 
 #include "network/buffer.hpp"
 #include "common/clock.hpp"

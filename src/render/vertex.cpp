@@ -47,6 +47,16 @@ cosmodon::vertex::vertex(const cosmodon::vertex &copy)
 
 }
 
+// Assignment to color operator.
+cosmodon::vertex& cosmodon::vertex::operator=(const cosmodon::color value)
+{
+    r = value.r;
+    g = value.g;
+    b = value.b;
+    a = value.a;
+    return *this;
+}
+
 // Vertex to string.
 cosmodon::vertex::operator std::string() const
 {

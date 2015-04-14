@@ -18,10 +18,4 @@ void cosmodon::shape::rectangle(cosmodon::vertices &v, number width, number heig
     v.add(top_left);
     v.add(bottom_left);
     v.add(bottom_right);
-
-    for (uint32_t i = 0; i < v.size(); i++) {
-        v[i].r = 150;
-        v[i].g = 25;
-        v[i].b = 0;
-    }
 }

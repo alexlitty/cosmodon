@@ -38,11 +38,4 @@ void cosmodon::shape::pyramid(cosmodon::vertices &v, cosmodon::number width, cos
     v.add(top);
     v.add(southeast);
     v.add(northeast);
-
-    // Assign vertex colors.
-    for (uint8_t i = 0; i < v.size(); i++) {
-        v[i].r = 255 - (i * 10);
-        v[i].g = 255 - (i * 10);
-        v[i].b = 150;
-    }
 }
