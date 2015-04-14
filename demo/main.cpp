@@ -16,10 +16,11 @@ int main()
         // Prepare rendered objects.
         cosmodon::model object;
         cosmodon::shape::pyramid(object, 0.1f, 0.3f);
+        cosmodon::shape::rectangle(object, 0.1f, 0.2f);
         object.set_position(0.00f, 0, 0.15f);
 
         // Camera view options.
-        camera.set_position(0.00f, 0.0f, 0.0f);
+        camera.set_position(0, 0, -0.1f);
         up = camera.get_position();
         up.y = 1.0f;
         camera.set_orientation(up);
@@ -64,9 +65,9 @@ int main()
                 a += 0.05;
                 b = 0.001;
 
-                //object.rotate(0, 0, a);
+                object.rotate(a, 0, 0);
                 object.move(b, 0, 0);
-                camera.set_target(object);
+                //camera.set_target(object);
             }
 
             // Transform z-clipping.

@@ -3,7 +3,6 @@
 // Pyramid shape.
 void cosmodon::shape::pyramid(cosmodon::vertices &v, cosmodon::number width, cosmodon::number height)
 {
-    v.clear();
     cosmodon::number w = width / 2;
     cosmodon::vertex top(0, 0, height);
     cosmodon::vertex northeast(w, w, 0.1f);

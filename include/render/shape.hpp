@@ -6,12 +6,28 @@
 namespace cosmodon
 {
     /**
-     * A collection of shape generation methods.
-     *
-     * All methods overwrite the required vertices method.
+     * A collection of shape generation methods, appended to the vertices parameter.
      */
     namespace shape
     {
+        /**
+         * Generates an equilateral triangle.
+         */
+        void triangle(vertices &v, number length);
+
+        /**
+         * Generates a square.
+         */
+        void square(vertices &v, number length);
+
+        /**
+         * Generates a rectangle.
+         */
+        void rectangle(vertices &v, number width, number height);
+
+        /**
+         * Generates a pyramid.
+         */
         void pyramid(vertices &v, number width, number height);
     }
 }
