@@ -3,7 +3,7 @@
 
 #include "../render/color.hpp"
 #include "graphic.hpp"
-#include "../render/vertex.hpp"
+#include "../render/vertices.hpp"
 #include "../render/transformation.hpp"
 
 namespace cosmodon

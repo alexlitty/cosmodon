@@ -7,7 +7,7 @@
 
 #include "color.hpp"
 #include "../draw/canvas.hpp"
-#include "../draw/primitive.hpp"
+#include "primitive.hpp"
 #include "vector.hpp"
 
 namespace cosmodon
@@ -61,71 +61,6 @@ namespace cosmodon
          * Convert to string, to visually explain its internal coordinates.
          */
         operator std::string() const;
-    };
-
-    /**
-     * A collection of vertices to be rendered.
-     */
-    class vertices
-    {
-    protected:
-        // Internal vertex storage.
-        std::vector<vertex> m_vertices;
-
-        // Primitive explaining how vertices should be drawn.
-        cosmodon::primitive m_primitive;
-
-    public:
-        /**
-         * Constructor.
-         */
-        vertices(cosmodon::primitive primitive = cosmodon::primitive::triangle);
-
-        /**
-         * Destructor.
-         */
-        ~vertices();
-
-        /**
-         * Clears this collection of all vertices.
-         */
-        void clear();
-
-        /**
-         * Adds a vertex to the collection.
-         */
-        void add(const vertex& v, bool end = true);
-
-        /**
-         * Retrieves center vertex.
-         */
-        virtual vector get_center() const;
-
-        /**
-         * Retrieves the vertex count of this collection.
-         */
-        uint32_t size() const;
-
-        /**
-         * Changes the vertex count inside this collection.
-         */
-        void resize(uint32_t amount);
-        
-        /**
-         * Sets the primitive of vertices.
-         */
-        void set_primitive(cosmodon::primitive primitive);
-
-        /**
-         * Retrieves the primitive of vertices.
-         */
-        cosmodon::primitive get_primitive();
-
-        /**
-         * Data access operators.
-         */
-        vertex& operator [](const uint32_t index);
-        const vertex& operator [](const uint32_t index) const;
     };
 }
 

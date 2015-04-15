@@ -22,7 +22,7 @@ namespace cosmodon
      *
      * Graphics are displayed on a canvas.
      */
-    class graphic : public transformation
+    class graphic
     {
     public:
         /**

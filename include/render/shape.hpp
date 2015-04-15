@@ -18,7 +18,7 @@ namespace cosmodon
         /**
          * Generates a square.
          */
-        void square(vertices &v, number length);
+        void square(vertices &v, number length, vector center, vector point);
 
         /**
          * Generates a rectangle.

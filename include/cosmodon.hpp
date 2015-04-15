@@ -16,7 +16,7 @@
 #include "render/model.hpp"
 #include "physics/distance.hpp"
 #include "physics/physical.hpp"
-#include "draw/primitive.hpp"
+#include "render/primitive.hpp"
 #include "common/rate.hpp"
 #include "render/shape.hpp"
 #include "network/socket.hpp"
