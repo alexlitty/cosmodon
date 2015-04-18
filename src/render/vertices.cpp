@@ -19,6 +19,13 @@ void cosmodon::vertices::clear()
 }
 
 // Adds a vertex to the collection.
+void cosmodon::vertices::add(cosmodon::number init_x, cosmodon::number init_y, cosmodon::number init_z)
+{
+    cosmodon::vertex vert(init_x, init_y, init_z);
+    add(vert);
+}
+
+// Adds a vertex to the collection.
 void cosmodon::vertices::add(const cosmodon::vertex& vert)
 {
     m_vertices.push_back(vert);

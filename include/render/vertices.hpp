@@ -34,6 +34,13 @@ namespace cosmodon
          * Clears this collection of all vertices.
          */
         void clear();
+        
+        /**
+         * Adds a vertex to the collection.
+         *
+         * @param 
+         */
+        void add(number init_x, number init_y, number init_z);
 
         /**
          * Adds a vertex to the collection.

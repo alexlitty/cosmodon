@@ -16,7 +16,8 @@ int main()
         // Prepare rendered objects.
         cosmodon::model object, temp;
         cosmodon::shape::pyramid(object, 0.1f, 0.3f);
-        cosmodon::shape::rectangle(temp, 0.1f, 0.2f);
+        //cosmodon::shape::rectangle(temp, 0.1f, 0.2f);
+        cosmodon::shape::triangle(temp, 0.2f);
 
         temp.move(0, 0, -0.01f);
         object.add(temp);

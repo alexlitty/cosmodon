@@ -1,7 +1,7 @@
-#include <render/shape.hpp>
+#include <render/generate.hpp>
 
 // Generates a rectangle.
-void cosmodon::shape::rectangle(cosmodon::vertices &v, number width, number height)
+void cosmodon::generate::rectangle(cosmodon::vertices &v, number width, number height)
 {
     cosmodon::number w = width / 2;
     cosmodon::number h = height / 2;

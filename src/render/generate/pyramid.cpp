@@ -1,7 +1,7 @@
-#include <render/shape.hpp>
+#include <render/generate.hpp>
 
 // Pyramid shape.
-void cosmodon::shape::pyramid(cosmodon::vertices &v, cosmodon::number width, cosmodon::number height)
+void cosmodon::generate::pyramid(cosmodon::vertices &v, cosmodon::number width, cosmodon::number height)
 {
     cosmodon::number w = width / 2;
     cosmodon::vertex top(0, 0, height);
